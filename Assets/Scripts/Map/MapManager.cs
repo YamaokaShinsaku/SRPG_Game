@@ -98,6 +98,112 @@ namespace MapManager
                 }
             }
         }
+
+        /// <summary>
+        /// 渡された位置からキャラクターが到達できる場所のブロックをリストにして返す
+        /// </summary>
+        /// <param name="xPos">x座標</param>
+        /// <param name="zPos">z座標</param>
+        /// <returns>条件を満たすブロックのリスト</returns>
+        public List<MapBlock> SearchReachableBlocks(int xPos, int zPos)
+        {
+            // 条件を満たすブロックのリスト
+            var results = new List<MapBlock>();
+
+            // 基点となるブロックの配列内番号を検索
+            int baseX = -1, baseZ = -1;     // 配列内番号
+            // 検索
+            for(int i = 0; i < MAP_WIDTH; i++)
+            {
+                for(int j = 0; j < MAP_HEIGHT; j++)
+                {
+                    // 指定された座標に一致するマップブロックが見つかった時
+                    if((mapData[i,j].xPos == xPos) && (mapData[i, j].zPos == zPos))
+                    {
+                        // 配列内番号を取得
+                        baseX = i;
+                        baseZ = j;
+
+                        // 2個目のループを抜ける
+                        break;
+                    }
+                }
+                // すでに発見済みなら一個目のループを抜ける
+                if (baseX != -1)
+                {
+                    break;
+                }
+            }
+
+            // それぞれの方向に向かって行き止まりまでのブロックデータを順番に取得し、リストに追加する
+            // X+ 方向
+            for(int i = baseX + 1; i < MAP_WIDTH; i++)
+            {
+                if(AddReachableList(results, mapData[i,baseZ]))
+                {
+                    break;
+                }
+            }
+            // X- 方向
+            for(int i = baseX - 1; i >= 0; i--)
+            {
+                if (AddReachableList(results, mapData[i, baseZ]))
+                {
+                    break;
+                }
+            }
+            // Z+ 方向
+            for(int j = baseZ + 1; j < MAP_HEIGHT; j++)
+            {
+                if (AddReachableList(results, mapData[baseX, j]))
+                {
+                    break;
+                }
+            }
+            // Z- 方向
+            for(int j = baseZ - 1; j >= 0; j--)
+            {
+                if (AddReachableList(results, mapData[baseX, j]))
+                {
+                    break;
+                }
+            }
+
+            // 足元のブロック
+            results.Add(mapData[baseX, baseZ]);
+
+            return results;
+        }
+
+        /// <summary>
+        /// 指定したブロックを到達可能ブロックリストに追加する
+        /// （キャラクター到達ブロック検索用）
+        /// </summary>
+        /// <param name="reachableList">到達可能ブロックリスト</param>
+        /// <param name="targetBlock">指定のブロック</param>
+        /// <returns>行き止まりかどうか 　true : 行き止まり</returns>
+        private bool AddReachableList(List<MapBlock> reachableList, MapBlock targetBlock)
+        {
+            // 対象のブロックが通行不可ならそこを行き止まりとする
+            if(!targetBlock.isPassable)
+            {
+                return true;
+            }
+
+            // 対象の位置にほかのキャラクターが存在しているなら、
+            // 到達不可能にして終了
+            var charaData =
+                GetComponent<Character.CharacterManager>().GetCharacterData(targetBlock.xPos, targetBlock.zPos);
+            if(charaData != null)
+            {
+                return false;
+            }
+
+            // 到達可能ブロックリストに追加する
+            reachableList.Add(targetBlock);
+
+            return false;
+        }
     }
 
 }

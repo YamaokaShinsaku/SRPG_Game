@@ -14,6 +14,8 @@ public class MapBlock : MonoBehaviour
     [HideInInspector]
     public int zPos;
 
+    public bool isPassable;     // í çsâ¬î\Ç©Ç«Ç§Ç©
+
     // Start is called before the first frame update
     void Start()
     {

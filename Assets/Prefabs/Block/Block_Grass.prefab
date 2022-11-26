@@ -190,3 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579a573eb1f0cba4796fd1f0a94dd5c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectionObj: {fileID: 0}
+  xPos: 0
+  zPos: 0
+  isPassable: 1

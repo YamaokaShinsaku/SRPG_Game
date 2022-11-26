@@ -13,6 +13,8 @@ namespace GameManager
 
         // 進行管理用変数
         private Character.Character selectingCharacter;   // 選択中のキャラクター
+        private List<MapBlock> reachableBlocks;           // 選択中のキャラクターの移動可能ブロックリスト
+
         // ターン進行モード
         private enum Phase
         {
@@ -31,6 +33,9 @@ namespace GameManager
         {
             mapManager = GetComponent<MapManager.MapManager>();
             characterManager = GetComponent<Character.CharacterManager>();
+
+            // リストを初期化
+            reachableBlocks = new List<MapBlock>();
 
             // 開始時の進行モード
             nowPhase = Phase.MyTurn_Start;
@@ -100,6 +105,8 @@ namespace GameManager
 
                         // 選択中のキャラクター情報に記憶する
                         selectingCharacter = charaData;
+                        // 移動可能な場所リストを取得する
+                        reachableBlocks = mapManager.SearchReachableBlocks(charaData.xPos, charaData.zPos);
                         // 進行モードを進める
                         ChangePhase(Phase.MyTurn_Moving);
                     }
@@ -111,14 +118,20 @@ namespace GameManager
                     break;
                 // 自分のターン : 移動
                 case Phase.MyTurn_Moving:
-                    // 選択中のキャラクターを移動させる
-                    selectingCharacter.MovePosition(targetObject.xPos, targetObject.zPos);
+                    // 選択したブロックが移動可能な場所リスト内にあるとき
+                    if(reachableBlocks.Contains(targetObject))
+                    {
+                      // 選択中のキャラクターを移動させる
+                        selectingCharacter.MovePosition(targetObject.xPos, targetObject.zPos);
 
-                    // 全ブロックの選択状態を解除
-                    mapManager.AllSelectionModeClear();
-                    // 進行モードを進める
-                    ChangePhase(Phase.MyTurn_Command);
+                        // 移動可能な場所リストを初期化する
+                        reachableBlocks.Clear();
+                        // 全ブロックの選択状態を解除
+                        mapManager.AllSelectionModeClear();
 
+                        // 進行モードを進める
+                        ChangePhase(Phase.MyTurn_Command);
+                    }
                     break;
             }
 
