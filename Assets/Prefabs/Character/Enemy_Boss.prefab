@@ -95,5 +95,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07544622a70925c49b6ddf5870a12e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
   initPosition_X: 0
   initPosition_Z: 0
+  isEnemy: 1
+  characterName: "\u9B54\u738B"
+  maxHP: 50
+  atk: 15
+  def: 10
+  attribute: 1
+  xPos: 0
+  zPos: 0
+  nowHP: 0

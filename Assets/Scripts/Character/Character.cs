@@ -9,16 +9,34 @@ namespace Character
         [SerializeField]
         private Camera mainCamera;  // メインカメラ
 
-        // キャラクター初期位置
+        // キャラクター初期設定
         public int initPosition_X;
         public int initPosition_Z;
         private const float initPosition_Y = 1.0f;  // Y座標は固定
+
+        public bool isEnemy;            // 敵かどうか
+        public string characterName;    // キャラクターの名前
+        public int maxHP;               // 最大HP
+        public int atk;                 // 攻撃力
+        public int def;                 // 防御力
+        public Attribute attribute;     // 属性
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
         public int xPos;        // 現在のx座標
         [HideInInspector]
         public int zPos;        // 現在のz座標
+        [HideInInspector]
+        public int nowHP;       // 現在のHP
+
+        // 属性を定義
+        public enum Attribute
+        {
+            Water,  // 水属性
+            Fire,   // 火属性
+            Wind,   // 風属性
+            Soil,   // 土属性
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -38,6 +56,7 @@ namespace Character
 
             xPos = initPosition_X;
             zPos = initPosition_Z;
+            nowHP = maxHP;
         }
 
         // Update is called once per frame
