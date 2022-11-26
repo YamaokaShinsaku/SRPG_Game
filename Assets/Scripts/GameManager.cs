@@ -89,7 +89,7 @@ namespace GameManager
                     // 全ブロックの選択状態を解除する
                     mapManager.AllSelectionModeClear();
                     // ブロックを選択状態にする
-                    targetObject.SetSelectionMode(true);
+                    targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
                     Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                         + targetObject.transform.position);
@@ -107,6 +107,12 @@ namespace GameManager
                         selectingCharacter = charaData;
                         // 移動可能な場所リストを取得する
                         reachableBlocks = mapManager.SearchReachableBlocks(charaData.xPos, charaData.zPos);
+                        // 移動可能な場所リストを表示する
+                        foreach(MapBlock mapBlock in reachableBlocks)
+                        {
+                            mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
+                        }
+
                         // 進行モードを進める
                         ChangePhase(Phase.MyTurn_Moving);
                     }

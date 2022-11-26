@@ -46,7 +46,7 @@ namespace MapManager
 
                     // 草ブロック生成
                     bool isGrass = false;   // 草ブロック生成フラグ
-                                            // 乱数値が草ブロック生成確率より低い時
+                    // 乱数値が草ブロック生成確率より低い時
                     if (rand < GENERATE_RATIO_GRASS)
                     {
                         isGrass = true;
@@ -94,7 +94,8 @@ namespace MapManager
             {
                 for (int j = 0; j < MAP_HEIGHT; j++)
                 {
-                    mapData[i, j].SetSelectionMode(false);
+                    mapData[i, j].SetSelectionMode(MapBlock.Highlight.Off);
+                    //mapData[i, j].SetSelectionMode(false);
                 }
             }
         }
