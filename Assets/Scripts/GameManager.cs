@@ -11,11 +11,29 @@ namespace GameManager
         [SerializeField]
         private Character.CharacterManager characterManager;
 
+        // 進行管理用変数
+        private Character.Character selectingCharacter;   // 選択中のキャラクター
+        // ターン進行モード
+        private enum Phase
+        {
+            MyTurn_Start,        // 自分のターン：開始
+            MyTurn_Moving,       // 自分のターン：移動先選択
+            MyTurn_Command,      // 自分のターン：コマンド選択
+            MyTurn_Targeting,    // 自分のターン：攻撃対象選択
+            MyTurn_Result,       // 自分のターン：結果表示
+            Enemyturn_Start,     // 敵のターン  ：開始
+            EnemyTurn_Result     // 敵のターン  ：結果表示
+        }
+        private Phase nowPhase;     // 現在の進行モード
+
         // Start is called before the first frame update
         void Start()
         {
             mapManager = GetComponent<MapManager.MapManager>();
             characterManager = GetComponent<Character.CharacterManager>();
+
+            // 開始時の進行モード
+            nowPhase = Phase.MyTurn_Start;
         }
 
         // Update is called once per frame
@@ -58,28 +76,63 @@ namespace GameManager
         /// <param name="targetBlock">対象のオブジェクトデータ</param>
         private void SelectBlock(MapBlock targetObject)
         {
-            // 全ブロックの選択状態を解除する
-            mapManager.AllSelectionModeClear();
-            // ブロックを選択状態にする
-            targetObject.SetSelectionMode(true);
-
-            Debug.Log("オブジェクトがタップされました \nブロック座標 : "
-                + targetObject.transform.position);
-
-            // 選択した位置にいるキャラクターデータを取得
-            var charaData =
-                characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
-            // キャラクターが存在するとき
-            if(charaData != null)
+            // 進行モードごとに処理を分岐する
+            switch(nowPhase)
             {
-                Debug.Log("キャラクターが存在します : "
-                    + charaData.gameObject.name);
+                // 自分のターン ： 開始
+                case Phase.MyTurn_Start:
+                    // 全ブロックの選択状態を解除する
+                    mapManager.AllSelectionModeClear();
+                    // ブロックを選択状態にする
+                    targetObject.SetSelectionMode(true);
+
+                    Debug.Log("オブジェクトがタップされました \nブロック座標 : "
+                        + targetObject.transform.position);
+
+                    // 選択した位置にいるキャラクターデータを取得
+                    var charaData =
+                        characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
+                    // キャラクターが存在するとき
+                    if (charaData != null)
+                    {
+                        Debug.Log("キャラクターが存在します : "
+                            + charaData.gameObject.name);
+
+                        // 選択中のキャラクター情報に記憶する
+                        selectingCharacter = charaData;
+                        // 進行モードを進める
+                        ChangePhase(Phase.MyTurn_Moving);
+                    }
+                    // キャラクターが存在しないとき
+                    else
+                    {
+                        Debug.Log("キャラクターは存在しません");
+                    }
+                    break;
+                // 自分のターン : 移動
+                case Phase.MyTurn_Moving:
+                    // 選択中のキャラクターを移動させる
+                    selectingCharacter.MovePosition(targetObject.xPos, targetObject.zPos);
+
+                    // 全ブロックの選択状態を解除
+                    mapManager.AllSelectionModeClear();
+                    // 進行モードを進める
+                    ChangePhase(Phase.MyTurn_Command);
+
+                    break;
             }
-            // キャラクターが存在しないとき
-            else
-            {
-                Debug.Log("キャラクターは存在しません");
-            }
+
+
+        }
+
+        /// <summary>
+        /// ターン進行モードを変更
+        /// </summary>
+        /// <param name="newPhase">変更先のモード</param>
+        private void ChangePhase(Phase newPhase)
+        {
+            // 進行モードを変更
+            nowPhase = newPhase;
         }
     }
 

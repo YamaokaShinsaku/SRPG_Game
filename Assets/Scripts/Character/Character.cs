@@ -50,6 +50,25 @@ namespace Character
             // カメラの方を向く
             this.transform.LookAt(cameraPosition);
         }
-    }
 
+        /// <summary>
+        /// 指定座標にプレイヤーを移動させる
+        /// </summary>
+        /// <param name="targetPositionX">x座標</param>
+        /// <param name="targetPositionZ">z座標</param>
+        public void MovePosition(int targetPositionX, int targetPositionZ)
+        {
+            // 移動先座標への相対座標を取得
+            Vector3 movePosition = Vector3.zero;
+            movePosition.x = targetPositionX - xPos;
+            movePosition.z = targetPositionZ - zPos;
+
+            // 移動処理
+            this.transform.position += movePosition;
+
+            // キャラクターデータに位置を保存
+            xPos = targetPositionX;
+            zPos = targetPositionZ;
+        }
+    }
 }
