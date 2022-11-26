@@ -71,6 +71,10 @@ namespace MapManager
                     // マップデータにブロックデータを格納
                     var mapBlock = obj.GetComponent<MapBlock>();
                     mapData[i, j] = mapBlock;
+
+                    // ブロックデータ設定
+                    mapBlock.xPos = (int)position.x;
+                    mapBlock.zPos = (int)position.z;
                 }
             }
         }

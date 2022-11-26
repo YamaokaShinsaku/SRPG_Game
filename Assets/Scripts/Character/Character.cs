@@ -14,6 +14,12 @@ namespace Character
         public int initPosition_Z;
         private const float initPosition_Y = 1.0f;  // Y座標は固定
 
+        // ゲーム中に変化するキャラクターデータ
+        [HideInInspector]
+        public int xPos;        // 現在のx座標
+        [HideInInspector]
+        public int zPos;        // 現在のz座標
+
         // Start is called before the first frame update
         void Start()
         {
@@ -29,6 +35,9 @@ namespace Character
             Vector2 scale = this.transform.localScale;
             scale.x *= -1.0f;
             this.transform.localScale = scale;
+
+            xPos = initPosition_X;
+            zPos = initPosition_Z;
         }
 
         // Update is called once per frame

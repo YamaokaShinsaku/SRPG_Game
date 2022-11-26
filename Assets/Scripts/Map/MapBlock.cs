@@ -7,6 +7,13 @@ public class MapBlock : MonoBehaviour
     [SerializeField]
     private GameObject selectionObj;    // 強調表示オブジェクト
 
+    // ブロックデータ
+    // インスペクタ上で非表示にする
+    [HideInInspector]
+    public int xPos;
+    [HideInInspector]
+    public int zPos;
+
     // Start is called before the first frame update
     void Start()
     {

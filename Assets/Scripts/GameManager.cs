@@ -8,11 +8,14 @@ namespace GameManager
     {
         [SerializeField]
         private MapManager.MapManager mapManager;
+        [SerializeField]
+        private Character.CharacterManager characterManager;
 
         // Start is called before the first frame update
         void Start()
         {
             mapManager = GetComponent<MapManager.MapManager>();
+            characterManager = GetComponent<Character.CharacterManager>();
         }
 
         // Update is called once per frame
@@ -57,12 +60,26 @@ namespace GameManager
         {
             // 全ブロックの選択状態を解除する
             mapManager.AllSelectionModeClear();
-
             // ブロックを選択状態にする
             targetObject.SetSelectionMode(true);
 
             Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                 + targetObject.transform.position);
+
+            // 選択した位置にいるキャラクターデータを取得
+            var charaData =
+                characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
+            // キャラクターが存在するとき
+            if(charaData != null)
+            {
+                Debug.Log("キャラクターが存在します : "
+                    + charaData.gameObject.name);
+            }
+            // キャラクターが存在しないとき
+            else
+            {
+                Debug.Log("キャラクターは存在しません");
+            }
         }
     }
 
