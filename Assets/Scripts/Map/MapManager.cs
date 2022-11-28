@@ -79,12 +79,6 @@ namespace MapManager
             }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         /// <summary>
         /// 全てのオブジェクトの選択状態を解除する
         /// </summary>
@@ -205,6 +199,85 @@ namespace MapManager
 
             return false;
         }
+
+        /// <summary>
+        /// 指定位置から攻撃できる場所のマップブロックをリストにして返す
+        /// </summary>
+        /// <param name="xPos">基点x座標</param>
+        /// <param name="zPos">基点z座標</param>
+        /// <returns>攻撃できるブロックのリスト</returns>
+        public List<MapBlock> SearchAttackableBlocks(int xPos, int zPos)
+        {
+            // 条件を満たすマップブロックのリスト
+            var results = new List<MapBlock>();
+
+            // 基点となるブロックの配列内番号を検索
+            int baseX = -1, baseZ = -1;
+            for(int i = 0; i < MAP_WIDTH; i++)
+            {
+                for(int j = 0; j < MAP_HEIGHT; j++)
+                {
+                    if((mapData[i,j].xPos == xPos) && (mapData[i, j].zPos == zPos))
+                    {
+                        // 一致するマップブロックがあれば配列内番号を取得
+                        baseX = i;
+                        baseZ = j;
+
+                        // 2個目のループを抜ける
+                        break;
+                    }
+                }
+                // すでに発見済みなら
+                if (baseX != -1)
+                {
+                    // 1個目のループを抜ける
+                    break;
+                }
+            }
+
+            // 4方向に1マス進んだ一のブロックをセット
+            // 縦横
+            // X+方向
+            AddAttackableList(results, baseX + 1, baseZ);
+            // X-方向
+            AddAttackableList(results, baseX - 1, baseZ);
+            // Z+方向
+            AddAttackableList(results, baseX, baseZ + 1);
+            // Z-方向
+            AddAttackableList(results, baseX, baseZ - 1);
+            // 斜め
+            // X+Z+方向
+            AddAttackableList(results, baseX + 1, baseZ + 1);
+            // X-Z+方向
+            AddAttackableList(results, baseX - 1, baseZ + 1);
+            // X+Z-方向
+            AddAttackableList(results, baseX + 1, baseZ - 1);
+            // X-Z-方向
+            AddAttackableList(results, baseX - 1, baseZ - 1);
+
+            return results;
+        }
+
+        /// <summary>
+        /// マップデータの指定された配列内番号に対応するブロックを
+        /// 攻撃可能ブロックリストに追加する
+        /// </summary>
+        /// <param name="attackableList">攻撃可能ブロックリスト</param>
+        /// <param name="indexX">X方向の配列内番号</param>
+        /// <param name="indexZ">Z方向の配列内番号</param>
+        public void AddAttackableList(List<MapBlock> attackableList, int indexX, int indexZ)
+        {
+            // 指定番号が配列の外に出ていたら追加せずに終了
+            if (indexX < 0 || indexX >= MAP_WIDTH || 
+                indexZ < 0 || indexZ >= MAP_HEIGHT)
+            {
+                return;
+            }
+
+            // 攻撃可能ブロックリストに追加する
+            attackableList.Add(mapData[indexX, indexZ]);
+        }
+
     }
 
 }

@@ -47,6 +47,18 @@ namespace Character
             // データが見つからなければnullを返す
             return null;
         }
+
+        /// <summary>
+        /// 指定したキャラクターを削除する
+        /// </summary>
+        /// <param name="charaData">削除するキャラクターデータ</param>
+        public void DeleteCharaData(Character charaData)
+        {
+            // リストからデータを削除
+            characters.Remove(charaData);
+            // オブジェクト削除
+            Destroy(charaData.gameObject);
+        }
     }
 }
 

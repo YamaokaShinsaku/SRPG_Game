@@ -207,7 +207,7 @@ MonoBehaviour:
   selectionObj: {fileID: 0}
   selectMaterial: {fileID: 2100000, guid: f928fd8a3f99a124085092b09c44cbf6, type: 2}
   reachableMaterial: {fileID: 2100000, guid: ecd3a5cfdc850294bb3d3bfd0445a2b0, type: 2}
-  attackableMaterial: {fileID: 0}
+  attackableMaterial: {fileID: 2100000, guid: 6f8625ede03f7b84fb70cce300209394, type: 2}
   xPos: 0
   zPos: 0
   isPassable: 0
