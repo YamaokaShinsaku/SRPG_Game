@@ -261,8 +261,8 @@ namespace GameManager
         /// <param name="defenseChara">攻撃されるキャラクター</param>
         private void Attack(Character.Character attackChara, Character.Character defenseChara)
         {
-            Debug.Log("攻撃側 : " + attackChara.name
-                + "  防御側 : " + defenseChara.name);
+            Debug.Log("攻撃側 : " + attackChara.characterName
+                + "  防御側 : " + defenseChara.characterName);
 
             // ダメージ計算
             int damegeValue;    // ダメージ量
