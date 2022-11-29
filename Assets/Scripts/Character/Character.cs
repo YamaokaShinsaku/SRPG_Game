@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Character
 {
@@ -28,6 +29,9 @@ namespace Character
         public int zPos;        // 現在のz座標
         [HideInInspector]
         public int nowHP;       // 現在のHP
+
+        // アニメーション速度
+        const float animSpeed = 0.5f;
 
         // 属性を定義
         public enum Attribute
@@ -82,12 +86,33 @@ namespace Character
             movePosition.x = targetPositionX - xPos;
             movePosition.z = targetPositionZ - zPos;
 
+            // DoTweenを利用した移動アニメーション
+            this.transform.DOMove(movePosition, animSpeed)
+                .SetEase(Ease.Linear)   // 変化の度合いを設定
+                .SetRelative();         // パラメーターを相対指定にする
+
             // 移動処理
-            this.transform.position += movePosition;
+            //this.transform.position += movePosition;
 
             // キャラクターデータに位置を保存
             xPos = targetPositionX;
             zPos = targetPositionZ;
+        }
+
+        /// <summary>
+        /// 近接攻撃アニメーション
+        /// </summary>
+        /// <param name="targetChara">攻撃するキャラクター</param>
+        public void AttackAnimation(Character targetChara)
+        {
+            // 攻撃アニメーション
+            // 攻撃するキャラクターの位置へジャンプで近づき、同じ動作で戻る
+            this.transform.DOJump(targetChara.transform.position,
+                1.0f,       // ジャンプの高さ
+                1,          // ジャンプ回数
+                animSpeed)
+                .SetEase(Ease.Linear)           // 変化の度合いを設定
+                .SetLoops(2, LoopType.Yoyo);    // ループ回数・方式を設定
         }
     }
 }

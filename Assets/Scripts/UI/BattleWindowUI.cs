@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class BattleWindowUI : MonoBehaviour
 {
@@ -37,9 +38,19 @@ public class BattleWindowUI : MonoBehaviour
         nowHP = Mathf.Clamp(nowHP, 0, charaData.maxHP);
 
         // HPゲージ表示
-        float ratio = (float)nowHP / charaData.maxHP;
-        // 現在のHPの割合をゲージ画像の fillAmount　にセットする
-        hpGageImg.fillAmount = ratio;
+        float amount = (float)charaData.nowHP / charaData.maxHP;       // 表示中の FillAmount
+        float endAmount = (float)nowHP / charaData.maxHP;    // アニメーション後の FillAmount
+
+        // HPゲージを徐々に減少させるアニメーション
+        DOTween.To(
+            () => amount, (n) => amount = n,        // 変化させる変数を指定
+            endAmount,          // 変化先の数値
+            1.0f)               // アニメーション時間(秒)
+            .OnUpdate(() =>     // アニメーション中毎フレーム実行される処理
+            {
+               // 最大値に対する現在のHPの割合を画像の FillAmount にセットする
+               hpGageImg.fillAmount = amount;
+           });
 
         // テキスト表示
         hpText.text = nowHP + "/" + charaData.maxHP;

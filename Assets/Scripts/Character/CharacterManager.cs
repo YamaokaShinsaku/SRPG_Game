@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace Character
 {
@@ -57,7 +58,11 @@ namespace Character
             // リストからデータを削除
             characters.Remove(charaData);
             // オブジェクト削除
-            Destroy(charaData.gameObject);
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                // 遅延実行する内容
+                Destroy(charaData.gameObject);
+            });
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 namespace GameManager
 {
@@ -17,6 +18,9 @@ namespace GameManager
         private Character.Character selectingCharacter;   // 選択中のキャラクター
         private List<MapBlock> reachableBlocks;           // 選択中のキャラクターの移動可能ブロックリスト
         private List<MapBlock> attackableBlocks;          // 選択中のキャラクターの攻撃可能ブロックリスト
+
+        // 遅延時間
+        const float delayTime = 0.5f;
 
         // ターン進行モード
         private enum Phase
@@ -158,11 +162,17 @@ namespace GameManager
                         reachableBlocks.Clear();
                         // 全ブロックの選択状態を解除
                         mapManager.AllSelectionModeClear();
-                        // コマンドボタンを表示する
-                        uiManager.ShowCommandButtons();
 
-                        // 進行モードを進める
-                        ChangePhase(Phase.MyTurn_Command);
+                        // 指定時間後に処理を実行する
+                        DOVirtual.DelayedCall(delayTime, () =>
+                            {
+                                // 遅延実行する内容
+                                // コマンドボタンを表示する
+                                uiManager.ShowCommandButtons();
+
+                                // 進行モードを進める
+                                ChangePhase(Phase.MyTurn_Command);
+                            });
                     }
                     break;
                 // 自分のターン : コマンド選択
@@ -278,6 +288,9 @@ namespace GameManager
                 damegeValue = 0;
             }
 
+            // 攻撃アニメーション
+            attackChara.AttackAnimation(defenseChara);
+
             // バトル結果表示ウィンドウの表示設定
             uiManager.battleWindowUI.ShowWindow(defenseChara, damegeValue);
 
@@ -291,6 +304,26 @@ namespace GameManager
             {
                 characterManager.DeleteCharaData(defenseChara);
             }
+
+            // ターン切り替え処理
+            DOVirtual.DelayedCall(2.0f, () =>
+            {
+                // 遅延実行する内容
+                // ウィンドウを非表示に
+                uiManager.battleWindowUI.HideWindow();
+
+                // ターンを切り替える
+                if (nowPhase == Phase.MyTurn_Result)
+                {
+                    // 敵のターンへ
+                    ChangePhase(Phase.Enemyturn_Start);
+                }
+                else if (nowPhase == Phase.EnemyTurn_Result)
+                {
+                    // 自分のターンへ
+                    ChangePhase(Phase.MyTurn_Start);
+                }
+            });
 
         }
     }
