@@ -223,10 +223,20 @@ namespace GameManager
             // 特定のモードに切り替わったタイミングで行う処理
             switch (nowPhase)
             {
+                // 自分のターン : 開始
+                case Phase.MyTurn_Start:
+                    // ロゴ画像を表示
+                    uiManager.ShowPlayerTurnLogo();
+                    break;
                 // 敵のターン : 開始
                 case Phase.Enemyturn_Start:
-                    // 敵の行動処理を開始する
-                    EnemyCommand();
+                    // ロゴ画像を表示
+                    uiManager.ShowEnemyTurnLogo();
+                    // 敵の行動処理を開始する(遅延実行)
+                    DOVirtual.DelayedCall(delayTime, () =>
+                    {
+                        EnemyCommand();
+                    });
                     break;
             }
         }
@@ -351,51 +361,85 @@ namespace GameManager
                 }
             }
 
-            // 攻撃可能な敵キャラクター1体を見つけるまで処理
-            foreach (Character.Character enemyData in enemyCharacters)
+            //// 攻撃可能な敵キャラクター1体を見つけるまで処理
+            //foreach (Character.Character enemyData in enemyCharacters)
+            //{
+            //    // 移動可能な場所リストを取得
+            //    reachableBlocks =
+            //        mapManager.SearchAttackableBlocks(enemyData.xPos, enemyData.zPos);
+            //    // それぞれの移動可能な場所ごとの処理
+            //    foreach (MapBlock block in reachableBlocks)
+            //    {
+            //        // 攻撃可能な場所リストを取得する
+            //        attackableBlocks =
+            //            mapManager.SearchAttackableBlocks(block.xPos, block.zPos);
+            //        // それぞれの攻撃可能な場所ごとの処理
+            //        foreach(MapBlock attackBlock in attackableBlocks)
+            //        {
+            //            // 攻撃できるキャラクター（プレイヤー側）を探す
+            //            Character.Character targetChara =
+            //                characterManager.GetCharacterData(attackBlock.xPos, attackBlock.zPos);
+            //            // 相手キャラクターが存在するとき
+            //            if (targetChara != null && !targetChara.isEnemy)
+            //            {
+            //                // 敵キャラクターの移動処理
+            //                enemyData.MovePosition(block.xPos, block.zPos);
+
+            //                // 敵キャラクターの攻撃処理
+            //                DOVirtual.DelayedCall(delayTime, () =>
+            //                {
+            //                    // 遅延実行する内容
+            //                    Attack(enemyData, targetChara);
+            //                });
+
+            //                // リストをクリアする
+            //                reachableBlocks.Clear();
+            //                attackableBlocks.Clear();
+
+            //                // 進行モードを進める
+            //                ChangePhase(Phase.EnemyTurn_Result);
+
+            //                return;
+            //            }
+            //        }
+            //    }
+            //}
+
+            // 攻撃可能なキャラクター・位置の組み合わせを1つランダムに取得
+            var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyCharacters);
+            // 組み合わせのデータが存在すれば、攻撃する
+            if(actionPlan != null)
             {
-                // 移動可能な場所リストを取得
-                reachableBlocks =
-                    mapManager.SearchAttackableBlocks(enemyData.xPos, enemyData.zPos);
-                // それぞれの移動可能な場所ごとの処理
-                foreach (MapBlock block in reachableBlocks)
+                // 移動処理
+                actionPlan.charaData.MovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
+                // 攻撃処理(移動後に攻撃開始)
+                DOVirtual.DelayedCall(delayTime, () =>
                 {
-                    // 攻撃可能な場所リストを取得する
-                    attackableBlocks =
-                        mapManager.SearchAttackableBlocks(block.xPos, block.zPos);
-                    // それぞれの攻撃可能な場所ごとの処理
-                    foreach(MapBlock attackBlock in attackableBlocks)
-                    {
-                        // 攻撃できるキャラクター（プレイヤー側）を探す
-                        Character.Character targetChara =
-                            characterManager.GetCharacterData(attackBlock.xPos, attackBlock.zPos);
-                        // 相手キャラクターが存在するとき
-                        if (targetChara != null && !targetChara.isEnemy)
-                        {
-                            // 敵キャラクターの移動処理
-                            enemyData.MovePosition(block.xPos, block.zPos);
+                    Attack(actionPlan.charaData, actionPlan.toAttaackChara);
+                });
 
-                            // 敵キャラクターの攻撃処理
-                            DOVirtual.DelayedCall(delayTime, () =>
-                            {
-                                // 遅延実行する内容
-                                Attack(enemyData, targetChara);
-                            });
-
-                            // リストをクリアする
-                            reachableBlocks.Clear();
-                            attackableBlocks.Clear();
-
-                            // 進行モードを進める
-                            ChangePhase(Phase.EnemyTurn_Result);
-
-                            return;
-                        }
-                    }
-                }
+                // 進行モードを進める
+                ChangePhase(Phase.EnemyTurn_Result);
+                return;
             }
 
-            // 攻撃可能なキャラクターが見つからなかった時は何もせずに終了
+            // 攻撃可能なキャラクターが見つからなかった時
+            // 移動させるキャラクターを一体ランダムに選ぶ
+            int randID = Random.Range(0, enemyCharacters.Count);
+            //  行動する敵キャラクターのデータを取得
+            Character.Character targetEnemy = enemyCharacters[randID];
+            // 対象の移動可能な場所リストのなかから１つの場所をランダムに選ぶ
+            reachableBlocks =
+                mapManager.SearchReachableBlocks(targetEnemy.xPos, targetEnemy.zPos);
+            if(reachableBlocks.Count > 0)
+            {
+                randID = Random.Range(0, reachableBlocks.Count);
+                // 移動先のブロックデータ
+                MapBlock targetBlock = reachableBlocks[randID];
+                // 移動処理
+                targetEnemy.MovePosition(targetBlock.xPos, targetBlock.zPos);
+            }
+
             // リストをクリア
             reachableBlocks.Clear();
             attackableBlocks.Clear();

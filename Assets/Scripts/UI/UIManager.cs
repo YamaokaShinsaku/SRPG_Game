@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace UIManager
 {
@@ -25,7 +26,12 @@ namespace UIManager
         // コマンドボタン
         public GameObject commandButtons;   // 全コマンドボタンの親オブジェクト
 
+        // バトル結果表示ウィンドウ
         public BattleWindowUI battleWindowUI;
+
+        // ロゴ画像
+        public Image playerTurnImg;
+        public Image enemyTurnImg;
 
         // Start is called before the first frame update
         void Start()
@@ -110,6 +116,32 @@ namespace UIManager
         public void ShowCommandButtons()
         {
             commandButtons.SetActive(true);
+        }
+
+        /// <summary>
+        /// プレイヤーターンのロゴを表示する
+        /// </summary>
+        public void ShowPlayerTurnLogo()
+        {
+            // 徐々に表示・非表示を行う
+            playerTurnImg.DOFade(
+                1.0f,       // 指定数値まで画像のα値を変化させる
+                1.0f)       // アニメーション時間
+                .SetEase(Ease.OutCubic)             // 変化の度合いを設定
+                .SetLoops(2, LoopType.Yoyo);     // ループ回数・方式を設定
+        }
+
+        /// <summary>
+        /// エネミーターンのロゴを表示する
+        /// </summary>
+        public void ShowEnemyTurnLogo()
+        {
+            // 徐々に表示・非表示を行う
+            enemyTurnImg.DOFade(
+                1.0f,       // 指定数値まで画像のα値を変化させる
+                1.0f)       // アニメーション時間
+                .SetEase(Ease.OutCubic)             // 変化の度合いを設定
+                .SetLoops(2, LoopType.Yoyo);     // ループ回数・方式を設定
         }
     }
 }
