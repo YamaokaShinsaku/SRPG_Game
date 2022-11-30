@@ -298,6 +298,10 @@ namespace GameManager
 
             // ダメージ　＝　攻撃力　ー　防御力
             damegeValue = attackPoint - defencePoint;
+            // 属性相性によるダメージ倍率を計算
+            float ratio = GetDamageRatioAttribute(attackChara, defenseChara);       // ダメージ倍率を取得
+            damegeValue = (int)(damegeValue * ratio);       // 倍率を適応(int型に変換)
+
             // ダメージ量が0以下の時
             if (damegeValue < 0)
             {
@@ -361,50 +365,6 @@ namespace GameManager
                 }
             }
 
-            //// 攻撃可能な敵キャラクター1体を見つけるまで処理
-            //foreach (Character.Character enemyData in enemyCharacters)
-            //{
-            //    // 移動可能な場所リストを取得
-            //    reachableBlocks =
-            //        mapManager.SearchAttackableBlocks(enemyData.xPos, enemyData.zPos);
-            //    // それぞれの移動可能な場所ごとの処理
-            //    foreach (MapBlock block in reachableBlocks)
-            //    {
-            //        // 攻撃可能な場所リストを取得する
-            //        attackableBlocks =
-            //            mapManager.SearchAttackableBlocks(block.xPos, block.zPos);
-            //        // それぞれの攻撃可能な場所ごとの処理
-            //        foreach(MapBlock attackBlock in attackableBlocks)
-            //        {
-            //            // 攻撃できるキャラクター（プレイヤー側）を探す
-            //            Character.Character targetChara =
-            //                characterManager.GetCharacterData(attackBlock.xPos, attackBlock.zPos);
-            //            // 相手キャラクターが存在するとき
-            //            if (targetChara != null && !targetChara.isEnemy)
-            //            {
-            //                // 敵キャラクターの移動処理
-            //                enemyData.MovePosition(block.xPos, block.zPos);
-
-            //                // 敵キャラクターの攻撃処理
-            //                DOVirtual.DelayedCall(delayTime, () =>
-            //                {
-            //                    // 遅延実行する内容
-            //                    Attack(enemyData, targetChara);
-            //                });
-
-            //                // リストをクリアする
-            //                reachableBlocks.Clear();
-            //                attackableBlocks.Clear();
-
-            //                // 進行モードを進める
-            //                ChangePhase(Phase.EnemyTurn_Result);
-
-            //                return;
-            //            }
-            //        }
-            //    }
-            //}
-
             // 攻撃可能なキャラクター・位置の組み合わせを1つランダムに取得
             var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyCharacters);
             // 組み合わせのデータが存在すれば、攻撃する
@@ -446,6 +406,88 @@ namespace GameManager
 
             // 進行モードを進める
             ChangePhase(Phase.MyTurn_Start);
+        }
+
+        /// <summary>
+        /// 属性相性によるダメージ倍率を返す
+        /// </summary>
+        /// <param name="attackChara">攻撃するキャラクターデータ</param>
+        /// <param name="defenseChara">攻撃されるキャラクターデータ</param>
+        /// <returns>ダメージ倍率</returns>
+        private float GetDamageRatioAttribute(Character.Character attackChara, Character.Character defenseChara)
+        {
+            // ダメージ倍率を定義
+            const float normal = 1.0f;     // 通常
+            const float good = 1.2f;        // 有利
+            const float bad = 0.8f;          // 不利
+
+            Character.Character.Attribute attacker = attackChara.attribute;        // 攻撃側の属性
+            Character.Character.Attribute defender = defenseChara.attribute;     // 防御側の属性
+
+            // 相性決定処理
+            // 属性ごとに有利→不利の順でチェックし、どちらにも当てはまらなければ通常倍率を返す
+            switch(attacker)
+            {
+                // 攻撃側 : 水属性
+                case Character.Character.Attribute.Water:
+                    if(defender == Character.Character.Attribute.Fire)
+                    {
+                        return good;
+                    }
+                    else if( defender == Character.Character.Attribute.Soil)
+                    {
+                        return bad;
+                    }
+                    else
+                    {
+                        return normal;
+                    }
+                // 攻撃側 : 火属性
+                case Character.Character.Attribute.Fire:
+                    if (defender == Character.Character.Attribute.Wind)
+                    {
+                        return good;
+                    }
+                    else if (defender == Character.Character.Attribute.Water)
+                    {
+                        return bad;
+                    }
+                    else
+                    {
+                        return normal;
+                    }
+                // 攻撃側 : 風属性
+                case Character.Character.Attribute.Wind:
+                    if (defender == Character.Character.Attribute.Soil)
+                    {
+                        return good;
+                    }
+                    else if (defender == Character.Character.Attribute.Fire)
+                    {
+                        return bad;
+                    }
+                    else
+                    {
+                        return normal;
+                    }
+                // 攻撃側 : 土属性
+                case Character.Character.Attribute.Soil:
+                    if (defender == Character.Character.Attribute.Water)
+                    {
+                        return good;
+                    }
+                    else if (defender == Character.Character.Attribute.Wind)
+                    {
+                        return bad;
+                    }
+                    else
+                    {
+                        return normal;
+                    }
+                // デフォルト設定
+                default:
+                    return normal;
+            }
         }
     }
 }
