@@ -89,7 +89,6 @@ namespace MapManager
                 for (int j = 0; j < MAP_HEIGHT; j++)
                 {
                     mapData[i, j].SetSelectionMode(MapBlock.Highlight.Off);
-                    //mapData[i, j].SetSelectionMode(false);
                 }
             }
         }
@@ -130,37 +129,91 @@ namespace MapManager
                 }
             }
 
-            // それぞれの方向に向かって行き止まりまでのブロックデータを順番に取得し、リストに追加する
-            // X+ 方向
-            for(int i = baseX + 1; i < MAP_WIDTH; i++)
+            // 移動するキャラクターの移動方法を取得
+            var moveType = Character.Character.MoveType.Rook;   // 移動方法
+            var moveChara =                                                       // 移動するキャラクター
+                GetComponent<Character.CharacterManager>().GetCharacterData(xPos, zPos);
+            // 移動するキャラクターが存在する時
+            if(moveChara != null)
             {
-                if(AddReachableList(results, mapData[i,baseZ]))
+                // キャラクターデータから移動方法を取得
+                moveType = moveChara.moveType;
+            }
+
+            // キャラクターの移動方法に合わせて異なる方向のブロックデータを取得
+            // Rook, Queen
+            if(moveType == Character.Character.MoveType.Rook
+                || moveType == Character.Character.MoveType.Queen)
+            {
+                // X+ 方向
+                for (int i = baseX + 1; i < MAP_WIDTH; i++)
                 {
-                    break;
+                    if (AddReachableList(results, mapData[i, baseZ]))
+                    {
+                        break;
+                    }
+                }
+                // X- 方向
+                for (int i = baseX - 1; i >= 0; i--)
+                {
+                    if (AddReachableList(results, mapData[i, baseZ]))
+                    {
+                        break;
+                    }
+                }
+                // Z+ 方向
+                for (int j = baseZ + 1; j < MAP_HEIGHT; j++)
+                {
+                    if (AddReachableList(results, mapData[baseX, j]))
+                    {
+                        break;
+                    }
+                }
+                // Z- 方向
+                for (int j = baseZ - 1; j >= 0; j--)
+                {
+                    if (AddReachableList(results, mapData[baseX, j]))
+                    {
+                        break;
+                    }
                 }
             }
-            // X- 方向
-            for(int i = baseX - 1; i >= 0; i--)
+
+            // Bishop, Queen
+            if(moveType == Character.Character.MoveType.Bishop 
+                || moveType == Character.Character.MoveType.Queen)
             {
-                if (AddReachableList(results, mapData[i, baseZ]))
+                // X+Z+ 方向
+                for (int i = baseX + 1, j = baseZ + 1; i < MAP_WIDTH && j < MAP_HEIGHT; i++, j++)
                 {
-                    break;
+                    if (AddReachableList(results, mapData[i, j]))
+                    {
+                        break;
+                    }
                 }
-            }
-            // Z+ 方向
-            for(int j = baseZ + 1; j < MAP_HEIGHT; j++)
-            {
-                if (AddReachableList(results, mapData[baseX, j]))
+                // X-Z+ 方向
+                for (int i = baseX - 1, j = baseZ + 1; i >= 0 && j < MAP_HEIGHT; i--, j++)
                 {
-                    break;
+                    if (AddReachableList(results, mapData[i, j]))
+                    {
+                        break;
+                    }
                 }
-            }
-            // Z- 方向
-            for(int j = baseZ - 1; j >= 0; j--)
-            {
-                if (AddReachableList(results, mapData[baseX, j]))
+                // X+Z- 方向
+                for (int i = baseX + 1, j = baseZ - 1; i < MAP_WIDTH && j >= 0; i++, j--)
                 {
-                    break;
+                    if (AddReachableList(results, mapData[i, j]))
+                    {
+                        break;
+                    }
+                }
+                // X-Z- 方向
+                for (int i = baseX - 1, j = baseZ - 1; i >= 0 && j >= 0; i--, j--)
+                {
+                    if (AddReachableList(results, mapData[i, j]))
+                    {
+                        break;
+                    }
                 }
             }
 

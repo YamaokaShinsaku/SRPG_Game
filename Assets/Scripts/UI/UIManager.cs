@@ -24,7 +24,8 @@ namespace UIManager
         public Sprite Soil;     // 土
 
         // コマンドボタン
-        public GameObject commandButtons;   // 全コマンドボタンの親オブジェクト
+        public GameObject commandButtons;       // 全コマンドボタンの親オブジェクト
+        public GameObject moveCancelButton;     // 移動キャンセルボタン
 
         // バトル結果表示ウィンドウ
         public BattleWindowUI battleWindowUI;
@@ -39,6 +40,7 @@ namespace UIManager
             // UI初期化
             HideStatusWindow();
             HideCommandButtons();
+            HideMoveCancelButton();
         }
 
         /// <summary>
@@ -62,6 +64,14 @@ namespace UIManager
         public void HideCommandButtons()
         {
             commandButtons.SetActive(false);
+        }
+
+        /// <summary>
+        /// 移動キャンセルボタンを非表示に
+        /// </summary>
+        public void HideMoveCancelButton()
+        {
+            moveCancelButton.SetActive(false);
         }
 
         /// <summary>
@@ -116,6 +126,14 @@ namespace UIManager
         public void ShowCommandButtons()
         {
             commandButtons.SetActive(true);
+        }
+
+        /// <summary>
+        /// 移動キャンセルボタンを表示
+        /// </summary>
+        public void ShowMoveCancelButton()
+        {
+            moveCancelButton.SetActive(true);
         }
 
         /// <summary>

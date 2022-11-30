@@ -15,12 +15,13 @@ namespace Character
         public int initPosition_Z;
         private const float initPosition_Y = 1.0f;  // Y座標は固定
 
-        public bool isEnemy;            // 敵かどうか
+        public bool isEnemy;                // 敵かどうか
         public string characterName;    // キャラクターの名前
-        public int maxHP;               // 最大HP
-        public int atk;                 // 攻撃力
-        public int def;                 // 防御力
-        public Attribute attribute;     // 属性
+        public int maxHP;                    // 最大HP
+        public int atk;                          // 攻撃力
+        public int def;                          // 防御力
+        public Attribute attribute;         // 属性
+        public MoveType moveType;     // 移動方法
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
@@ -40,6 +41,14 @@ namespace Character
             Fire,   // 火属性
             Wind,   // 風属性
             Soil,   // 土属性
+        }
+
+        // キャラクターの移動法を定義
+        public enum MoveType
+        {
+            Rook,       // 縦・横
+            Bishop,    // 斜め
+            Queen,    // 縦・横・斜め
         }
 
         // Start is called before the first frame update

@@ -138,6 +138,8 @@ namespace GameManager
                             mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
                         }
 
+                        // 移動キャンセルボタンを表示
+                        uiManager.ShowMoveCancelButton();
                         // 進行モードを進める
                         ChangePhase(Phase.MyTurn_Moving);
                     }
@@ -152,6 +154,13 @@ namespace GameManager
                     break;
                 // 自分のターン : 移動
                 case Phase.MyTurn_Moving:
+                    // 敵キャラクターがを選択中なら移動をキャンセルして終了
+                    if(selectingCharacter.isEnemy)
+                    {
+                        CancelMoving();
+                        break;
+                    }
+
                     // 選択したブロックが移動可能な場所リスト内にあるとき
                     if(reachableBlocks.Contains(targetObject))
                     {
@@ -162,6 +171,8 @@ namespace GameManager
                         reachableBlocks.Clear();
                         // 全ブロックの選択状態を解除
                         mapManager.AllSelectionModeClear();
+                        // 移動キャンセルボタンを非表示に
+                        uiManager.HideMoveCancelButton();
 
                         // 指定時間後に処理を実行する
                         DOVirtual.DelayedCall(delayTime, () =>
@@ -215,7 +226,8 @@ namespace GameManager
         /// ターン進行モードを変更
         /// </summary>
         /// <param name="newPhase">変更先のモード</param>
-        private void ChangePhase(Phase newPhase)
+        /// <param name="noLogos">ロゴ非表示フラグ</param>
+        private void ChangePhase(Phase newPhase, bool noLogos = false)
         {
             // 進行モードを変更
             nowPhase = newPhase;
@@ -225,13 +237,20 @@ namespace GameManager
             {
                 // 自分のターン : 開始
                 case Phase.MyTurn_Start:
-                    // ロゴ画像を表示
-                    uiManager.ShowPlayerTurnLogo();
+                    if(!noLogos)
+                    {
+                        // ロゴ画像を表示
+                        uiManager.ShowPlayerTurnLogo();
+                    }
                     break;
                 // 敵のターン : 開始
                 case Phase.Enemyturn_Start:
-                    // ロゴ画像を表示
-                    uiManager.ShowEnemyTurnLogo();
+                    if (!noLogos)
+                    {
+                        // ロゴ画像を表示
+                        uiManager.ShowPlayerTurnLogo();
+                    }
+
                     // 敵の行動処理を開始する(遅延実行)
                     DOVirtual.DelayedCall(delayTime, () =>
                     {
@@ -282,6 +301,21 @@ namespace GameManager
         }
 
         /// <summary>
+        /// 選択中のキャラクターの移動入力待ち状態を解除する
+        /// </summary>
+        public void CancelMoving()
+        {
+            // 全ブロックの選択状態を解除
+            mapManager.AllSelectionModeClear();
+            // 移動可能な場所リストを初期化
+            reachableBlocks.Clear();
+            // 移動キャンセルボタンを非表示に
+            uiManager.HideMoveCancelButton();
+            // 進行モードを元に戻す
+            ChangePhase(Phase.MyTurn_Start, true);
+        }
+
+        /// <summary>
         /// 攻撃処理
         /// </summary>
         /// <param name="attackChara">攻撃するキャラクター</param>
@@ -311,6 +345,11 @@ namespace GameManager
 
             // 攻撃アニメーション
             attackChara.AttackAnimation(defenseChara);
+            // 攻撃が当たったタイミングでSEを再生
+            DOVirtual.DelayedCall(0.45f, () =>
+                {
+                    GetComponent<AudioSource>().Play();
+                });
 
             // バトル結果表示ウィンドウの表示設定
             uiManager.battleWindowUI.ShowWindow(defenseChara, damegeValue);
