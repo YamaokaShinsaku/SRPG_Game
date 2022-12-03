@@ -11,7 +11,7 @@ namespace UIManager
         /// ステータスウィンドウ ///
         public GameObject statusWindow;
         public Image hpGageImg;         // HPゲージ画像
-                                        // テキスト
+        // テキスト
         public Text nameText;
         public Text hpText;
         public Text atkText;
@@ -26,6 +26,10 @@ namespace UIManager
         // コマンドボタン
         public GameObject commandButtons;       // 全コマンドボタンの親オブジェクト
         public GameObject moveCancelButton;     // 移動キャンセルボタン
+        public Button skillCommandButton;       // スキルコマンドのボタン
+
+        // スキル説明用テキスト
+        public Text skillText;
 
         // バトル結果表示ウィンドウ
         public BattleWindowUI battleWindowUI;
@@ -76,6 +80,9 @@ namespace UIManager
         public void HideCommandButtons()
         {
             commandButtons.SetActive(false);
+            skillCommandButton.gameObject.SetActive(false);
+
+            skillText.enabled = false;
         }
 
         /// <summary>
@@ -135,9 +142,24 @@ namespace UIManager
         /// <summary>
         /// コマンドボタンを表示
         /// </summary>
-        public void ShowCommandButtons()
+        /// <param name="selectChara">選択中のキャラクター</param>
+        public void ShowCommandButtons(Character.Character selectChara)
         {
             commandButtons.SetActive(true);
+            skillCommandButton.gameObject.SetActive(true);
+
+            skillText.enabled = true;
+
+            // 選択中のキャラクターのスキルをTextに表示する
+            // 選択中のキャラクターのスキル
+            Character.SkillDefine.Skill skill = selectChara.skill;
+            // スキル名
+            string skillName = Character.SkillDefine.dicSkillName[skill];
+            // スキルの説明文
+            string skillInfo = Character.SkillDefine.dicSkillInfo[skill];
+
+            // リッチテキストでサイズを変更死ながら文字を表示
+            skillText.text = "<size=300>" + skillName + "</size>\n" + skillInfo;
         }
 
         /// <summary>

@@ -37,8 +37,8 @@ namespace Character
             {Skill.None, "----" },
             {Skill.Critical, "ダメージ2倍の攻撃（1回限り）" },
             {Skill.DefBreak, "敵の攻撃力を0にする（ダメージは0）" },
-            {Skill.None, "味方のHPを回復する" },
-            {Skill.None, "どの位置にいる敵にも攻撃できる" },
+            {Skill.Heal, "味方のHPを回復する" },
+            {Skill.FireBall, "どの位置にいる敵にも攻撃できる" },
         };
     }
 }

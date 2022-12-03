@@ -330,7 +330,7 @@ RectTransform:
   m_Children:
   - {fileID: 2084417015}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -826,6 +826,8 @@ MonoBehaviour:
   Soil: {fileID: 21300000, guid: a66020809c7570a47bfd3b8de0b92809, type: 3}
   commandButtons: {fileID: 1014731085}
   moveCancelButton: {fileID: 234250300}
+  skillCommandButton: {fileID: 1720426445}
+  skillText: {fileID: 754321905}
   battleWindowUI: {fileID: 1077653790}
   playerTurnImg: {fileID: 1169055511}
   enemyTurnImg: {fileID: 887028810}
@@ -1053,7 +1055,7 @@ RectTransform:
   - {fileID: 1678234212}
   - {fileID: 1235839872}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1410,12 +1412,12 @@ RectTransform:
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -590.50006, y: -149.5}
-  m_SizeDelta: {x: -111.00012, y: 119}
+  m_AnchoredPosition: {x: -472.25, y: -149.5}
+  m_SizeDelta: {x: -114.5, y: 119}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &754321904
 MonoBehaviour:
@@ -2071,7 +2073,7 @@ RectTransform:
   - {fileID: 1507396107}
   - {fileID: 913047651}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2107,7 +2109,6 @@ RectTransform:
   m_Children:
   - {fileID: 311869974}
   - {fileID: 1475581215}
-  - {fileID: 1720426444}
   m_Father: {fileID: 2036383799}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2240,7 +2241,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3255,7 +3256,7 @@ RectTransform:
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -3434,7 +3435,7 @@ GameObject:
   - component: {fileID: 1720426446}
   - component: {fileID: 1720426445}
   m_Layer: 5
-  m_Name: SkillCommand
+  m_Name: SkillCommandButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3447,17 +3448,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1720426443}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1123517977}
-  m_Father: {fileID: 1014731086}
-  m_RootOrder: 2
+  m_Father: {fileID: 2036383799}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -538, y: 30}
+  m_AnchoredPosition: {x: 485, y: 520}
   m_SizeDelta: {x: 220, y: 108}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1720426445
@@ -3877,6 +3878,7 @@ RectTransform:
   - {fileID: 193855208}
   - {fileID: 1077653793}
   - {fileID: 1014731086}
+  - {fileID: 1720426444}
   - {fileID: 1006343994}
   - {fileID: 481917296}
   - {fileID: 234250301}

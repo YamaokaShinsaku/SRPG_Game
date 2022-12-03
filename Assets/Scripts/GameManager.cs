@@ -256,7 +256,7 @@ namespace GameManager
                             {
                                 // 遅延実行する内容
                                 // コマンドボタンを表示する
-                                uiManager.ShowCommandButtons();
+                                uiManager.ShowCommandButtons(selectingCharacter);
 
                                 // 進行モードを進める
                                 ChangePhase(Phase.MyTurn_Command);
