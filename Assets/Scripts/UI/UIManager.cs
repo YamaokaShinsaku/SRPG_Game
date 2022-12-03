@@ -36,6 +36,9 @@ namespace UIManager
         public Image gameClearImg;
         public Image gameOverImg;
 
+        // フェードイン用画像
+        public Image fadeImg;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -191,6 +194,12 @@ namespace UIManager
                 1.0f,       // 指定数値まで画像のα値を変化させる
                 1.0f)       // アニメーション時間
                 .SetEase(Ease.OutCubic);            // 変化の度合いを設定
+        }
+
+        public void StartFadeIn()
+        {
+            fadeImg.DOFade(1.0f, 5.5f)
+                .SetEase(Ease.Linear);
         }
     }
 }

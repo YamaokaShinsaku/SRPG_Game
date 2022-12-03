@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 namespace GameManager
@@ -128,6 +129,14 @@ namespace GameManager
                     {
                         uiManager.ShowGameOverLogo();
                     }
+                    // フェードイン開始
+                    uiManager.StartFadeIn();
+                });
+
+                // Gameシーンを再度読み込み
+                DOVirtual.DelayedCall(7.0f, () =>
+                {
+                    SceneManager.LoadScene("GameScene");
                 });
             }
         }
