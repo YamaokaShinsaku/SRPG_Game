@@ -33,6 +33,8 @@ namespace UIManager
         // ロゴ画像
         public Image playerTurnImg;
         public Image enemyTurnImg;
+        public Image gameClearImg;
+        public Image gameOverImg;
 
         // Start is called before the first frame update
         void Start()
@@ -160,6 +162,35 @@ namespace UIManager
                 1.0f)       // アニメーション時間
                 .SetEase(Ease.OutCubic)             // 変化の度合いを設定
                 .SetLoops(2, LoopType.Yoyo);     // ループ回数・方式を設定
+        }
+
+        /// <summary>
+        /// ゲームクリア画像を表示
+        /// </summary>
+        public void ShowGameClearLogo()
+        {
+            // 徐々に表示・非表示を行う
+            gameClearImg.DOFade(
+                1.0f,       // 指定数値まで画像のα値を変化させる
+                1.0f)       // アニメーション時間
+                .SetEase(Ease.OutCubic);            // 変化の度合いを設定
+
+            // 拡大・縮小アニメーション
+            gameClearImg.transform.DOScale(1.5f, 1.0f)
+                .SetEase(Ease.OutCubic)
+                .SetLoops(2, LoopType.Yoyo);
+        }
+
+        /// <summary>
+        /// ゲームオーバー画像を表示
+        /// </summary>
+        public void ShowGameOverLogo()
+        {
+            // 徐々に表示・非表示を行う
+            gameOverImg.DOFade(
+                1.0f,       // 指定数値まで画像のα値を変化させる
+                1.0f)       // アニメーション時間
+                .SetEase(Ease.OutCubic);            // 変化の度合いを設定
         }
     }
 }

@@ -63,6 +63,9 @@ namespace Character
                 // 遅延実行する内容
                 Destroy(charaData.gameObject);
             });
+
+            // ゲーム終了判定を行う
+            GetComponent<GameManager.GameManager>().CheckFinish();
         }
     }
 }

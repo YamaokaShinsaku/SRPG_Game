@@ -18,6 +18,8 @@ namespace GameManager
         private Character.Character selectingCharacter;   // 選択中のキャラクター
         private List<MapBlock> reachableBlocks;           // 選択中のキャラクターの移動可能ブロックリスト
         private List<MapBlock> attackableBlocks;          // 選択中のキャラクターの攻撃可能ブロックリスト
+        [SerializeField]
+        private bool isFinish;      // ゲーム終了フラグ
 
         // 遅延時間
         const float delayTime = 0.5f;
@@ -53,6 +55,12 @@ namespace GameManager
         // Update is called once per frame
         void Update()
         {
+            // ゲームが終了しているなら
+            if(isFinish)
+            {
+                return;
+            }
+
             // タップ先を検出
             if(Input.GetMouseButtonDown(0) 
                 // UIへのタップを検出する
@@ -71,6 +79,56 @@ namespace GameManager
                     return;
                 }
                 GetMapObjects();
+            }
+        }
+
+        /// <summary>
+        /// ゲーム終了条件を満たしているか確認し、満たしていれば終了する
+        /// </summary>
+        public void CheckFinish()
+        {
+            // プレイヤー勝利フラグ
+            bool isWin = true;
+            // プレイヤー敗北フラグ
+            bool isLose = true;
+
+            // 生きている味方、敵が存在するかをチェック
+            foreach(var charaData in characterManager.characters)
+            {
+                // 敵がいるとき
+                if(charaData.isEnemy)
+                {
+                    // 勝利フラグをfalse
+                    isWin = false;
+                }
+                // 味方がいるとき
+                else
+                {
+                    // 敗北フラグをfalse
+                    isLose = false;
+                }
+            }
+
+            // 勝利、敗北フラグのどちらかがtrueならゲームを終了
+            if(isWin || isLose)
+            {
+                // ゲーム終了フラグをtrue
+                isFinish = true;
+
+                // ロゴ画像を表示
+                DOVirtual.DelayedCall(1.5f, () =>
+                {
+                    // ゲームクリアの時
+                    if (isWin)
+                    {
+                        uiManager.ShowGameClearLogo();
+                    }
+                    // ゲームオーバーの時
+                    else
+                    {
+                        uiManager.ShowGameOverLogo();
+                    }
+                });
             }
         }
 
@@ -229,6 +287,12 @@ namespace GameManager
         /// <param name="noLogos">ロゴ非表示フラグ</param>
         private void ChangePhase(Phase newPhase, bool noLogos = false)
         {
+            // ゲームが終了しているなら
+            if (isFinish)
+            {
+                return;
+            }
+
             // 進行モードを変更
             nowPhase = newPhase;
 
@@ -248,7 +312,7 @@ namespace GameManager
                     if (!noLogos)
                     {
                         // ロゴ画像を表示
-                        uiManager.ShowPlayerTurnLogo();
+                        uiManager.ShowEnemyTurnLogo();
                     }
 
                     // 敵の行動処理を開始する(遅延実行)
