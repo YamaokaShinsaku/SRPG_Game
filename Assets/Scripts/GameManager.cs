@@ -51,6 +51,16 @@ namespace GameManager
 
             // 開始時の進行モード
             nowPhase = Phase.MyTurn_Start;
+
+            // フェードアウト開始
+            uiManager.StartFadeOut();
+
+            // フェードアウトが終わったら実行
+            DOVirtual.DelayedCall(3.5f, () =>
+            {
+                // プレイヤーターン開始ロゴ表示
+                uiManager.ShowPlayerTurnLogo();
+            });
         }
 
         // Update is called once per frame

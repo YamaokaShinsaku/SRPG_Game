@@ -38,6 +38,7 @@ namespace UIManager
 
         // フェードイン用画像
         public Image fadeImg;
+        Color startAlphaNum;
 
         // Start is called before the first frame update
         void Start()
@@ -46,6 +47,12 @@ namespace UIManager
             HideStatusWindow();
             HideCommandButtons();
             HideMoveCancelButton();
+
+            // fadeImgのアルファ値の初期設定
+            // フェードアウトから開始するため
+            startAlphaNum = fadeImg.color;
+            startAlphaNum.a = 1.0f;
+            fadeImg.color = startAlphaNum;
         }
 
         /// <summary>
@@ -196,9 +203,25 @@ namespace UIManager
                 .SetEase(Ease.OutCubic);            // 変化の度合いを設定
         }
 
+        /// <summary>
+        /// フェードイン開始
+        /// </summary>
         public void StartFadeIn()
         {
-            fadeImg.DOFade(1.0f, 5.5f)
+            fadeImg.DOFade(
+                1.0f,       // 指定数値まで画像のα値を変化させる
+                3.5f)       // アニメーション時間
+                .SetEase(Ease.Linear);
+        }
+
+        /// <summary>
+        /// フェードアウト開始
+        /// </summary>
+        public void StartFadeOut()
+        {
+            fadeImg.DOFade(
+                0.0f,       // 指定数値まで画像のα値を変化させる
+                3.5f)       // アニメーション時間
                 .SetEase(Ease.Linear);
         }
     }
