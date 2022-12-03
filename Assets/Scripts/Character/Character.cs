@@ -15,13 +15,14 @@ namespace Character
         public int initPosition_Z;
         private const float initPosition_Y = 1.0f;  // Y座標は固定
 
-        public bool isEnemy;                // 敵かどうか
-        public string characterName;    // キャラクターの名前
-        public int maxHP;                    // 最大HP
-        public int atk;                          // 攻撃力
-        public int def;                          // 防御力
-        public Attribute attribute;         // 属性
-        public MoveType moveType;     // 移動方法
+        public bool isEnemy;               // 敵かどうか
+        public string characterName;       // キャラクターの名前
+        public int maxHP;                  // 最大HP
+        public int atk;                    // 攻撃力
+        public int def;                    // 防御力
+        public Attribute attribute;        // 属性
+        public MoveType moveType;          // 移動方法
+        public SkillDefine.Skill skill;    // スキル
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
