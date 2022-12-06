@@ -54,7 +54,15 @@ public class BattleWindowUI : MonoBehaviour
 
         // テキスト表示
         hpText.text = nowHP + "/" + charaData.maxHP;
-        damageText.text = damegeValue + "ダメージ！";
+        if(damegeValue >= 0)
+        {
+            damageText.text = damegeValue + "ダメージ！";
+        }
+        // HP回復時
+        else
+        {
+            damageText.text = -damegeValue + "回復！";
+        }
     }
 
     /// <summary>

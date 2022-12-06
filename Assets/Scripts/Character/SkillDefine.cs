@@ -12,7 +12,7 @@ namespace Character
         // スキルの種類を定義
         public enum Skill
         {
-            None,        // スキルなし
+            None,        // スキルなし(通常攻撃)
             Critical,    // 会心の一撃（クリティカル）
             DefBreak,    // シールド破壊
             Heal,        // ヒール
@@ -36,7 +36,7 @@ namespace Character
         {
             {Skill.None, "----" },
             {Skill.Critical, "ダメージ2倍の攻撃（1回限り）" },
-            {Skill.DefBreak, "敵の攻撃力を0にする（ダメージは0）" },
+            {Skill.DefBreak, "敵の防御力を0にする（ダメージは0）" },
             {Skill.Heal, "味方のHPを回復する" },
             {Skill.FireBall, "どの位置にいる敵にも攻撃できる" },
         };

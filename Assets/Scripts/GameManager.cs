@@ -16,9 +16,10 @@ namespace GameManager
         private UIManager.UIManager uiManager;
 
         // 進行管理用変数
-        private Character.Character selectingCharacter;   // 選択中のキャラクター
-        private List<MapBlock> reachableBlocks;           // 選択中のキャラクターの移動可能ブロックリスト
-        private List<MapBlock> attackableBlocks;          // 選択中のキャラクターの攻撃可能ブロックリスト
+        private Character.Character selectingCharacter;       // 選択中のキャラクター
+        private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
+        private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
+        private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
         [SerializeField]
         private bool isFinish;      // ゲーム終了フラグ
 
@@ -355,17 +356,59 @@ namespace GameManager
         }
 
         /// <summary>
-        /// 攻撃処理
+        /// 攻撃コマンドボタン処理
         /// </summary>
         public void AttackCommand()
         {
+            // スキルの選択状態をオフにする
+            selectingSkill = Character.SkillDefine.Skill.None;
+            // 攻撃範囲を取得して表示
+            GetAttackableBlocks();
+
+            //// コマンドボタンを非表示にする
+            //uiManager.HideCommandButtons();
+
+            //// 攻撃範囲取得
+            //// 攻撃可能な場所リストを取得する
+            //attackableBlocks = mapManager.SearchAttackableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+            //// 攻撃可能な場所リストを表示する
+            //foreach(MapBlock mapBlock in attackableBlocks)
+            //{
+            //    mapBlock.SetSelectionMode(MapBlock.Highlight.Attackable);
+            //}
+        }
+
+        /// <summary>
+        /// スキルコマンドボタン処理
+        /// </summary>
+        public void SkillCommand()
+        {
+            // キャラクターの持つスキルを選択状態にする
+            selectingSkill = selectingCharacter.skill;
+            // 攻撃範囲を取得して表示
+            GetAttackableBlocks();
+        }
+
+        /// <summary>
+        /// 攻撃・スキルコマンド選択時に対象ブロックを表示する
+        /// </summary>
+        private void GetAttackableBlocks()
+        {
             // コマンドボタンを非表示にする
             uiManager.HideCommandButtons();
-
-            // 攻撃範囲取得
             // 攻撃可能な場所リストを取得する
-            attackableBlocks = mapManager.SearchAttackableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
-            // 攻撃可能な場所リストを表示する
+            // スキル : ファイアボールの場合はマップ全域に対応
+            if(selectingSkill == Character.SkillDefine.Skill.FireBall)
+            {
+                attackableBlocks = mapManager.MapBlocksToList();
+            }
+            else
+            {
+                attackableBlocks =
+                    mapManager.SearchAttackableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+            }
+
+            // 攻撃可能な場所リストを表示
             foreach(MapBlock mapBlock in attackableBlocks)
             {
                 mapBlock.SetSelectionMode(MapBlock.Highlight.Attackable);
@@ -409,25 +452,68 @@ namespace GameManager
                 + "  防御側 : " + defenseChara.characterName);
 
             // ダメージ計算
-            int damegeValue;    // ダメージ量
+            int damageValue;    // ダメージ量
             int attackPoint = attackChara.atk;    // 攻撃する側の攻撃力
             int defencePoint = defenseChara.def;   // 攻撃される側の防御力
 
+            // 防御力０（デバフ）がかかっている時
+            if(defenseChara.isDefBreak)
+            {
+                defencePoint = 0;
+            }
+
             // ダメージ　＝　攻撃力　ー　防御力
-            damegeValue = attackPoint - defencePoint;
+            damageValue = attackPoint - defencePoint;
             // 属性相性によるダメージ倍率を計算
             float ratio = GetDamageRatioAttribute(attackChara, defenseChara);       // ダメージ倍率を取得
-            damegeValue = (int)(damegeValue * ratio);       // 倍率を適応(int型に変換)
+            damageValue = (int)(damageValue * ratio);       // 倍率を適応(int型に変換)
 
             // ダメージ量が0以下の時
-            if (damegeValue < 0)
+            if (damageValue < 0)
             {
                 // 0にする
-                damegeValue = 0;
+                damageValue = 0;
+            }
+
+            // 選択したスキルによるダメージ値補正と効果処理
+            switch(selectingSkill)
+            {
+                //クリティカル（会心の一撃）
+                case Character.SkillDefine.Skill.Critical:
+                    // ダメージ2倍
+                    damageValue *= 2;
+                    // スキル使用不可能状態に
+                    attackChara.isSkillLock = true;
+                    break;
+                // シールド破壊
+                case Character.SkillDefine.Skill.DefBreak:
+                    // ダメージ0固定
+                    damageValue = 0;
+                    // 防御力０（デバフ）をセット
+                    defenseChara.isDefBreak = true;
+                    break;
+                // ヒール
+                case Character.SkillDefine.Skill.Heal:
+                    // 回復（回復量は攻撃力の半分）
+                    damageValue = (int)(attackPoint * -0.5f);
+                    break;
+                // ファイアボール
+                case Character.SkillDefine.Skill.FireBall:
+                    // 与えるダメージ半減
+                    damageValue /= 2;
+                    break;
+                // スキル無し or 通常攻撃
+                default:
+                    break;
             }
 
             // 攻撃アニメーション
-            attackChara.AttackAnimation(defenseChara);
+            // ヒール・ファイアボールはアニメーション無し
+            if(selectingSkill != Character.SkillDefine.Skill.Heal
+                && selectingSkill != Character.SkillDefine.Skill.FireBall)
+            {
+                attackChara.AttackAnimation(defenseChara);
+            }
             // 攻撃が当たったタイミングでSEを再生
             DOVirtual.DelayedCall(0.45f, () =>
                 {
@@ -435,10 +521,10 @@ namespace GameManager
                 });
 
             // バトル結果表示ウィンドウの表示設定
-            uiManager.battleWindowUI.ShowWindow(defenseChara, damegeValue);
+            uiManager.battleWindowUI.ShowWindow(defenseChara, damageValue);
 
             // ダメージ量分攻撃された側のHPを減少させる
-            defenseChara.nowHP -= damegeValue;
+            defenseChara.nowHP -= damageValue;
             // HPが0～最大値の範囲に収まるように補正
             defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
 
@@ -447,6 +533,9 @@ namespace GameManager
             {
                 characterManager.DeleteCharaData(defenseChara);
             }
+
+            // スキルの選択状態を解除する
+            selectingSkill = Character.SkillDefine.Skill.None;
 
             // ターン切り替え処理
             DOVirtual.DelayedCall(2.0f, () =>
@@ -475,6 +564,9 @@ namespace GameManager
         /// </summary>
         private void EnemyCommand()
         {
+            // スキルの選択状態をオフにする
+            selectingSkill = Character.SkillDefine.Skill.None;
+
             // 生存中の敵キャラクターのリストを作成
             // 敵キャラクターリスト
             var enemyCharacters = new List<Character.Character>();

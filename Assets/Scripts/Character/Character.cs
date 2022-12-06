@@ -32,6 +32,10 @@ namespace Character
         [HideInInspector]
         public int nowHP;       // 現在のHP
 
+        // 各種状態異常
+        public bool isSkillLock;    // スキル使用不可能
+        public bool isDefBreak;     // 防御力０（デバフ）
+
         // アニメーション速度
         const float animSpeed = 0.5f;
 

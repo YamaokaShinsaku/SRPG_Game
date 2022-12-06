@@ -136,7 +136,15 @@ namespace UIManager
             // Text表示
             hpText.text = charaData.nowHP + "/" + charaData.maxHP;
             atkText.text = charaData.atk.ToString();
-            defText.text = charaData.def.ToString();
+            if(!charaData.isDefBreak)
+            {
+                defText.text = charaData.def.ToString();
+            }
+            // 防御力０（デバフ）の時
+            else
+            {
+                defText.text = "<color=red>0</color>";
+            }
         }
 
         /// <summary>
@@ -160,6 +168,17 @@ namespace UIManager
 
             // リッチテキストでサイズを変更死ながら文字を表示
             skillText.text = "<size=300>" + skillName + "</size>\n" + skillInfo;
+
+            // スキル使用不可能ならスキルボタンを押せないようにする
+            if(selectChara.isSkillLock)
+            {
+                skillCommandButton.interactable = false;
+            }
+            else
+            {
+                skillCommandButton.interactable = true;
+            }
+
         }
 
         /// <summary>

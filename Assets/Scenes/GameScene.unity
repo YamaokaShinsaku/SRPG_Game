@@ -3507,7 +3507,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 329424021}
         m_TargetAssemblyTypeName: GameManager.GameManager, Assembly-CSharp
-        m_MethodName: StandCommand
+        m_MethodName: SkillCommand
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4473,7 +4473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6564177090097753771, guid: c1bf6f322b7640542bf2f989ebd35ad8, type: 3}
       propertyPath: skill
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6564177090097753771, guid: c1bf6f322b7640542bf2f989ebd35ad8, type: 3}
       propertyPath: moveType
@@ -4517,6 +4517,10 @@ PrefabInstance:
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1226038965}
+    - target: {fileID: 1539594977740872273, guid: 5a3db9cc67e9d114b88dbd29c6686c1a, type: 3}
+      propertyPath: characterName
+      value: "\u30AA\u30FC\u30AC"
+      objectReference: {fileID: 0}
     - target: {fileID: 1539594977740872273, guid: 5a3db9cc67e9d114b88dbd29c6686c1a, type: 3}
       propertyPath: initPosition_X
       value: 2
