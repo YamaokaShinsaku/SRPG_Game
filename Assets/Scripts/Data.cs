@@ -19,6 +19,11 @@ namespace DataManager
         public int addAtk;   // 攻撃力上昇量
         public int addDef;   // 防御力上昇量
 
+        // データのキー設定
+        public const string Key_AddHP = "Key_AddHP";
+        public const string Key_AddAtk = "Key_AddAtk";
+        public const string Key_AddDef = "Key_AddDef";
+
         private void Awake()
         {
             // シングルトン用処理
@@ -33,6 +38,26 @@ namespace DataManager
             instance = true;
             // シーンをまたいでもこのオブジェクトが消去されないようにする
             DontDestroyOnLoad(this.gameObject);
+
+            // セーブデータをPlayerPrefsから読み込み
+            // キーに対応するデータを読み込む
+            // データがない場合は、設定した初期値を入れる
+            addHP = PlayerPrefs.GetInt(Key_AddHP, 0);
+            addAtk = PlayerPrefs.GetInt(Key_AddAtk, 0);
+            addDef = PlayerPrefs.GetInt(Key_AddDef, 0);
+        }
+
+        /// <summary>
+        /// 現在のプレイヤー強化データをPlayerPrefsに保存する
+        /// </summary>
+        public void WriteSaveData()
+        {
+            // データをキーとともに変更
+            PlayerPrefs.SetInt(Key_AddHP, addHP);
+            PlayerPrefs.SetInt(Key_AddAtk, addAtk);
+            PlayerPrefs.SetInt(Key_AddDef, addDef);
+            // 変更を保存
+            PlayerPrefs.Save();
         }
     }
 

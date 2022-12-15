@@ -77,6 +77,9 @@ namespace DataManager
 
             // もう一度プレイボタンを押せるようにする
             GoGameButton.interactable = true;
+
+            // 変更をデータに保存
+            data.WriteSaveData();
         }
 
         /// <summary>
