@@ -18,12 +18,26 @@ namespace Character
             // マップ上のキャラクター全データを取得
             characters = new List<Character>();
             charactersParent.GetComponentsInChildren(characters);
-        }
 
-        // Update is called once per frame
-        void Update()
-        {
+            // DataManagerからデータ管理クラスを取得する
+            DataManager.Data data =
+                GameObject.Find("DataManager").GetComponent<DataManager.Data>();
 
+            // ステータス上昇データを適応する
+            foreach(Character charaData in characters)
+            {
+                // 敵キャラクターは強化しない
+                if(charaData.isEnemy)
+                {
+                    continue;
+                }
+
+                // キャラクターの能力を上昇させる
+                charaData.maxHP += data.addHP;    // 最大HP
+                charaData.nowHP += data.addHP;    // 現在のHP
+                charaData.atk += data.addAtk;     // 攻撃力
+                charaData.def += data.addDef;     // 防御力
+            }
         }
 
         /// <summary>

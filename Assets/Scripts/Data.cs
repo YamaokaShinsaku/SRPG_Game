@@ -10,7 +10,14 @@ namespace DataManager
     public class Data : MonoBehaviour
     {
         // シングルトン管理用変数
+        // すべてのインスタンスでこの値を共有する
+        [HideInInspector]
         public static bool instance = false;
+
+        // プレイヤー強化データ
+        public int addHP;    // 最大HP上昇量
+        public int addAtk;   // 攻撃力上昇量
+        public int addDef;   // 防御力上昇量
 
         private void Awake()
         {

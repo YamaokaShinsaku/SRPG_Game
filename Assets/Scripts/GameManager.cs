@@ -144,10 +144,10 @@ namespace GameManager
                     uiManager.StartFadeIn();
                 });
 
-                // Gameシーンを再度読み込み
+                // EnhanceSceneの読み込み
                 DOVirtual.DelayedCall(7.0f, () =>
                 {
-                    SceneManager.LoadScene("GameScene");
+                    SceneManager.LoadScene("Enhance");
                 });
             }
         }
@@ -453,7 +453,7 @@ namespace GameManager
 
             // ダメージ計算
             int damageValue;    // ダメージ量
-            int attackPoint = attackChara.atk;    // 攻撃する側の攻撃力
+            int attackPoint = attackChara.atk;     // 攻撃する側の攻撃力
             int defencePoint = defenseChara.def;   // 攻撃される側の防御力
 
             // 防御力０（デバフ）がかかっている時
