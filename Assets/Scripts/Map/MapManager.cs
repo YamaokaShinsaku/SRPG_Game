@@ -131,7 +131,7 @@ namespace MapManager
 
             // 移動するキャラクターの移動方法を取得
             var moveType = Character.Character.MoveType.Rook;   // 移動方法
-            var moveChara =                                                       // 移動するキャラクター
+            var moveChara =                                     // 移動するキャラクター
                 GetComponent<Character.CharacterManager>().GetCharacterData(xPos, zPos);
             // 移動するキャラクターが存在する時
             if(moveChara != null)

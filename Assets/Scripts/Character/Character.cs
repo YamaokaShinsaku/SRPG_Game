@@ -24,6 +24,8 @@ namespace Character
         public MoveType moveType;          // 移動方法
         public SkillDefine.Skill skill;    // スキル
 
+        public int dex;
+
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
         public int xPos;        // 現在のx座標

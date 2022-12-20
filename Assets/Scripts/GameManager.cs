@@ -20,6 +20,7 @@ namespace GameManager
         private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
         private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
         private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
+
         [SerializeField]
         private bool isFinish;      // ゲーム終了フラグ
 
