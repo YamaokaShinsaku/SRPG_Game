@@ -109,13 +109,18 @@ public class ActionCharactor : MonoBehaviour
                     characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
         // 選択中のキャラクター情報に記憶する
         selectingCharacter = charaData;
+
+        // 配列を作成
         var dexlist = new List<Character.Character>();
         foreach(var allCharaData in characterManager.characters)
         {
+            // 選択したキャラクターのdexが0以上の時
             if(selectingCharacter.dex > 0)
             {
                 var maxDex = allCharaData.dex;
                 Debug.Log(maxDex);
+
+
             }
         }
     }
