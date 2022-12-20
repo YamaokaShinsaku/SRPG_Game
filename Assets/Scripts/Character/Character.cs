@@ -52,8 +52,8 @@ namespace Character
         public enum MoveType
         {
             Rook,       // 縦・横
-            Bishop,    // 斜め
-            Queen,    // 縦・横・斜め
+            Bishop,     // 斜め
+            Queen,      // 縦・横・斜め
         }
 
         // Start is called before the first frame update
@@ -62,14 +62,14 @@ namespace Character
             // 初期座標設定
             Vector3 position = new Vector3();
             position.x = initPosition_X;
-            position.y = initPosition_Y;
+            position.y = this.transform.position.y;    // 2D : 1.0f, 3D : 0.5f
             position.z = initPosition_Z;
 
             this.transform.position = position;
 
             // オブジェクトを反転（ビルボード処理で一度反転するため）
-            Vector2 scale = this.transform.localScale;
-            scale.x *= -1.0f;
+            Vector3 scale = this.transform.localScale;
+            //scale.x *= -1.0f;
             this.transform.localScale = scale;
 
             xPos = initPosition_X;
