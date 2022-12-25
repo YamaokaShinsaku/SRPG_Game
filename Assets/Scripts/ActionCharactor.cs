@@ -54,7 +54,6 @@ public class ActionCharactor : MonoBehaviour
         // 開始時の進行モード
         nowPhase = Phase.ACTION;
 
-        //SetActionCharacter();
 
         // フェードアウト開始
         uiManager.StartFadeOut();
@@ -110,18 +109,19 @@ public class ActionCharactor : MonoBehaviour
         // 選択中のキャラクター情報に記憶する
         selectingCharacter = charaData;
 
-        // 配列を作成
-        var dexlist = new List<Character.Character>();
+        // dexを格納する配列を作成
+        List<int> dexList = new List<int>();
         foreach(var allCharaData in characterManager.characters)
         {
-            // 選択したキャラクターのdexが0以上の時
-            if(selectingCharacter.dex > 0)
-            {
-                var maxDex = allCharaData.dex;
-                Debug.Log(maxDex);
-
-
-            }
+            // 全キャラクターのデータをListに格納
+            dexList.Add(allCharaData.dex);
+            // 格納したデータを降順ソート
+            dexList.Sort((a, b) => b - a);
+            // Listの中身をログで表示
+            Debug.Log(string.Join(",", dexList.Select(n => n.ToString())));
+            // List要素の先頭を取得
+            int firstDex = dexList.First();
+            Debug.Log("先頭要素 : " + firstDex);
         }
     }
 
@@ -219,18 +219,18 @@ public class ActionCharactor : MonoBehaviour
             // 行動するキャラクターがエネミーかどうかを判定
             case Phase.ACTION:
                 SetActionCharacter(targetObject);
-                //// プレイヤーなら
-                //if (!selectingCharacter.isEnemy)
-                //{
-                //    // プレイヤーの処理を開始
-                //    ChangePhase(Phase.MyTurn_Start);
-                //}
-                //// エネミーなら
-                //else
-                //{
-                //    // エネミーの処理を開始
-                //    ChangePhase(Phase.Enemyturn_Start);
-                //}
+                // プレイヤーなら
+                if (!selectingCharacter.isEnemy)
+                {
+                    // プレイヤーの処理を開始
+                    ChangePhase(Phase.MyTurn_Start);
+                }
+                // エネミーなら
+                else
+                {
+                    // エネミーの処理を開始
+                    ChangePhase(Phase.Enemyturn_Start);
+                }
                 break;
             // 自分のターン ： 開始
             case Phase.MyTurn_Start:
@@ -314,33 +314,36 @@ public class ActionCharactor : MonoBehaviour
             // 自分のターン : コマンド選択
             case Phase.MyTurn_Command:
                 // 攻撃処理
-                // 攻撃可能ブロックを選択した場合に攻撃処理を呼ぶ
-                // 攻撃可能ブロックをタップした時
-                if (attackableBlocks.Contains(targetObject))
+                if (selectingCharacter.isActibe)
                 {
-                    // 攻撃可能な場所リストを初期化する
-                    attackableBlocks.Clear();
-                    // 全ブックの選択状態を解除
-                    mapManager.AllSelectionModeClear();
-
-                    // 攻撃対象の位置にいるキャラクターデータを取得
-                    var targetChara =
-                        characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
-                    // 攻撃対象のキャラクターが存在するとき
-                    if (targetChara != null)
+                    // 攻撃可能ブロックを選択した場合に攻撃処理を呼ぶ
+                    // 攻撃可能ブロックをタップした時
+                    if (attackableBlocks.Contains(targetObject))
                     {
-                        // キャラクター攻撃処理
-                        Attack(selectingCharacter, targetChara);
+                        // 攻撃可能な場所リストを初期化する
+                        attackableBlocks.Clear();
+                        // 全ブックの選択状態を解除
+                        mapManager.AllSelectionModeClear();
 
-                        // 進行モードを進める
-                        ChangePhase(Phase.MyTurn_Result);
-                        return;
-                    }
-                    // 攻撃対象が存在しないとき
-                    else
-                    {
-                        // 進行モードを進める
-                        ChangePhase(Phase.Enemyturn_Start);
+                        // 攻撃対象の位置にいるキャラクターデータを取得
+                        var targetChara =
+                            characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
+                        // 攻撃対象のキャラクターが存在するとき
+                        if (targetChara != null)
+                        {
+                            // キャラクター攻撃処理
+                            Attack(selectingCharacter, targetChara);
+
+                            // 進行モードを進める
+                            ChangePhase(Phase.MyTurn_Result);
+                            return;
+                        }
+                        // 攻撃対象が存在しないとき
+                        else
+                        {
+                            // 進行モードを進める
+                            ChangePhase(Phase.Enemyturn_Start);
+                        }
                     }
                 }
                 break;

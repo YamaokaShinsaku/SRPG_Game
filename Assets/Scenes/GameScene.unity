@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 170413ed727628c4d9273b21f7c5aa24, type: 2}
   m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
@@ -225,6 +225,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 872882193}
     m_Modifications:
+    - target: {fileID: 703428244803526590, guid: d5a75d2154dcbeb4bab5d4cdf4577cb4, type: 3}
+      propertyPath: dex
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 703428244803526590, guid: d5a75d2154dcbeb4bab5d4cdf4577cb4, type: 3}
       propertyPath: mainCamera
       value: 
@@ -809,11 +813,11 @@ GameObject:
   m_Component:
   - component: {fileID: 329424020}
   - component: {fileID: 329424021}
+  - component: {fileID: 329424025}
   - component: {fileID: 329424019}
   - component: {fileID: 329424022}
   - component: {fileID: 329424023}
   - component: {fileID: 329424024}
-  - component: {fileID: 329424025}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1613,6 +1617,10 @@ PrefabInstance:
     - target: {fileID: 330145797772098430, guid: 73a5dc66c82b7654abd28684b8600615, type: 3}
       propertyPath: m_Name
       value: Enemy_Ogre
+      objectReference: {fileID: 0}
+    - target: {fileID: 1539594977740872273, guid: 73a5dc66c82b7654abd28684b8600615, type: 3}
+      propertyPath: dex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1539594977740872273, guid: 73a5dc66c82b7654abd28684b8600615, type: 3}
       propertyPath: mainCamera
@@ -3720,6 +3728,10 @@ PrefabInstance:
     - target: {fileID: 1400143175333802622, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7872462923729227725, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
+      propertyPath: dex
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7872462923729227725, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
       propertyPath: mainCamera
@@ -6253,7 +6265,8 @@ MonoBehaviour:
   attribute: 3
   moveType: 0
   skill: 2
-  dex: 2
+  dex: 4
+  isActibe: 0
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -7967,7 +7980,8 @@ MonoBehaviour:
   attribute: 1
   moveType: 1
   skill: 4
-  dex: 1
+  dex: 5
+  isActibe: 0
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -10789,7 +10803,8 @@ MonoBehaviour:
   attribute: 0
   moveType: 2
   skill: 1
-  dex: 3
+  dex: 6
+  isActibe: 0
   xPos: 0
   zPos: 0
   nowHP: 0
