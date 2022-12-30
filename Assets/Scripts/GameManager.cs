@@ -233,7 +233,7 @@ namespace GameManager
                     break;
                 // 自分のターン : 移動
                 case Phase.MyTurn_Moving:
-                    // 敵キャラクターがを選択中なら移動をキャンセルして終了
+                    // 敵キャラクターを選択中なら移動をキャンセルして終了
                     if(selectingCharacter.isEnemy)
                     {
                         CancelMoving();

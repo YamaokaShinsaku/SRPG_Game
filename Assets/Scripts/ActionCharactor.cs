@@ -112,10 +112,11 @@ public class ActionCharactor : MonoBehaviour
             }
         }
 
-        for(int i = 0; i < activeCharacters.Count;i++)
-        {
-            Debug.Log(activeCharacters[i]);
-        }
+        // activeCharacters Listの中身確認用
+        //for(int i = 0; i < activeCharacters.Count; i++)
+        //{
+        //    Debug.Log(activeCharacters[i]);
+        //}
     }
 
     /// <summary>
