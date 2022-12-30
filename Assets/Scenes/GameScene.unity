@@ -3734,6 +3734,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7872462923729227725, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
+      propertyPath: isActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7872462923729227725, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 1226038965}
@@ -6266,7 +6270,7 @@ MonoBehaviour:
   moveType: 0
   skill: 2
   dex: 4
-  isActive: 1
+  isActive: 0
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -7981,7 +7985,7 @@ MonoBehaviour:
   moveType: 1
   skill: 4
   dex: 5
-  isActive: 1
+  isActive: 0
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -10804,7 +10808,7 @@ MonoBehaviour:
   moveType: 2
   skill: 1
   dex: 6
-  isActive: 1
+  isActive: 0
   xPos: 0
   zPos: 0
   nowHP: 0

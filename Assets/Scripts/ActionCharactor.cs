@@ -29,7 +29,8 @@ public class ActionCharactor : MonoBehaviour
     // ターン進行モード
     private enum Phase
     {
-        ACTION,
+        C_Start,
+        C_Result,
         MyTurn_Start,        // 自分のターン：開始
         MyTurn_Moving,       // 自分のターン：移動先選択
         MyTurn_Command,      // 自分のターン：コマンド選択
@@ -52,18 +53,18 @@ public class ActionCharactor : MonoBehaviour
         attackableBlocks = new List<MapBlock>();
 
         // 開始時の進行モード
-        nowPhase = Phase.MyTurn_Start;
+        nowPhase = Phase.C_Start;
 
 
         // フェードアウト開始
         uiManager.StartFadeOut();
 
-        // フェードアウトが終わったら実行
-        DOVirtual.DelayedCall(3.5f, () =>
-        {
-            // プレイヤーターン開始ロゴ表示
-            uiManager.ShowPlayerTurnLogo();
-        });
+        //// フェードアウトが終わったら実行
+        //DOVirtual.DelayedCall(3.5f, () =>
+        //{
+        //    // プレイヤーターン開始ロゴ表示
+        //    uiManager.ShowPlayerTurnLogo();
+        //});
     }
 
     // Update is called once per frame
@@ -88,7 +89,7 @@ public class ActionCharactor : MonoBehaviour
                 uiManager.battleWindowUI.HideWindow();
 
                 // 進行モードを進める
-                ChangePhase(Phase.MyTurn_Start);
+                ChangePhase(Phase.C_Start);
 
                 return;
             }
@@ -113,10 +114,10 @@ public class ActionCharactor : MonoBehaviour
         }
 
         // activeCharacters Listの中身確認用
-        //for(int i = 0; i < activeCharacters.Count; i++)
-        //{
-        //    Debug.Log(activeCharacters[i]);
-        //}
+        for (int i = 0; i < activeCharacters.Count; i++)
+        {
+            Debug.Log(activeCharacters[i]);
+        }
     }
 
     /// <summary>
@@ -210,71 +211,114 @@ public class ActionCharactor : MonoBehaviour
         // 進行モードごとに処理を分岐する
         switch (nowPhase)
         {
-            //// 行動するキャラクターがエネミーかどうかを判定
-            //case Phase.ACTION:               
-            //    // プレイヤーなら
-            //    if (!selectingCharacter.isEnemy)
-            //    {
-            //        // プレイヤーの処理を開始
-            //        ChangePhase(Phase.MyTurn_Start);
-            //    }
-            //    // エネミーなら
-            //    else
-            //    {
-            //        // エネミーの処理を開始
-            //        ChangePhase(Phase.Enemyturn_Start);
-            //    }
-            //    break;
+            // 行動するキャラクターがエネミーかどうかを判定
+            case Phase.C_Start:
+                // isActiveがtrueなキャラクターのリストを作成
+                var activeCharacters = new List<Character.Character>();
+                foreach (Character.Character activeCharaData in characterManager.characters)
+                {
+                    // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
+                    if (activeCharaData.isActive)
+                    {
+                        activeCharacters.Add(activeCharaData);
+                    }
+                }
+
+                // activeCharactersの先頭のキャラクターを選択中のキャラクター情報に記憶
+                selectingCharacter = activeCharacters[0];
+                // キャラクターのステータスUIを表示する
+                uiManager.ShowStatusWindow(selectingCharacter);
+                // 移動可能な場所リストを取得する
+                reachableBlocks =
+                    mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+                // 移動可能な場所リストを表示する
+                foreach (MapBlock mapBlock in reachableBlocks)
+                {
+                    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
+                }
+                // activeCharacters Listの中身確認用
+                for (int i = 0; i < activeCharacters.Count; i++)
+                {
+                    Debug.Log(activeCharacters[i]);
+                }
+
+                //// 選択した位置にいるキャラクターデータを取得
+                //var charaData =
+                //    characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
+
+                // 選択したキャラクターがエネミーの時
+                if (selectingCharacter.isEnemy)
+                {
+                    ChangePhase(Phase.Enemyturn_Start);
+                }
+                // プレイヤーキャラの時
+                else
+                {
+                    ChangePhase(Phase.MyTurn_Start);
+                }
+
+                break;
             // 自分のターン ： 開始
             case Phase.MyTurn_Start:
-                SetActionCharacter();
-
-                // 全ブロックの選択状態を解除する
-                mapManager.AllSelectionModeClear();
+                //// 全ブロックの選択状態を解除する
+                //mapManager.AllSelectionModeClear();
                 // ブロックを選択状態にする
                 targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
                 Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                     + targetObject.transform.position);
-                
-                // 選択した位置にいるキャラクターデータを取得
-                var charaData =
-                    characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
-                // キャラクターが存在するとき
-                if (charaData != null)
+
+                // キャラクターのステータスUIを表示する
+                uiManager.ShowStatusWindow(selectingCharacter);
+                // 移動可能な場所リストを取得する
+                reachableBlocks =
+                    mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+                // 移動可能な場所リストを表示する
+                foreach (MapBlock mapBlock in reachableBlocks)
                 {
-                    Debug.Log("キャラクターが存在します : "
-                        + charaData.gameObject.name);
-
-                    // 選択中のキャラクター情報に記憶する
-                    selectingCharacter = charaData;
-                    // キャラクターのステータスUIを表示する
-                    uiManager.ShowStatusWindow(selectingCharacter);
-                    // 移動可能な場所リストを取得する
-                    reachableBlocks = mapManager.SearchReachableBlocks(charaData.xPos, charaData.zPos);
-                    // 移動可能な場所リストを表示する
-                    foreach (MapBlock mapBlock in reachableBlocks)
-                    {
-                        mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
-                    }
-
-                    // 移動キャンセルボタンを表示
-                    uiManager.ShowMoveCancelButton();
-                    // 進行モードを進める
-                    ChangePhase(Phase.MyTurn_Moving);
+                    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
                 }
-                // キャラクターが存在しないとき
-                else
-                {
-                    Debug.Log("キャラクターは存在しません");
 
-                    // 選択中のキャラクター情報を初期化する
-                    ClearSelectingChara();
-                }
+                // 移動キャンセルボタンを表示
+                uiManager.ShowMoveCancelButton();
+                // 進行モードを進める
+                ChangePhase(Phase.MyTurn_Moving); 
+ 
+
+                //// キャラクターが存在するとき
+                //if (selectingCharacter != null)
+                //{
+                //    Debug.Log("キャラクターが存在します : "
+                //        + selectingCharacter.gameObject.name);
+
+                //    // キャラクターのステータスUIを表示する
+                //    uiManager.ShowStatusWindow(selectingCharacter);
+                //    // 移動可能な場所リストを取得する
+                //    reachableBlocks = 
+                //        mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+                //    // 移動可能な場所リストを表示する
+                //    foreach (MapBlock mapBlock in reachableBlocks)
+                //    {
+                //        mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
+                //    }
+
+                //    // 移動キャンセルボタンを表示
+                //    uiManager.ShowMoveCancelButton();
+                //    // 進行モードを進める
+                //    ChangePhase(Phase.MyTurn_Moving);
+                //}
+                //// キャラクターが存在しないとき
+                //else
+                //{
+                //    Debug.Log("キャラクターは存在しません");
+
+                //    // 選択中のキャラクター情報を初期化する
+                //    ClearSelectingChara();
+                //}
                 break;
             // 自分のターン : 移動
             case Phase.MyTurn_Moving:
-                // 敵キャラクターがを選択中なら移動をキャンセルして終了
+                // 敵キャラクターを選択中なら移動をキャンセルして終了
                 if (selectingCharacter.isEnemy)
                 {
                     CancelMoving();
@@ -309,36 +353,33 @@ public class ActionCharactor : MonoBehaviour
             // 自分のターン : コマンド選択
             case Phase.MyTurn_Command:
                 // 攻撃処理
-                if (selectingCharacter.isActive)
+                // 攻撃可能ブロックを選択した場合に攻撃処理を呼ぶ
+                // 攻撃可能ブロックをタップした時
+                if (attackableBlocks.Contains(targetObject))
                 {
-                    // 攻撃可能ブロックを選択した場合に攻撃処理を呼ぶ
-                    // 攻撃可能ブロックをタップした時
-                    if (attackableBlocks.Contains(targetObject))
+                    // 攻撃可能な場所リストを初期化する
+                    attackableBlocks.Clear();
+                    // 全ブックの選択状態を解除
+                    mapManager.AllSelectionModeClear();
+
+                    // 攻撃対象の位置にいるキャラクターデータを取得
+                    var targetChara =
+                        characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
+                    // 攻撃対象のキャラクターが存在するとき
+                    if (targetChara != null)
                     {
-                        // 攻撃可能な場所リストを初期化する
-                        attackableBlocks.Clear();
-                        // 全ブックの選択状態を解除
-                        mapManager.AllSelectionModeClear();
+                        // キャラクター攻撃処理
+                        Attack(selectingCharacter, targetChara);
 
-                        // 攻撃対象の位置にいるキャラクターデータを取得
-                        var targetChara =
-                            characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
-                        // 攻撃対象のキャラクターが存在するとき
-                        if (targetChara != null)
-                        {
-                            // キャラクター攻撃処理
-                            Attack(selectingCharacter, targetChara);
-
-                            // 進行モードを進める
-                            ChangePhase(Phase.MyTurn_Result);
-                            return;
-                        }
-                        // 攻撃対象が存在しないとき
-                        else
-                        {
-                            // 進行モードを進める
-                            ChangePhase(Phase.Enemyturn_Start);
-                        }
+                        // 進行モードを進める
+                        ChangePhase(Phase.MyTurn_Result);
+                        return;
+                    }
+                    // 攻撃対象が存在しないとき
+                    else
+                    {
+                        // 進行モードを進める
+                        ChangePhase(Phase.Enemyturn_Start);
                     }
                 }
                 break;
@@ -456,7 +497,7 @@ public class ActionCharactor : MonoBehaviour
         // コマンドボタンを非表示に
         uiManager.HideCommandButtons();
         // 進行モードを進める
-        ChangePhase(Phase.ACTION);
+        ChangePhase(Phase.Enemyturn_Start);
     }
 
     /// <summary>
@@ -471,7 +512,7 @@ public class ActionCharactor : MonoBehaviour
         // 移動キャンセルボタンを非表示に
         uiManager.HideMoveCancelButton();
         // 進行モードを元に戻す
-        ChangePhase(Phase.ACTION, true);
+        ChangePhase(Phase.MyTurn_Start, true);
     }
 
     /// <summary>
@@ -586,7 +627,7 @@ public class ActionCharactor : MonoBehaviour
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
                 // 自分のターンへ
-                ChangePhase(Phase.MyTurn_Start);
+                ChangePhase(Phase.C_Start);
             }
         });
 
@@ -626,7 +667,7 @@ public class ActionCharactor : MonoBehaviour
             });
 
             // 進行モードを進める
-            ChangePhase(Phase.ACTION);
+            ChangePhase(Phase.EnemyTurn_Result);
             return;
         }
 
@@ -652,7 +693,7 @@ public class ActionCharactor : MonoBehaviour
         attackableBlocks.Clear();
 
         // 進行モードを進める
-        ChangePhase(Phase.ACTION);
+        ChangePhase(Phase.C_Start);
     }
 
     /// <summary>
