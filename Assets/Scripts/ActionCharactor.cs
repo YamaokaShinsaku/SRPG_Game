@@ -52,7 +52,7 @@ public class ActionCharactor : MonoBehaviour
         attackableBlocks = new List<MapBlock>();
 
         // 開始時の進行モード
-        nowPhase = Phase.ACTION;
+        nowPhase = Phase.MyTurn_Start;
 
 
         // フェードアウト開始
@@ -88,7 +88,7 @@ public class ActionCharactor : MonoBehaviour
                 uiManager.battleWindowUI.HideWindow();
 
                 // 進行モードを進める
-                ChangePhase(Phase.ACTION);
+                ChangePhase(Phase.MyTurn_Start);
 
                 return;
             }
@@ -97,31 +97,24 @@ public class ActionCharactor : MonoBehaviour
     }
 
     /// <summary>
-    /// キャラクターの素早さ(dex)によって行動するキャラクターを決める
+    /// isActiveがtrueになっているキャラクターを取得
     /// </summary>
-    /// dex が大きいキャラクターから行動
-    public void SetActionCharacter(MapBlock targetObject)
+    public void SetActionCharacter(/*MapBlock targetObject*/)
     {
-        // ブロックを選択状態にする
-        targetObject.SetSelectionMode(MapBlock.Highlight.Select);
-        var charaData =
-                    characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
-        // 選択中のキャラクター情報に記憶する
-        selectingCharacter = charaData;
-
-        // dexを格納する配列を作成
-        List<int> dexList = new List<int>();
-        foreach(var allCharaData in characterManager.characters)
+        // isActiveがtrueなキャラクターのリストを作成
+        var activeCharacters = new List<Character.Character>();
+        foreach(Character.Character charaData in characterManager.characters)
         {
-            // 全キャラクターのデータをListに格納
-            dexList.Add(allCharaData.dex);
-            // 格納したデータを降順ソート
-            dexList.Sort((a, b) => b - a);
-            // Listの中身をログで表示
-            Debug.Log(string.Join(",", dexList.Select(n => n.ToString())));
-            // List要素の先頭を取得
-            int firstDex = dexList.First();
-            Debug.Log("先頭要素 : " + firstDex);
+            // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
+            if (charaData.isActive)
+            {
+                activeCharacters.Add(charaData);
+            }
+        }
+
+        for(int i = 0; i < activeCharacters.Count;i++)
+        {
+            Debug.Log(activeCharacters[i]);
         }
     }
 
@@ -216,24 +209,25 @@ public class ActionCharactor : MonoBehaviour
         // 進行モードごとに処理を分岐する
         switch (nowPhase)
         {
-            // 行動するキャラクターがエネミーかどうかを判定
-            case Phase.ACTION:
-                SetActionCharacter(targetObject);
-                // プレイヤーなら
-                if (!selectingCharacter.isEnemy)
-                {
-                    // プレイヤーの処理を開始
-                    ChangePhase(Phase.MyTurn_Start);
-                }
-                // エネミーなら
-                else
-                {
-                    // エネミーの処理を開始
-                    ChangePhase(Phase.Enemyturn_Start);
-                }
-                break;
+            //// 行動するキャラクターがエネミーかどうかを判定
+            //case Phase.ACTION:               
+            //    // プレイヤーなら
+            //    if (!selectingCharacter.isEnemy)
+            //    {
+            //        // プレイヤーの処理を開始
+            //        ChangePhase(Phase.MyTurn_Start);
+            //    }
+            //    // エネミーなら
+            //    else
+            //    {
+            //        // エネミーの処理を開始
+            //        ChangePhase(Phase.Enemyturn_Start);
+            //    }
+            //    break;
             // 自分のターン ： 開始
             case Phase.MyTurn_Start:
+                SetActionCharacter();
+
                 // 全ブロックの選択状態を解除する
                 mapManager.AllSelectionModeClear();
                 // ブロックを選択状態にする
@@ -241,7 +235,7 @@ public class ActionCharactor : MonoBehaviour
 
                 Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                     + targetObject.transform.position);
-
+                
                 // 選択した位置にいるキャラクターデータを取得
                 var charaData =
                     characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
@@ -314,7 +308,7 @@ public class ActionCharactor : MonoBehaviour
             // 自分のターン : コマンド選択
             case Phase.MyTurn_Command:
                 // 攻撃処理
-                if (selectingCharacter.isActibe)
+                if (selectingCharacter.isActive)
                 {
                     // 攻撃可能ブロックを選択した場合に攻撃処理を呼ぶ
                     // 攻撃可能ブロックをタップした時

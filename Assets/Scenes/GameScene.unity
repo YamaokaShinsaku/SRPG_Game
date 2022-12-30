@@ -6266,7 +6266,7 @@ MonoBehaviour:
   moveType: 0
   skill: 2
   dex: 4
-  isActibe: 0
+  isActive: 1
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -7981,7 +7981,7 @@ MonoBehaviour:
   moveType: 1
   skill: 4
   dex: 5
-  isActibe: 0
+  isActive: 1
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -10804,7 +10804,7 @@ MonoBehaviour:
   moveType: 2
   skill: 1
   dex: 6
-  isActibe: 0
+  isActive: 1
   xPos: 0
   zPos: 0
   nowHP: 0

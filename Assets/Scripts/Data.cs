@@ -41,7 +41,7 @@ namespace DataManager
 
             // セーブデータをPlayerPrefsから読み込み
             // キーに対応するデータを読み込む
-            // データがない場合は、設定した初期値を入れる
+            // データがない場合は、設定した初期値(0)を入れる
             addHP = PlayerPrefs.GetInt(Key_AddHP, 0);
             addAtk = PlayerPrefs.GetInt(Key_AddAtk, 0);
             addDef = PlayerPrefs.GetInt(Key_AddDef, 0);

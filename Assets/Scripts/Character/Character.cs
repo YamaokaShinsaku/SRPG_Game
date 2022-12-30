@@ -25,7 +25,7 @@ namespace Character
         public SkillDefine.Skill skill;    // スキル
 
         public int dex;              // 素早さ（素早いほど早く行動）
-        public bool isActibe;        // 行動するかどうか
+        public bool isActive;        // 行動するかどうか
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
