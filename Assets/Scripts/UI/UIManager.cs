@@ -44,6 +44,9 @@ namespace UIManager
         public Image fadeImg;
         Color startAlphaNum;
 
+        // 行動決定・キャンセルボタン
+        public GameObject decideButtons;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -51,6 +54,7 @@ namespace UIManager
             HideStatusWindow();
             HideCommandButtons();
             HideMoveCancelButton();
+            HideDecideButtons();
 
             // fadeImgのアルファ値の初期設定
             // フェードアウトから開始するため
@@ -91,6 +95,14 @@ namespace UIManager
         public void HideMoveCancelButton()
         {
             moveCancelButton.SetActive(false);
+        }
+
+        /// <summary>
+        /// 行動決定・キャンセルボタンを非表示に
+        /// </summary>
+        public void HideDecideButtons()
+        {
+            decideButtons.SetActive(false);
         }
 
         /// <summary>
@@ -187,6 +199,11 @@ namespace UIManager
         public void ShowMoveCancelButton()
         {
             moveCancelButton.SetActive(true);
+        }
+
+        public void ShowDecideButtons()
+        {
+            decideButtons.SetActive(true);
         }
 
         /// <summary>
