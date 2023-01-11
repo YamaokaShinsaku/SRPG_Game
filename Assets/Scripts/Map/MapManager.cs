@@ -18,7 +18,7 @@ namespace MapManager
 
         // 草ブロックが生成される確率
         [SerializeField]
-        private const int GENERATE_RATIO_GRASS = 90;
+        private const int GENERATE_RATIO_GRASS = 100;
 
         // Start is called before the first frame update
         void Start()

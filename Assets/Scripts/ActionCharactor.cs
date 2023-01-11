@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
-using System.Linq;
 
 public class ActionCharactor : MonoBehaviour
 {
@@ -15,15 +14,17 @@ public class ActionCharactor : MonoBehaviour
     private UIManager.UIManager uiManager;
 
     // 進行管理用変数
-    private Character.Character selectingCharacter;       // 選択中のキャラクター
+    private Character.Character selectingCharacter;      // 選択中のキャラクター
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
-    private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
+    private Character.SkillDefine.Skill selectingSkill;      // 選択中のスキル（通常攻撃はNONE固定）
+
     public List<Character.Character> activeCharacters;   // isActiveがtrueになっているキャラクターのリスト
+    public List<Character.Character> enemyList;            // isEnemyがtrueになっているキャラクターのリスト
 
     // 行動キャンセル処理用変数
-    private int charaStartPositionX;     // 選択キャラクターのX座標
-    private int charaStartPositionZ;     // 選択キャラクターのZ座標
+    private int charaStartPositionX;          // 選択キャラクターのX座標
+    private int charaStartPositionZ;          // 選択キャラクターのZ座標
     private MapBlock charaAttackBlock;   // 選択キャラクターの攻撃先のブロック
 
     [SerializeField]
@@ -36,7 +37,7 @@ public class ActionCharactor : MonoBehaviour
     private enum Phase
     {
         C_Start,             // アクティブキャラクター選択フェーズ
-        C_Result,            // キャラクターの結果表示
+        //C_Result,            // キャラクターの結果表示
         MyTurn_Start,        // 自分のターン：開始
         MyTurn_Moving,       // 自分のターン：移動先選択
         MyTurn_Command,      // 自分のターン：コマンド選択
@@ -62,16 +63,10 @@ public class ActionCharactor : MonoBehaviour
         // 開始時の進行モード
         nowPhase = Phase.C_Start;
 
-
         // フェードアウト開始
         uiManager.StartFadeOut();
 
-        //// フェードアウトが終わったら実行
-        //DOVirtual.DelayedCall(3.5f, () =>
-        //{
-        //    // プレイヤーターン開始ロゴ表示
-        //    uiManager.ShowPlayerTurnLogo();
-        //});
+        SetFirstActionCharacter();
     }
 
     // Update is called once per frame
@@ -107,23 +102,20 @@ public class ActionCharactor : MonoBehaviour
     /// <summary>
     /// isActiveがtrueになっているキャラクターを取得
     /// </summary>
-    public void SetActionCharacter(/*MapBlock targetObject*/)
+    public void SetFirstActionCharacter(/*MapBlock targetObject*/)
     {
         // isActiveがtrueなキャラクターのリストを作成
-        var activeCharacters = new List<Character.Character>();
-        foreach(Character.Character charaData in characterManager.characters)
+        if (activeCharacters.Count == 0)
         {
-            // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
-            if (charaData.isActive)
+            //activeCharacters = new List<Character.Character>();
+            foreach (Character.Character activeCharaData in characterManager.characters)
             {
-                activeCharacters.Add(charaData);
+                // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
+                if (activeCharaData.isActive)
+                {
+                    activeCharacters.Add(activeCharaData);
+                }
             }
-        }
-
-        // activeCharacters Listの中身確認用
-        for (int i = 0; i < activeCharacters.Count; i++)
-        {
-            Debug.Log(activeCharacters[i]);
         }
     }
 
@@ -220,14 +212,21 @@ public class ActionCharactor : MonoBehaviour
         {
             // 行動するキャラクターがエネミーかどうかを判定
             case Phase.C_Start:
+                mapManager.AllSelectionModeClear();
                 // isActiveがtrueなキャラクターのリストを作成
-                if (activeCharacters.Count == 0)
+                foreach (Character.Character activeCharaData in characterManager.characters)
                 {
-                    //activeCharacters = new List<Character.Character>();
-                    foreach (Character.Character activeCharaData in characterManager.characters)
+                    activeCharaData.activePoint++;
+                    if (activeCharaData.activePoint >= 3)
                     {
-                        // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
-                        if (activeCharaData.isActive)
+                        activeCharaData.isActive = true;
+                        activeCharaData.activePoint = 3;
+                    }
+
+                    // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
+                    if (activeCharaData.isActive)
+                    {
+                        if(!activeCharacters.Contains(activeCharaData))
                         {
                             activeCharacters.Add(activeCharaData);
                         }
@@ -250,19 +249,14 @@ public class ActionCharactor : MonoBehaviour
                 {
                     mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
                 }
-                // activeCharacters Listの中身確認用
-                for (int i = 0; i < activeCharacters.Count; i++)
-                {
-                    Debug.Log(activeCharacters[i]);
-                }
-
-                //// 選択した位置にいるキャラクターデータを取得
-                //var charaData =
-                //    characterManager.GetCharacterData(targetObject.xPos, targetObject.zPos);
 
                 // 選択したキャラクターがエネミーの時
                 if (selectingCharacter.isEnemy)
                 {
+                    if(!enemyList.Contains(selectingCharacter))
+                    {
+                        enemyList.Add(selectingCharacter);
+                    }
                     ChangePhase(Phase.Enemyturn_Start);
                 }
                 // プレイヤーキャラの時
@@ -468,8 +462,18 @@ public class ActionCharactor : MonoBehaviour
     {
         // コマンドボタンを非表示に
         uiManager.HideCommandButtons();
+        // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
+
+        selectingCharacter.activePoint--;
+
+        foreach (Character.Character charaData in characterManager.characters)
+        {
+            // 全生存キャラクターのactivePointを加算
+            charaData.activePoint++;
+        }
+
         // 進行モードを進める
         ChangePhase(Phase.C_Start);
     }
@@ -580,6 +584,7 @@ public class ActionCharactor : MonoBehaviour
         if (defenseChara.nowHP == 0)
         {
             characterManager.DeleteCharaData(defenseChara);
+            activeCharacters.Remove(defenseChara);
         }
 
         // スキルの選択状態を解除する
@@ -595,18 +600,22 @@ public class ActionCharactor : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
-                // 先頭のキャラクターを削除
+                // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
+
+                selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
                 ChangePhase(Phase.C_Start);
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
+                // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
-                // 先頭のキャラクターを削除
                 activeCharacters.RemoveAt(0);
+                enemyList.RemoveAt(0);
+                selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
                 ChangePhase(Phase.C_Start);
@@ -633,18 +642,30 @@ public class ActionCharactor : MonoBehaviour
         {
             // キャラクター攻撃処理
             Attack(selectingCharacter, targetChara);
-
+            // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
 
+            foreach (Character.Character charaData in characterManager.characters)
+            {
+                // 全生存キャラクターのactivePointを加算
+                charaData.activePoint++;
+            }
             // 進行モードを進める
             ChangePhase(Phase.MyTurn_Result);
         }
         // 攻撃対象が存在しない
         else
         {
+            // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
+            selectingCharacter.activePoint--;
+            foreach (Character.Character charaData in characterManager.characters)
+            {
+                // 全生存キャラクターのactivePointを加算
+                charaData.activePoint++;
+            }
 
             // 進行モードを進める
             ChangePhase(Phase.C_Start);
@@ -678,20 +699,8 @@ public class ActionCharactor : MonoBehaviour
         // スキルの選択状態をオフにする
         selectingSkill = Character.SkillDefine.Skill.None;
 
-        // 生存中の敵キャラクターのリストを作成
-        // 敵キャラクターリスト
-        var enemyCharacters = new List<Character.Character>();
-        foreach (Character.Character charaData in characterManager.characters)
-        {
-            // 全生存キャラクターから、Enemyフラグ が立っているものをリストに追加
-            if (charaData.isEnemy)
-            {
-                enemyCharacters.Add(charaData);
-            }
-        }
-
         // 攻撃可能なキャラクター・位置の組み合わせを1つランダムに取得
-        var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyCharacters);
+        var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyList);
         // 組み合わせのデータが存在すれば、攻撃する
         if (actionPlan != null)
         {
@@ -700,6 +709,7 @@ public class ActionCharactor : MonoBehaviour
             // 攻撃処理(移動後に攻撃開始)
             DOVirtual.DelayedCall(delayTime, () =>
             {
+                mapManager.AllSelectionModeClear();
                 Attack(actionPlan.charaData, actionPlan.toAttaackChara);
             });
 
@@ -710,9 +720,9 @@ public class ActionCharactor : MonoBehaviour
 
         // 攻撃可能なキャラクターが見つからなかった時
         // 移動させるキャラクターを一体ランダムに選ぶ
-        int randID = Random.Range(0, enemyCharacters.Count);
+        int randID = Random.Range(0, enemyList.Count);
         //  行動する敵キャラクターのデータを取得
-        Character.Character targetEnemy = enemyCharacters[randID];
+        Character.Character targetEnemy = enemyList[0];
         // 対象の移動可能な場所リストのなかから１つの場所をランダムに選ぶ
         reachableBlocks =
             mapManager.SearchReachableBlocks(targetEnemy.xPos, targetEnemy.zPos);
@@ -729,11 +739,24 @@ public class ActionCharactor : MonoBehaviour
         reachableBlocks.Clear();
         attackableBlocks.Clear();
 
+        mapManager.AllSelectionModeClear();
+
+        // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
+        enemyList.RemoveAt(0);
+        selectingCharacter.activePoint--;
+        foreach (Character.Character charaData in characterManager.characters)
+        {
+            // 全生存キャラクターのactivePointを加算
+            charaData.activePoint++;
+        }
 
-        // 進行モードを進める
-        ChangePhase(Phase.C_Start);
+        DOVirtual.DelayedCall(delayTime, () =>
+        {
+            // 進行モードを進める
+            ChangePhase(Phase.C_Start);
+        });
     }
 
     /// <summary>

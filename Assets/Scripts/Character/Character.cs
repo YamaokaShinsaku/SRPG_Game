@@ -24,7 +24,7 @@ namespace Character
         public MoveType moveType;          // 移動方法
         public SkillDefine.Skill skill;    // スキル
 
-        public int dex;              // 素早さ（素早いほど早く行動）
+        public int activePoint;      // 行動するための数値（3以上で行動）
         public bool isActive;        // 行動するかどうか
 
         // ゲーム中に変化するキャラクターデータ

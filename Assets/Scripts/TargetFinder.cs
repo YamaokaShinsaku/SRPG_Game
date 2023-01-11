@@ -22,7 +22,8 @@ public static class TargetFinder
     /// <param name="characterManager">シーン内のCharacterManager参照</param>
     /// <param name="enemyCharas">敵キャラクターのリスト</param>
     /// <returns></returns>
-    public static actionPlans GetRandomactionPlans(MapManager.MapManager mapManager, Character.CharacterManager characterManager, List<Character.Character> enemyCharas)
+    public static actionPlans GetRandomactionPlans(MapManager.MapManager mapManager, 
+        Character.CharacterManager characterManager, List<Character.Character> enemyCharas)
     {
         // 全行動プラン（攻撃可能な相手が見つかるごとに追加される）
         var actionPlans = new List<actionPlans>();
