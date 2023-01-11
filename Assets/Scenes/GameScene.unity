@@ -1365,6 +1365,7 @@ MonoBehaviour:
   skill: 0
   activePoint: 0
   isActive: 0
+  subCamera: {fileID: 1378733758}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -2100,6 +2101,7 @@ MonoBehaviour:
   skill: 0
   activePoint: 0
   isActive: 0
+  subCamera: {fileID: 1688637667}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -3452,6 +3454,7 @@ MonoBehaviour:
   skill: 0
   activePoint: 0
   isActive: 0
+  subCamera: {fileID: 1342006143}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -7570,6 +7573,7 @@ MonoBehaviour:
   skill: 2
   activePoint: 0
   isActive: 1
+  subCamera: {fileID: 2130374474}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -9286,6 +9290,7 @@ MonoBehaviour:
   skill: 4
   activePoint: 0
   isActive: 1
+  subCamera: {fileID: 273911572}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -12114,6 +12119,7 @@ MonoBehaviour:
   skill: 1
   activePoint: 0
   isActive: 0
+  subCamera: {fileID: 1873620280}
   xPos: 0
   zPos: 0
   nowHP: 0

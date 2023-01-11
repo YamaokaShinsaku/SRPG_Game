@@ -27,6 +27,8 @@ namespace Character
         public int activePoint;      // 行動するための数値（3以上で行動）
         public bool isActive;        // 行動するかどうか
 
+        public GameObject subCamera;
+
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
         public int xPos;        // 現在のx座標
@@ -78,6 +80,8 @@ namespace Character
             xPos = initPosition_X;
             zPos = initPosition_Z;
             nowHP = maxHP;
+
+            subCamera.SetActive(false);
         }
 
         // Update is called once per frame

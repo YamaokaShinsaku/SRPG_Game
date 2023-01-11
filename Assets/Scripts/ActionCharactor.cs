@@ -503,6 +503,9 @@ public class ActionCharactor : MonoBehaviour
         Debug.Log("UŒ‚‘¤ : " + attackChara.characterName
             + "  –hŒä‘¤ : " + defenseChara.characterName);
 
+        //attackChara.subCamera.SetActive(true);
+        //defenseChara.subCamera.SetActive(true);
+
         // ƒ_ƒ[ƒWŒvZ
         int damageValue;    // ƒ_ƒ[ƒW—Ê
         int attackPoint = attackChara.atk;     // UŒ‚‚·‚é‘¤‚ÌUŒ‚—Í
