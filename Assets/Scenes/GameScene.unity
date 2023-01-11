@@ -1647,7 +1647,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7742647515897227234, guid: 73a5dc66c82b7654abd28684b8600615, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7742647515897227234, guid: 73a5dc66c82b7654abd28684b8600615, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1972,12 +1972,13 @@ Transform:
   - {fileID: 538973915}
   - {fileID: 2096156095}
   - {fileID: 1289548772}
-  - {fileID: 1019891355}
   - {fileID: 1328572367}
+  - {fileID: 1019891355}
   - {fileID: 733090572}
   - {fileID: 3937749414507822285}
   - {fileID: 3425972934491008774}
   - {fileID: 9125787881412658489}
+  - {fileID: 952839377}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2226,6 +2227,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925888723}
   m_CullTransparentMesh: 1
+--- !u!1 &952839376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+  m_PrefabInstance: {fileID: 1434195734}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &952839377 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+  m_PrefabInstance: {fileID: 1434195734}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &952839378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952839376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07544622a70925c49b6ddf5870a12e2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 1226038965}
+  initPosition_X: 0
+  initPosition_Z: 3
+  isEnemy: 1
+  characterName: "\u30C9\u30E9\u30B4\u30F3"
+  maxHP: 50
+  atk: 15
+  def: 10
+  attribute: 1
+  moveType: 0
+  skill: 0
+  activePoint: 0
+  isActive: 0
+  xPos: 0
+  zPos: 0
+  nowHP: 0
+  isSkillLock: 0
+  isDefBreak: 0
 --- !u!1 &960322855
 GameObject:
   m_ObjectHideFlags: 0
@@ -3599,6 +3640,75 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1400143175333802622, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
   m_PrefabInstance: {fileID: 1676553275}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1434195734
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 872882193}
+    m_Modifications:
+    - target: {fileID: 100102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_Name
+      value: Enemy_Dragon
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400102, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
 --- !u!1 &1475581214
 GameObject:
   m_ObjectHideFlags: 0
@@ -4052,7 +4162,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1400143175333802622, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1400143175333802622, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4117,6 +4227,10 @@ PrefabInstance:
     - target: {fileID: 8973932373320347362, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
       propertyPath: m_Name
       value: Enemy_Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 8973932373320347362, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15d0b9e72e1e1c644a58d5f05f115c11, type: 3}
