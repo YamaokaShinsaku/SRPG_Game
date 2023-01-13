@@ -27,7 +27,7 @@ namespace Character
         public int activePoint;      // 行動するための数値（3以上で行動）
         public bool isActive;        // 行動するかどうか
 
-        public GameObject subCamera;
+        public GameObject selectingUI;    // 現在選択されているキャラクターのUI表示用
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
@@ -81,7 +81,7 @@ namespace Character
             zPos = initPosition_Z;
             nowHP = maxHP;
 
-            subCamera.SetActive(false);
+            selectingUI.SetActive(false);
         }
 
         // Update is called once per frame

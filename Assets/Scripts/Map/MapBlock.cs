@@ -38,14 +38,6 @@ public class MapBlock : MonoBehaviour
 
         // ‰Šúó‘Ô‚Å‚Í”ñ•\¦
         selectionObj.SetActive(false);
-
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     /// <summary>

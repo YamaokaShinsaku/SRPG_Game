@@ -14,18 +14,18 @@ public class ActionCharactor : MonoBehaviour
     private UIManager.UIManager uiManager;
 
     // 進行管理用変数
-    private Character.Character selectingCharacter;      // 選択中のキャラクター
+    private Character.Character selectingCharacter;       // 選択中のキャラクター
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
-    private Character.SkillDefine.Skill selectingSkill;      // 選択中のスキル（通常攻撃はNONE固定）
+    private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
 
-    public List<Character.Character> activeCharacters;   // isActiveがtrueになっているキャラクターのリスト
+    public List<Character.Character> activeCharacters;     // isActiveがtrueになっているキャラクターのリスト
     public List<Character.Character> enemyList;            // isEnemyがtrueになっているキャラクターのリスト
 
     // 行動キャンセル処理用変数
     private int charaStartPositionX;          // 選択キャラクターのX座標
     private int charaStartPositionZ;          // 選択キャラクターのZ座標
-    private MapBlock charaAttackBlock;   // 選択キャラクターの攻撃先のブロック
+    private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
 
     [SerializeField]
     private bool isFinish;      // ゲーム終了フラグ
@@ -240,6 +240,7 @@ public class ActionCharactor : MonoBehaviour
                 charaStartPositionZ = selectingCharacter.zPos;
 
                 // キャラクターのステータスUIを表示する
+                selectingCharacter.selectingUI.SetActive(true);
                 uiManager.ShowStatusWindow(selectingCharacter);
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
@@ -344,6 +345,15 @@ public class ActionCharactor : MonoBehaviour
 
                     // 攻撃先のブロックを強調表示
                     charaAttackBlock.SetSelectionMode(MapBlock.Highlight.Attackable);
+
+                    // 攻撃対象の位置にいるキャラクターのデータを取得
+                    var targetChara =
+                        characterManager.GetCharacterData(charaAttackBlock.xPos, charaAttackBlock.zPos);
+
+                    if(targetChara != null)
+                    {
+                        targetChara.selectingUI.SetActive(true);
+                    }
 
                     // 進行モードを進める
                     ChangePhase(Phase.MyTurn_Targeting);
@@ -462,6 +472,9 @@ public class ActionCharactor : MonoBehaviour
     {
         // コマンドボタンを非表示に
         uiManager.HideCommandButtons();
+
+        selectingCharacter.selectingUI.SetActive(false);
+
         // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
@@ -503,8 +516,8 @@ public class ActionCharactor : MonoBehaviour
         Debug.Log("攻撃側 : " + attackChara.characterName
             + "  防御側 : " + defenseChara.characterName);
 
-        attackChara.subCamera.SetActive(true);
-        defenseChara.subCamera.SetActive(true);
+        attackChara.selectingUI.SetActive(true);
+        defenseChara.selectingUI.SetActive(true);
 
         // ダメージ計算
         int damageValue;    // ダメージ量
@@ -603,8 +616,8 @@ public class ActionCharactor : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
-                attackChara.subCamera.SetActive(false);
-                defenseChara.subCamera.SetActive(false);
+                attackChara.selectingUI.SetActive(false);
+                defenseChara.selectingUI.SetActive(false);
 
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
@@ -617,8 +630,8 @@ public class ActionCharactor : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
-                attackChara.subCamera.SetActive(false);
-                defenseChara.subCamera.SetActive(false);
+                attackChara.selectingUI.SetActive(false);
+                defenseChara.selectingUI.SetActive(false);
 
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
@@ -646,11 +659,14 @@ public class ActionCharactor : MonoBehaviour
         // 攻撃対象の位置にいるキャラクターのデータを取得
         var targetChara =
             characterManager.GetCharacterData(charaAttackBlock.xPos, charaAttackBlock.zPos);
+
         // 攻撃対象のキャラクターが存在するとき
         if(targetChara != null)
         {
             // キャラクター攻撃処理
             Attack(selectingCharacter, targetChara);
+            targetChara.selectingUI.SetActive(false);
+            selectingCharacter.selectingUI.SetActive(false);
             // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);

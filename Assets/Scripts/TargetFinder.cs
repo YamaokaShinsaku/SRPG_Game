@@ -10,8 +10,8 @@ public static class TargetFinder
     /// </summary>
     public class actionPlans
     {
-        public Character.Character charaData;             // 行動する敵キャラクター
-        public MapBlock toMoveBlock;                         // 移動先のブロック
+        public Character.Character charaData;           // 行動する敵キャラクター
+        public MapBlock toMoveBlock;                    // 移動先のブロック
         public Character.Character toAttaackChara;      // 攻撃するキャラクター
     }
 
