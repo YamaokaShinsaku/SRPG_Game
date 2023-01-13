@@ -28,6 +28,7 @@ namespace Character
         public bool isActive;        // 行動するかどうか
 
         public GameObject selectingUI;    // 現在選択されているキャラクターのUI表示用
+        public RenderTexture texture;     // 表示するテクスチャ
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]

@@ -474,6 +474,7 @@ public class ActionCharactor : MonoBehaviour
         uiManager.HideCommandButtons();
 
         selectingCharacter.selectingUI.SetActive(false);
+        selectingCharacter.texture.Release();
 
         // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
@@ -619,6 +620,9 @@ public class ActionCharactor : MonoBehaviour
                 attackChara.selectingUI.SetActive(false);
                 defenseChara.selectingUI.SetActive(false);
 
+                attackChara.texture.Release();
+                defenseChara.texture.Release();
+
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
@@ -632,6 +636,9 @@ public class ActionCharactor : MonoBehaviour
             {
                 attackChara.selectingUI.SetActive(false);
                 defenseChara.selectingUI.SetActive(false);
+
+                attackChara.texture.Release();
+                defenseChara.texture.Release();
 
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
@@ -667,6 +674,9 @@ public class ActionCharactor : MonoBehaviour
             Attack(selectingCharacter, targetChara);
             targetChara.selectingUI.SetActive(false);
             selectingCharacter.selectingUI.SetActive(false);
+            targetChara.texture.Release();
+            selectingCharacter.texture.Release();
+
             // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);

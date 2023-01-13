@@ -1565,6 +1565,7 @@ MonoBehaviour:
   activePoint: 0
   isActive: 0
   selectingUI: {fileID: 1378733758}
+  texture: {fileID: 8400000, guid: 3f0337eb36f1183428116c02f70b6de0, type: 2}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -2301,6 +2302,7 @@ MonoBehaviour:
   activePoint: 0
   isActive: 0
   selectingUI: {fileID: 1688637667}
+  texture: {fileID: 8400000, guid: 3f0337eb36f1183428116c02f70b6de0, type: 2}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -3744,6 +3746,7 @@ MonoBehaviour:
   activePoint: 0
   isActive: 0
   selectingUI: {fileID: 1342006143}
+  texture: {fileID: 8400000, guid: 3f0337eb36f1183428116c02f70b6de0, type: 2}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -7936,6 +7939,7 @@ MonoBehaviour:
   activePoint: 0
   isActive: 1
   selectingUI: {fileID: 2130374474}
+  texture: {fileID: 8400000, guid: 413a7eae4c2e48e4e95a632da45438d8, type: 2}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -9653,6 +9657,7 @@ MonoBehaviour:
   activePoint: 0
   isActive: 1
   selectingUI: {fileID: 273911572}
+  texture: {fileID: 8400000, guid: 413a7eae4c2e48e4e95a632da45438d8, type: 2}
   xPos: 0
   zPos: 0
   nowHP: 0
@@ -12482,6 +12487,7 @@ MonoBehaviour:
   activePoint: 0
   isActive: 0
   selectingUI: {fileID: 1873620280}
+  texture: {fileID: 8400000, guid: 413a7eae4c2e48e4e95a632da45438d8, type: 2}
   xPos: 0
   zPos: 0
   nowHP: 0
