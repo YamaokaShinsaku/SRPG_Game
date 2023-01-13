@@ -503,8 +503,8 @@ public class ActionCharactor : MonoBehaviour
         Debug.Log("攻撃側 : " + attackChara.characterName
             + "  防御側 : " + defenseChara.characterName);
 
-        //attackChara.subCamera.SetActive(true);
-        //defenseChara.subCamera.SetActive(true);
+        attackChara.subCamera.SetActive(true);
+        defenseChara.subCamera.SetActive(true);
 
         // ダメージ計算
         int damageValue;    // ダメージ量
@@ -603,6 +603,9 @@ public class ActionCharactor : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
+                attackChara.subCamera.SetActive(false);
+                defenseChara.subCamera.SetActive(false);
+
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
@@ -614,6 +617,9 @@ public class ActionCharactor : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
+                attackChara.subCamera.SetActive(false);
+                defenseChara.subCamera.SetActive(false);
+
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);

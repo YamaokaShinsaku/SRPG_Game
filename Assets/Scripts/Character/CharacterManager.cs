@@ -75,7 +75,8 @@ namespace Character
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 // 遅延実行する内容
-                Destroy(charaData.gameObject);
+                //Destroy(charaData.gameObject);
+                charaData.gameObject.SetActive(false);
             });
 
             // ゲーム終了判定を行う
