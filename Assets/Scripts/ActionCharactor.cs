@@ -78,6 +78,7 @@ public class ActionCharactor : MonoBehaviour
             return;
         }
 
+
         // タップ先を検出
         if (Input.GetMouseButtonDown(0)
             // UIへのタップを検出する
@@ -96,6 +97,20 @@ public class ActionCharactor : MonoBehaviour
                 return;
             }
             GetMapObjects();
+        }
+    }
+
+    public void OpenStatus(MapBlock targetObject)
+    {
+        // キャラクターデータを検索
+        foreach (Character.Character charaData in characterManager.characters)
+        {
+            // キャラクターの位置が指定の位置と一致しているかをチェック
+            if ((charaData.xPos == targetObject.xPos) && (charaData.zPos == targetObject.zPos))
+            {
+                // タップした座標にいるキャラクターのUIを表示
+                charaData.statusUI.SetActive(true);
+            }
         }
     }
 
@@ -198,6 +213,7 @@ public class ActionCharactor : MonoBehaviour
         if (targetObject != null)
         {
             SelectBlock(targetObject.GetComponent<MapBlock>());
+            OpenStatus(targetObject.GetComponent<MapBlock>());
         }
     }
 
@@ -240,7 +256,7 @@ public class ActionCharactor : MonoBehaviour
                 charaStartPositionZ = selectingCharacter.zPos;
 
                 // キャラクターのステータスUIを表示する
-                selectingCharacter.selectingUI.SetActive(true);
+                selectingCharacter.statusUI.SetActive(true);
                 uiManager.ShowStatusWindow(selectingCharacter);
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
@@ -352,7 +368,7 @@ public class ActionCharactor : MonoBehaviour
 
                     if(targetChara != null)
                     {
-                        targetChara.selectingUI.SetActive(true);
+                        targetChara.statusUI.SetActive(true);
                     }
 
                     // 進行モードを進める
@@ -473,9 +489,8 @@ public class ActionCharactor : MonoBehaviour
         // コマンドボタンを非表示に
         uiManager.HideCommandButtons();
 
-        selectingCharacter.selectingUI.SetActive(false);
+        selectingCharacter.statusUI.SetActive(false);
         selectingCharacter.texture.Release();
-
         // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
@@ -517,8 +532,8 @@ public class ActionCharactor : MonoBehaviour
         Debug.Log("攻撃側 : " + attackChara.characterName
             + "  防御側 : " + defenseChara.characterName);
 
-        attackChara.selectingUI.SetActive(true);
-        defenseChara.selectingUI.SetActive(true);
+        attackChara.statusUI.SetActive(true);
+        defenseChara.statusUI.SetActive(true);
 
         // ダメージ計算
         int damageValue;    // ダメージ量
@@ -617,12 +632,11 @@ public class ActionCharactor : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
-                attackChara.selectingUI.SetActive(false);
-                defenseChara.selectingUI.SetActive(false);
+                attackChara.statusUI.SetActive(false);
+                defenseChara.statusUI.SetActive(false);
 
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
-
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
@@ -634,12 +648,11 @@ public class ActionCharactor : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
-                attackChara.selectingUI.SetActive(false);
-                defenseChara.selectingUI.SetActive(false);
+                attackChara.statusUI.SetActive(false);
+                defenseChara.statusUI.SetActive(false);
 
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
-
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
@@ -672,11 +685,10 @@ public class ActionCharactor : MonoBehaviour
         {
             // キャラクター攻撃処理
             Attack(selectingCharacter, targetChara);
-            targetChara.selectingUI.SetActive(false);
-            selectingCharacter.selectingUI.SetActive(false);
+            targetChara.statusUI.SetActive(false);
+            selectingCharacter.statusUI.SetActive(false);
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
-
             // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);

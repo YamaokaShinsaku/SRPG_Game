@@ -27,7 +27,7 @@ namespace Character
         public int activePoint;      // 行動するための数値（3以上で行動）
         public bool isActive;        // 行動するかどうか
 
-        public GameObject selectingUI;    // 現在選択されているキャラクターのUI表示用
+        public GameObject statusUI;    // 現在選択されているキャラクターのUI表示用
         public RenderTexture texture;     // 表示するテクスチャ
 
         // ゲーム中に変化するキャラクターデータ
@@ -82,7 +82,7 @@ namespace Character
             zPos = initPosition_Z;
             nowHP = maxHP;
 
-            selectingUI.SetActive(false);
+            statusUI.SetActive(false);
         }
 
         // Update is called once per frame
