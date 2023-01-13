@@ -27,8 +27,10 @@ namespace Character
         public int activePoint;      // 行動するための数値（3以上で行動）
         public bool isActive;        // 行動するかどうか
 
-        public GameObject statusUI;    // 現在選択されているキャラクターのUI表示用
+        public GameObject statusUI;       // 現在選択されているキャラクターのUI表示用
         public RenderTexture texture;     // 表示するテクスチャ
+
+        public GameObject selectingObj;    // 選択されている時に表示されるオブジェクト
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
@@ -83,6 +85,7 @@ namespace Character
             nowHP = maxHP;
 
             statusUI.SetActive(false);
+            selectingObj.SetActive(false);
         }
 
         // Update is called once per frame

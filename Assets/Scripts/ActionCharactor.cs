@@ -257,6 +257,7 @@ public class ActionCharactor : MonoBehaviour
 
                 // キャラクターのステータスUIを表示する
                 selectingCharacter.statusUI.SetActive(true);
+                selectingCharacter.selectingObj.SetActive(true);
                 uiManager.ShowStatusWindow(selectingCharacter);
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
@@ -491,6 +492,7 @@ public class ActionCharactor : MonoBehaviour
 
         selectingCharacter.statusUI.SetActive(false);
         selectingCharacter.texture.Release();
+        selectingCharacter.selectingObj.SetActive(false);
         // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
@@ -637,9 +639,11 @@ public class ActionCharactor : MonoBehaviour
 
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
+                selectingCharacter.selectingObj.SetActive(false);
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
+
 
                 selectingCharacter.activePoint -= 2;
 
@@ -653,6 +657,7 @@ public class ActionCharactor : MonoBehaviour
 
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
+                selectingCharacter.selectingObj.SetActive(false);
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
@@ -689,6 +694,7 @@ public class ActionCharactor : MonoBehaviour
             selectingCharacter.statusUI.SetActive(false);
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
+            selectingCharacter.selectingObj.SetActive(false);
             // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
@@ -705,6 +711,7 @@ public class ActionCharactor : MonoBehaviour
         else
         {
             // 選択中のキャラクターをリストから削除
+            selectingCharacter.selectingObj.SetActive(false);
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
             selectingCharacter.activePoint--;
@@ -789,6 +796,7 @@ public class ActionCharactor : MonoBehaviour
         mapManager.AllSelectionModeClear();
 
         // 選択中のキャラクターをリストから削除
+        selectingCharacter.selectingObj.SetActive(false);
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
         enemyList.RemoveAt(0);
