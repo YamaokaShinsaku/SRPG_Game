@@ -110,13 +110,6 @@ public class ActionCharactor : MonoBehaviour
         // キャラクターデータを検索
         foreach (Character.Character charaData in characterManager.characters)
         {
-            //// すでに表示されているステータスを非表示に
-            //if (charaData.statusUI.activeInHierarchy)
-            //{
-            //    charaData.statusUI.SetActive(false);
-            //    charaData.texture.Release();
-            //}
-
             // キャラクターの位置が指定の位置と一致しているかをチェック
             if ((charaData.xPos == targetObject.xPos) && (charaData.zPos == targetObject.zPos))
             {
@@ -248,14 +241,6 @@ public class ActionCharactor : MonoBehaviour
         {
             // 行動するキャラクターがエネミーかどうかを判定
             case Phase.C_Start:
-                foreach (Character.Character charaData in characterManager.characters)
-                {
-                    if(charaData.statusUI.activeInHierarchy)
-                    {
-                        charaData.statusUI.SetActive(false);
-                        charaData.texture.Release();
-                    }
-                }
                 mapManager.AllSelectionModeClear();
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
@@ -294,7 +279,6 @@ public class ActionCharactor : MonoBehaviour
                 {
                     uiManager.ShowStatusWindow(selectingCharacter);
                 }
-                //uiManager.ShowStatusWindow(selectingCharacter);
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
                     mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
@@ -331,7 +315,7 @@ public class ActionCharactor : MonoBehaviour
                     + targetObject.transform.position);
 
                 // キャラクターのステータスUIを表示する
-                if(selectingCharacter.isEnemy)
+                if (selectingCharacter.isEnemy)
                 {
                     uiManager.ShowEnemyStatusWindow(selectingCharacter);
                 }
@@ -692,11 +676,13 @@ public class ActionCharactor : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
-                attackChara.statusUI.SetActive(false);
-                defenseChara.statusUI.SetActive(false);
-                uiManager.HideStatusWindow();
-                uiManager.HideEnemyStatusWindow();
-
+                DOVirtual.DelayedCall(1.0f, () =>
+                {
+                    attackChara.statusUI.SetActive(false);
+                    defenseChara.statusUI.SetActive(false);
+                    uiManager.HideStatusWindow();
+                    uiManager.HideEnemyStatusWindow();
+                });
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
                 selectingCharacter.selectingObj.SetActive(false);
@@ -711,11 +697,13 @@ public class ActionCharactor : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
-                attackChara.statusUI.SetActive(false);
-                defenseChara.statusUI.SetActive(false);
-                uiManager.HideStatusWindow();
-                uiManager.HideEnemyStatusWindow();
-
+                DOVirtual.DelayedCall(2.0f, () =>
+                {
+                    attackChara.statusUI.SetActive(false);
+                    defenseChara.statusUI.SetActive(false);
+                    uiManager.HideStatusWindow();
+                    uiManager.HideEnemyStatusWindow();
+                });
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
                 selectingCharacter.selectingObj.SetActive(false);
