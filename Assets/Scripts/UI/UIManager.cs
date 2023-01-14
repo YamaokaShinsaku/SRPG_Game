@@ -10,14 +10,22 @@ namespace UIManager
     {
         /// ステータスウィンドウ ///
         public GameObject statusWindow;
+        public GameObject enemyStatusWindow;
         public Image hpGageImg;         // HPゲージ画像
+        public Image EnemyHpGageImg;    // HPゲージ画像
         // テキスト
         public Text nameText;
         public Text hpText;
         public Text atkText;
         public Text defText;
+
+        public Text EnemyNameText;
+        public Text EnemyHpText;
+        public Text EnemyAtkText;
+        public Text EnemyDefText;
         // 属性アイコン
         public Image attributeIcon;
+        public Image EnemyAttributeIcon;
         public Sprite Water;    // 水
         public Sprite Fire;     // 火
         public Sprite Wind;     // 風
@@ -52,6 +60,7 @@ namespace UIManager
         {
             // UI初期化
             HideStatusWindow();
+            HideEnemyStatusWindow();
             HideCommandButtons();
             HideMoveCancelButton();
             HideDecideButtons();
@@ -76,6 +85,18 @@ namespace UIManager
             hpText.enabled = false;
             atkText.enabled = false;
             defText.enabled = false;
+        }
+
+        public void HideEnemyStatusWindow()
+        {
+            // オブジェクトを非アクティブ化
+            enemyStatusWindow.SetActive(false);
+
+            // テキストを非表示に
+            EnemyNameText.enabled = false;
+            EnemyHpText.enabled = false;
+            EnemyAtkText.enabled = false;
+            EnemyDefText.enabled = false;
         }
 
         /// <summary>
@@ -156,6 +177,56 @@ namespace UIManager
             else
             {
                 defText.text = "<color=red>0</color>";
+            }
+        }
+
+        public void ShowEnemyStatusWindow(Character.Character charaData)
+        {
+            // オブジェクトをアクティブに
+            enemyStatusWindow.SetActive(true);
+
+            // テキストを表示する
+            EnemyNameText.enabled = true;
+            EnemyHpText.enabled = true;
+            EnemyAtkText.enabled = true;
+            EnemyDefText.enabled = true;
+
+            // 名前テキスト表示
+            EnemyNameText.text = charaData.characterName;
+
+            // 属性画像表示
+            switch (charaData.attribute)
+            {
+                case Character.Character.Attribute.Water:
+                    EnemyAttributeIcon.sprite = Water;
+                    break;
+                case Character.Character.Attribute.Fire:
+                    EnemyAttributeIcon.sprite = Fire;
+                    break;
+                case Character.Character.Attribute.Wind:
+                    EnemyAttributeIcon.sprite = Wind;
+                    break;
+                case Character.Character.Attribute.Soil:
+                    EnemyAttributeIcon.sprite = Soil;
+                    break;
+            }
+
+            // HPゲージ表示
+            // 現在のHP割合をゲージの fillAmount にセットする
+            float ratio = (float)charaData.nowHP / charaData.maxHP;
+            EnemyHpGageImg.fillAmount = ratio;
+
+            // Text表示
+            EnemyHpText.text = charaData.nowHP + "/" + charaData.maxHP;
+            EnemyAtkText.text = charaData.atk.ToString();
+            if (!charaData.isDefBreak)
+            {
+                EnemyDefText.text = charaData.def.ToString();
+            }
+            // 防御力０（デバフ）の時
+            else
+            {
+                EnemyDefText.text = "<color=red>0</color>";
             }
         }
 

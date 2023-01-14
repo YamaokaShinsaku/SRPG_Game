@@ -66,6 +66,7 @@ public class ActionCharactor : MonoBehaviour
         // フェードアウト開始
         uiManager.StartFadeOut();
 
+        // 最初のキャラクターをセット
         SetFirstActionCharacter();
     }
 
@@ -77,7 +78,6 @@ public class ActionCharactor : MonoBehaviour
         {
             return;
         }
-
 
         // タップ先を検出
         if (Input.GetMouseButtonDown(0)
@@ -96,20 +96,40 @@ public class ActionCharactor : MonoBehaviour
 
                 return;
             }
+            // オブジェクトを取得
             GetMapObjects();
         }
     }
 
+    /// <summary>
+    /// 選択したキャラクターのステータスを表示
+    /// </summary>
+    /// <param name="targetObject"></param>
     public void OpenStatus(MapBlock targetObject)
     {
         // キャラクターデータを検索
         foreach (Character.Character charaData in characterManager.characters)
         {
+            //// すでに表示されているステータスを非表示に
+            //if (charaData.statusUI.activeInHierarchy)
+            //{
+            //    charaData.statusUI.SetActive(false);
+            //    charaData.texture.Release();
+            //}
+
             // キャラクターの位置が指定の位置と一致しているかをチェック
             if ((charaData.xPos == targetObject.xPos) && (charaData.zPos == targetObject.zPos))
             {
                 // タップした座標にいるキャラクターのUIを表示
                 charaData.statusUI.SetActive(true);
+                if (charaData.isEnemy)
+                {
+                    uiManager.ShowEnemyStatusWindow(charaData);
+                }
+                else
+                {
+                    uiManager.ShowStatusWindow(charaData);
+                }
             }
         }
     }
@@ -228,6 +248,14 @@ public class ActionCharactor : MonoBehaviour
         {
             // 行動するキャラクターがエネミーかどうかを判定
             case Phase.C_Start:
+                foreach (Character.Character charaData in characterManager.characters)
+                {
+                    if(charaData.statusUI.activeInHierarchy)
+                    {
+                        charaData.statusUI.SetActive(false);
+                        charaData.texture.Release();
+                    }
+                }
                 mapManager.AllSelectionModeClear();
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
@@ -258,7 +286,15 @@ public class ActionCharactor : MonoBehaviour
                 // キャラクターのステータスUIを表示する
                 selectingCharacter.statusUI.SetActive(true);
                 selectingCharacter.selectingObj.SetActive(true);
-                uiManager.ShowStatusWindow(selectingCharacter);
+                if(selectingCharacter.isEnemy)
+                {
+                    uiManager.ShowEnemyStatusWindow(selectingCharacter);
+                }
+                else
+                {
+                    uiManager.ShowStatusWindow(selectingCharacter);
+                }
+                //uiManager.ShowStatusWindow(selectingCharacter);
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
                     mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
@@ -295,7 +331,15 @@ public class ActionCharactor : MonoBehaviour
                     + targetObject.transform.position);
 
                 // キャラクターのステータスUIを表示する
-                uiManager.ShowStatusWindow(selectingCharacter);
+                if(selectingCharacter.isEnemy)
+                {
+                    uiManager.ShowEnemyStatusWindow(selectingCharacter);
+                }
+                else
+                {
+                    uiManager.ShowStatusWindow(selectingCharacter);
+                }
+                //uiManager.ShowStatusWindow(selectingCharacter);
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
                     mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
@@ -432,6 +476,7 @@ public class ActionCharactor : MonoBehaviour
         selectingCharacter = null;
         // キャラクターのステータスのUIを非表示にする
         uiManager.HideStatusWindow();
+        uiManager.HideEnemyStatusWindow();
     }
 
     /// <summary>
@@ -493,12 +538,13 @@ public class ActionCharactor : MonoBehaviour
         selectingCharacter.statusUI.SetActive(false);
         selectingCharacter.texture.Release();
         selectingCharacter.selectingObj.SetActive(false);
+        uiManager.HideStatusWindow();
+        uiManager.HideEnemyStatusWindow();
         // 選択中のキャラクターをリストから削除
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
 
         selectingCharacter.activePoint--;
-
         foreach (Character.Character charaData in characterManager.characters)
         {
             // 全生存キャラクターのactivePointを加算
@@ -536,6 +582,18 @@ public class ActionCharactor : MonoBehaviour
 
         attackChara.statusUI.SetActive(true);
         defenseChara.statusUI.SetActive(true);
+
+        if(attackChara.isEnemy)
+        {
+            uiManager.ShowStatusWindow(defenseChara);
+            uiManager.ShowEnemyStatusWindow(attackChara);
+        }
+        else
+        {
+            uiManager.ShowStatusWindow(attackChara);
+            uiManager.ShowEnemyStatusWindow(defenseChara);
+        }
+
 
         // ダメージ計算
         int damageValue;    // ダメージ量
@@ -636,6 +694,8 @@ public class ActionCharactor : MonoBehaviour
             {
                 attackChara.statusUI.SetActive(false);
                 defenseChara.statusUI.SetActive(false);
+                uiManager.HideStatusWindow();
+                uiManager.HideEnemyStatusWindow();
 
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
@@ -643,7 +703,6 @@ public class ActionCharactor : MonoBehaviour
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
-
 
                 selectingCharacter.activePoint -= 2;
 
@@ -654,6 +713,8 @@ public class ActionCharactor : MonoBehaviour
             {
                 attackChara.statusUI.SetActive(false);
                 defenseChara.statusUI.SetActive(false);
+                uiManager.HideStatusWindow();
+                uiManager.HideEnemyStatusWindow();
 
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
@@ -695,6 +756,8 @@ public class ActionCharactor : MonoBehaviour
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.selectingObj.SetActive(false);
+            uiManager.HideStatusWindow();
+            uiManager.HideEnemyStatusWindow();
             // 選択中のキャラクターをリストから削除
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
@@ -712,6 +775,8 @@ public class ActionCharactor : MonoBehaviour
         {
             // 選択中のキャラクターをリストから削除
             selectingCharacter.selectingObj.SetActive(false);
+            uiManager.HideStatusWindow();
+            uiManager.HideEnemyStatusWindow();
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
             selectingCharacter.activePoint--;
@@ -752,6 +817,8 @@ public class ActionCharactor : MonoBehaviour
     {
         // スキルの選択状態をオフにする
         selectingSkill = Character.SkillDefine.Skill.None;
+
+        selectingCharacter.statusUI.SetActive(true);
 
         // 攻撃可能なキャラクター・位置の組み合わせを1つランダムに取得
         var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyList);
@@ -797,6 +864,10 @@ public class ActionCharactor : MonoBehaviour
 
         // 選択中のキャラクターをリストから削除
         selectingCharacter.selectingObj.SetActive(false);
+        selectingCharacter.statusUI.SetActive(false);
+        targetEnemy.statusUI.SetActive(false);
+        uiManager.HideStatusWindow();
+        uiManager.HideEnemyStatusWindow();
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
         enemyList.RemoveAt(0);
