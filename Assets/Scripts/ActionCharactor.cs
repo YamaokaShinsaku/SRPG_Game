@@ -308,8 +308,8 @@ public class ActionCharactor : MonoBehaviour
                 break;
             // 自分のターン ： 開始
             case Phase.MyTurn_Start:
-                //// 全ブロックの選択状態を解除する
-                //mapManager.AllSelectionModeClear();
+                // 全ブロックの選択状態を解除する
+                mapManager.AllSelectionModeClear();
                 // ブロックを選択状態にする
                 targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
@@ -325,7 +325,7 @@ public class ActionCharactor : MonoBehaviour
                 {
                     uiManager.ShowPlayerStatusWindow(selectingCharacter);
                 }
-                //uiManager.ShowPlayerStatusWindow(selectingCharacter);
+
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
                     mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
