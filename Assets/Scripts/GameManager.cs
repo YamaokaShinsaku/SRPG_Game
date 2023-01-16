@@ -208,7 +208,7 @@ namespace GameManager
                         // 選択中のキャラクター情報に記憶する
                         selectingCharacter = charaData;
                         // キャラクターのステータスUIを表示する
-                        uiManager.ShowStatusWindow(selectingCharacter);
+                        uiManager.ShowPlayerStatusWindow(selectingCharacter);
                         // 移動可能な場所リストを取得する
                         reachableBlocks = mapManager.SearchReachableBlocks(charaData.xPos, charaData.zPos);
                         // 移動可能な場所リストを表示する
@@ -353,7 +353,7 @@ namespace GameManager
             // 選択中のキャラクターを初期化する
             selectingCharacter = null;
             // キャラクターのステータスのUIを非表示にする
-            uiManager.HideStatusWindow();
+            uiManager.HidePlayerStatusWindow();
         }
 
         /// <summary>

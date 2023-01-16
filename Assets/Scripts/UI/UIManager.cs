@@ -9,7 +9,7 @@ namespace UIManager
     public class UIManager : MonoBehaviour
     {
         /// ステータスウィンドウ ///
-        public GameObject statusWindow;
+        public GameObject playerStatusWindow;
         public GameObject enemyStatusWindow;
         public Image hpGageImg;         // HPゲージ画像
         public Image EnemyHpGageImg;    // HPゲージ画像
@@ -55,11 +55,14 @@ namespace UIManager
         // 行動決定・キャンセルボタン
         public GameObject decideButtons;
 
+        // カットイン画像
+        //public GameObject cutInImg;
+
         // Start is called before the first frame update
         void Start()
         {
             // UI初期化
-            HideStatusWindow();
+            HidePlayerStatusWindow();
             HideEnemyStatusWindow();
             HideCommandButtons();
             HideMoveCancelButton();
@@ -72,13 +75,24 @@ namespace UIManager
             fadeImg.color = startAlphaNum;
         }
 
+        public void HideCharaStatus(Character.Character character)
+        {
+            character.statusUI.SetActive(false);
+            character.texture.Release();
+        }
+
+        public void ShowCharaStatus(Character.Character character)
+        {
+            character.statusUI.SetActive(true);
+        }
+
         /// <summary>
         /// ステータスウィンドウを隠す
         /// </summary>
-        public void HideStatusWindow()
+        public void HidePlayerStatusWindow()
         {
             // オブジェクトを非アクティブ化
-            statusWindow.SetActive(false);
+            playerStatusWindow.SetActive(false);
 
             // テキストを非表示に
             nameText.enabled = false;
@@ -130,10 +144,10 @@ namespace UIManager
         /// ステータスウィンドウを表示する
         /// </summary>
         /// <param name="charaData">キャラクターデータ</param>
-        public void ShowStatusWindow(Character.Character charaData)
+        public void ShowPlayerStatusWindow(Character.Character charaData)
         {
             // オブジェクトをアクティブに
-            statusWindow.SetActive(true);
+            playerStatusWindow.SetActive(true);
 
             // テキストを表示する
             nameText.enabled = true;
