@@ -57,6 +57,7 @@ namespace UIManager
 
         // カットイン画像
         //public GameObject cutInImg;
+        public RawImage rawImg;
 
         // Start is called before the first frame update
         void Start()
@@ -84,6 +85,15 @@ namespace UIManager
         public void ShowCharaStatus(Character.Character character)
         {
             character.statusUI.SetActive(true);
+        }
+
+        /// <summary>
+        /// rawImage に textureを設定する
+        /// </summary>
+        /// <param name="texture">テクスチャ</param>
+        public void SetTexture(Texture texture)
+        {
+            rawImg.texture = texture;
         }
 
         /// <summary>

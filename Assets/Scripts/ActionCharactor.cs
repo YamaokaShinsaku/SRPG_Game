@@ -114,7 +114,7 @@ public class ActionCharactor : MonoBehaviour
             if ((charaData.xPos == targetObject.xPos) && (charaData.zPos == targetObject.zPos))
             {
                 // タップした座標にいるキャラクターのUIを表示
-                //charaData.statusUI.SetActive(true);
+                charaData.image.texture = charaData.texture;
                 uiManager.ShowCharaStatus(charaData);
                 if (charaData.isEnemy)
                 {
@@ -271,6 +271,8 @@ public class ActionCharactor : MonoBehaviour
 
                 // キャラクターのステータスUIを表示する
                 //selectingCharacter.statusUI.SetActive(true);
+                selectingCharacter.image.texture = selectingCharacter.texture;
+                uiManager.SetTexture(selectingCharacter.texture);
                 uiManager.ShowCharaStatus(selectingCharacter);
                 selectingCharacter.selectingObj.SetActive(true);
                 if(selectingCharacter.isEnemy)
@@ -571,6 +573,8 @@ public class ActionCharactor : MonoBehaviour
 
         //attackChara.statusUI.SetActive(true);
         //defenseChara.statusUI.SetActive(true);
+        attackChara.image.texture = attackChara.texture;
+        defenseChara.image.texture = defenseChara.texture;
         uiManager.ShowCharaStatus(attackChara);
         uiManager.ShowCharaStatus(defenseChara);
 

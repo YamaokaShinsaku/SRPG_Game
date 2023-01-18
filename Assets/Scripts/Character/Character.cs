@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 namespace Character
 {
@@ -28,6 +29,7 @@ namespace Character
         public bool isActive;        // 行動するかどうか
 
         public GameObject statusUI;       // 現在選択されているキャラクターのUI表示用
+        public RawImage image;
         public RenderTexture texture;     // 表示するテクスチャ
 
         public GameObject selectingObj;    // 選択されている時に表示されるオブジェクト
