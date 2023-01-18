@@ -695,8 +695,8 @@ public class ActionCharactor : MonoBehaviour
                     //attackChara.statusUI.SetActive(false);
                     //defenseChara.statusUI.SetActive(false);
                     //uiManager.CutinDelete();
-                    //uiManager.HideCharaStatus(attackChara);
-                    //uiManager.HideCharaStatus(defenseChara);
+                    attackChara.texture.Release();
+                    defenseChara.texture.Release();
                     uiManager.HidePlayerStatusWindow();
                     uiManager.HideEnemyStatusWindow();
                 });
@@ -714,8 +714,8 @@ public class ActionCharactor : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
-                //uiManager.HideCharaStatus(attackChara);
-                //uiManager.HideCharaStatus(defenseChara);
+                attackChara.texture.Release();
+                defenseChara.texture.Release();
                 uiManager.HidePlayerStatusWindow();
                 uiManager.HideEnemyStatusWindow();
                 attackChara.texture.Release();
@@ -755,8 +755,8 @@ public class ActionCharactor : MonoBehaviour
             Attack(selectingCharacter, targetChara);
             //targetChara.statusUI.SetActive(false);
             //selectingCharacter.statusUI.SetActive(false);
-            //uiManager.HideCharaStatus(targetChara);
-            //uiManager.HideCharaStatus(selectingCharacter);
+            uiManager.HideCharaStatus(targetChara);
+            uiManager.HideCharaStatus(selectingCharacter);
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.selectingObj.SetActive(false);
@@ -781,6 +781,8 @@ public class ActionCharactor : MonoBehaviour
             selectingCharacter.selectingObj.SetActive(false);
             uiManager.HidePlayerStatusWindow();
             uiManager.HideEnemyStatusWindow();
+            targetChara.texture.Release();
+            selectingCharacter.texture.Release();
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
             selectingCharacter.activePoint--;

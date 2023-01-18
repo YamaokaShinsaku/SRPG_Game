@@ -2023,6 +2023,7 @@ MonoBehaviour:
   def: 5
   attribute: 2
   moveType: 1
+  direction: 1
   skill: 0
   activePoint: 0
   isActive: 0
@@ -3128,6 +3129,7 @@ MonoBehaviour:
   def: 10
   attribute: 1
   moveType: 2
+  direction: 1
   skill: 0
   activePoint: 0
   isActive: 0
@@ -5139,6 +5141,7 @@ MonoBehaviour:
   def: 2
   attribute: 3
   moveType: 0
+  direction: 1
   skill: 0
   activePoint: 0
   isActive: 0
@@ -10388,6 +10391,7 @@ MonoBehaviour:
   def: 10
   attribute: 3
   moveType: 0
+  direction: 0
   skill: 2
   activePoint: 0
   isActive: 1
@@ -12109,6 +12113,7 @@ MonoBehaviour:
   def: 5
   attribute: 1
   moveType: 1
+  direction: 0
   skill: 4
   activePoint: 0
   isActive: 1
@@ -14999,6 +15004,7 @@ MonoBehaviour:
   def: 5
   attribute: 0
   moveType: 2
+  direction: 0
   skill: 1
   activePoint: 0
   isActive: 0
