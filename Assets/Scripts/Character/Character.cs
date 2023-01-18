@@ -23,6 +23,7 @@ namespace Character
         public int def;                    // 防御力
         public Attribute attribute;        // 属性
         public MoveType moveType;          // 移動方法
+        public Direction direction;      // キャラクターの向いている方向
         public SkillDefine.Skill skill;    // スキル
 
         public int activePoint;      // 行動するための数値（3以上で行動）
@@ -66,6 +67,20 @@ namespace Character
             Queen,      // 縦・横・斜め
         }
 
+        // キャラクターの向く方向
+        public enum Direction
+        {
+            Forward,        // 前
+            Backward,      // 後ろ
+            Right,            // 右
+            Left,              // 左
+        }
+
+        private Vector3 rotation_F = new Vector3(0.0f, 0.0f, 0.0f);
+        private Vector3 rotation_B = new Vector3(0.0f, 180.0f, 0.0f);
+        private Vector3 rotation_R = new Vector3(0.0f, 90.0f, 0.0f);
+        private Vector3 rotation_L = new Vector3(0.0f, 270.0f, 0.0f);
+
         // Start is called before the first frame update
         void Start()
         {
@@ -98,7 +113,24 @@ namespace Character
             // キャラが地面と垂直に立つように
             cameraPosition.y = this.transform.position.y;
             // カメラの方を向く
-            this.transform.LookAt(cameraPosition);
+            //this.transform.LookAt(cameraPosition);
+
+            switch(direction)
+            {
+                case Direction.Forward:
+                    this.transform.eulerAngles = rotation_F;
+                    break;
+                case Direction.Backward:
+                    this.transform.eulerAngles = rotation_B;
+                    break;
+                case Direction.Right:
+                    this.transform.eulerAngles = rotation_R;
+                    break;
+                case Direction.Left:
+                    this.transform.eulerAngles = rotation_L;
+                    break;
+
+            }
         }
 
         /// <summary>
