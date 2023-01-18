@@ -243,6 +243,7 @@ public class ActionCharactor : MonoBehaviour
             // 行動するキャラクターがエネミーかどうかを判定
             case Phase.C_Start:
                 mapManager.AllSelectionModeClear();
+                uiManager.CutinDelete();
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
                 {
@@ -575,6 +576,7 @@ public class ActionCharactor : MonoBehaviour
         //defenseChara.statusUI.SetActive(true);
         attackChara.image.texture = attackChara.texture;
         defenseChara.image.texture = defenseChara.texture;
+        uiManager.rawImg.texture = attackChara.texture;
         uiManager.ShowCharaStatus(attackChara);
         uiManager.ShowCharaStatus(defenseChara);
 
@@ -651,6 +653,7 @@ public class ActionCharactor : MonoBehaviour
         if (selectingSkill != Character.SkillDefine.Skill.Heal
             && selectingSkill != Character.SkillDefine.Skill.FireBall)
         {
+            uiManager.CutinActive();
             attackChara.AttackAnimation(defenseChara);
         }
         // 攻撃が当たったタイミングでSEを再生
@@ -691,8 +694,9 @@ public class ActionCharactor : MonoBehaviour
                 {
                     //attackChara.statusUI.SetActive(false);
                     //defenseChara.statusUI.SetActive(false);
-                    uiManager.HideCharaStatus(attackChara);
-                    uiManager.HideCharaStatus(defenseChara);
+                    //uiManager.CutinDelete();
+                    //uiManager.HideCharaStatus(attackChara);
+                    //uiManager.HideCharaStatus(defenseChara);
                     uiManager.HidePlayerStatusWindow();
                     uiManager.HideEnemyStatusWindow();
                 });
@@ -710,8 +714,8 @@ public class ActionCharactor : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
-                uiManager.HideCharaStatus(attackChara);
-                uiManager.HideCharaStatus(defenseChara);
+                //uiManager.HideCharaStatus(attackChara);
+                //uiManager.HideCharaStatus(defenseChara);
                 uiManager.HidePlayerStatusWindow();
                 uiManager.HideEnemyStatusWindow();
                 attackChara.texture.Release();
@@ -751,8 +755,8 @@ public class ActionCharactor : MonoBehaviour
             Attack(selectingCharacter, targetChara);
             //targetChara.statusUI.SetActive(false);
             //selectingCharacter.statusUI.SetActive(false);
-            uiManager.HideCharaStatus(targetChara);
-            uiManager.HideCharaStatus(selectingCharacter);
+            //uiManager.HideCharaStatus(targetChara);
+            //uiManager.HideCharaStatus(selectingCharacter);
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.selectingObj.SetActive(false);
@@ -867,8 +871,8 @@ public class ActionCharactor : MonoBehaviour
         selectingCharacter.selectingObj.SetActive(false);
         //selectingCharacter.statusUI.SetActive(false);
         //targetEnemy.statusUI.SetActive(false);
-        uiManager.HideCharaStatus(selectingCharacter);
-        uiManager.HideCharaStatus(targetEnemy);
+        //uiManager.HideCharaStatus(selectingCharacter);
+        //uiManager.HideCharaStatus(targetEnemy);
         uiManager.HidePlayerStatusWindow();
         uiManager.HideEnemyStatusWindow();
         selectingCharacter.isActive = false;

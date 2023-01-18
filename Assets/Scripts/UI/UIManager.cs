@@ -56,7 +56,7 @@ namespace UIManager
         public GameObject decideButtons;
 
         // カットイン画像
-        //public GameObject cutInImg;
+        public GameObject cutinPanel;
         public RawImage rawImg;
 
         // Start is called before the first frame update
@@ -94,6 +94,16 @@ namespace UIManager
         public void SetTexture(Texture texture)
         {
             rawImg.texture = texture;
+        }
+
+        public void CutinActive()
+        {
+            cutinPanel.SetActive(true);
+        }
+
+        public void CutinDelete()
+        {
+            cutinPanel.SetActive(false);
         }
 
         /// <summary>
