@@ -79,27 +79,37 @@ public class ActionCharactor : MonoBehaviour
             return;
         }
 
+        // 向き選択フェーズのとき
         if(nowPhase == Phase.C_SelectDirection)
         {
+            // 矢印キーの方向を向く
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 selectingCharacter.direction = Character.Character.Direction.Forward;
                 ChangePhase(Phase.C_Start);
+                // オブジェクトを取得
+                GetMapObjects();
             }
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 selectingCharacter.direction = Character.Character.Direction.Backward;
                 ChangePhase(Phase.C_Start);
+                // オブジェクトを取得
+                GetMapObjects();
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 selectingCharacter.direction = Character.Character.Direction.Left;
                 ChangePhase(Phase.C_Start);
+                // オブジェクトを取得
+                GetMapObjects();
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 selectingCharacter.direction = Character.Character.Direction.Right;
                 ChangePhase(Phase.C_Start);
+                // オブジェクトを取得
+                GetMapObjects();
             }
         }
 
@@ -268,6 +278,7 @@ public class ActionCharactor : MonoBehaviour
             case Phase.C_Start:
                 mapManager.AllSelectionModeClear();
                 uiManager.CutinDelete();
+                uiManager.HideDirectionText();
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
                 {
@@ -478,6 +489,10 @@ public class ActionCharactor : MonoBehaviour
                 {
                     EnemyCommand();
                 });
+                break;
+            case Phase.C_SelectDirection:
+                uiManager.ShowDirectionText();
+                Debug.Log("SelectDirectionPhase");
                 break;
         }
     }

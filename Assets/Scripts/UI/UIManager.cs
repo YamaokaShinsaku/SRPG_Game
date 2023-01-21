@@ -23,6 +23,8 @@ namespace UIManager
         public Text EnemyHpText;
         public Text EnemyAtkText;
         public Text EnemyDefText;
+
+        public Text DirectionText;
         // 属性アイコン
         public Image attributeIcon;
         public Image EnemyAttributeIcon;
@@ -68,6 +70,7 @@ namespace UIManager
             HideCommandButtons();
             HideMoveCancelButton();
             HideDecideButtons();
+            HideDirectionText();
 
             // fadeImgのアルファ値の初期設定
             // フェードアウトから開始するため
@@ -76,12 +79,29 @@ namespace UIManager
             fadeImg.color = startAlphaNum;
         }
 
+        public void HideDirectionText()
+        {
+            DirectionText.enabled = false;
+        }
+        public void ShowDirectionText()
+        {
+            DirectionText.enabled = true;
+        }
+
+        /// <summary>
+        /// キャラクターのステータスを非表示に
+        /// </summary>
+        /// <param name="character">キャラクター</param>
         public void HideCharaStatus(Character.Character character)
         {
             character.statusUI.SetActive(false);
             character.texture.Release();
         }
 
+        /// <summary>
+        /// キャラクターのステータスを表示
+        /// </summary>
+        /// <param name="character">キャラクター</param>
         public void ShowCharaStatus(Character.Character character)
         {
             character.statusUI.SetActive(true);
