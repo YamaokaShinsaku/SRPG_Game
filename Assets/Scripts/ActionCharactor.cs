@@ -435,33 +435,7 @@ public class ActionCharactor : MonoBehaviour
                     ChangePhase(Phase.MyTurn_Targeting);
                 }
                 break;
-            //case Phase.C_SelectDirection:
-            //    ChangeDirection(selectingCharacter);
-
-            //    ChangePhase(Phase.C_Start);
-                break;
         }
-    }
-
-    public void ChangeDirection(Character.Character character)
-    {
-
-        //if (Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-        //    character.direction = Character.Character.Direction.Forward;
-        //}
-        //if (Input.GetKeyDown(KeyCode.DownArrow))
-        //{
-        //    character.direction = Character.Character.Direction.Backward;
-        //}
-        //if (Input.GetKeyDown(KeyCode.LeftArrow))
-        //{
-        //    character.direction = Character.Character.Direction.Left;
-        //}
-        //if (Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    character.direction = Character.Character.Direction.Right;
-        //}
     }
 
     /// <summary>
