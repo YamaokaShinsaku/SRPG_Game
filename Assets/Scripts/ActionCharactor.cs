@@ -37,7 +37,7 @@ public class ActionCharactor : MonoBehaviour
     private enum Phase
     {
         C_Start,             // アクティブキャラクター選択フェーズ
-        //C_Result,            // キャラクターの結果表示
+        C_SelectDirection,   // キャラクターの向きを選択
         MyTurn_Start,        // 自分のターン：開始
         MyTurn_Moving,       // 自分のターン：移動先選択
         MyTurn_Command,      // 自分のターン：コマンド選択
@@ -77,6 +77,30 @@ public class ActionCharactor : MonoBehaviour
         if (isFinish)
         {
             return;
+        }
+
+        if(nowPhase == Phase.C_SelectDirection)
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                selectingCharacter.direction = Character.Character.Direction.Forward;
+                ChangePhase(Phase.C_Start);
+            }
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                selectingCharacter.direction = Character.Character.Direction.Backward;
+                ChangePhase(Phase.C_Start);
+            }
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                selectingCharacter.direction = Character.Character.Direction.Left;
+                ChangePhase(Phase.C_Start);
+            }
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                selectingCharacter.direction = Character.Character.Direction.Right;
+                ChangePhase(Phase.C_Start);
+            }
         }
 
         // タップ先を検出
@@ -411,7 +435,33 @@ public class ActionCharactor : MonoBehaviour
                     ChangePhase(Phase.MyTurn_Targeting);
                 }
                 break;
+            //case Phase.C_SelectDirection:
+            //    ChangeDirection(selectingCharacter);
+
+            //    ChangePhase(Phase.C_Start);
+                break;
         }
+    }
+
+    public void ChangeDirection(Character.Character character)
+    {
+
+        //if (Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+        //    character.direction = Character.Character.Direction.Forward;
+        //}
+        //if (Input.GetKeyDown(KeyCode.DownArrow))
+        //{
+        //    character.direction = Character.Character.Direction.Backward;
+        //}
+        //if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //{
+        //    character.direction = Character.Character.Direction.Left;
+        //}
+        //if (Input.GetKeyDown(KeyCode.RightArrow))
+        //{
+        //    character.direction = Character.Character.Direction.Right;
+        //}
     }
 
     /// <summary>
@@ -544,7 +594,8 @@ public class ActionCharactor : MonoBehaviour
         }
 
         // 進行モードを進める
-        ChangePhase(Phase.C_Start);
+        //ChangePhase(Phase.C_Start);
+        ChangePhase(Phase.C_SelectDirection);
     }
 
     /// <summary>
@@ -686,7 +737,8 @@ public class ActionCharactor : MonoBehaviour
             // 遅延実行する内容
             // ウィンドウを非表示に
             uiManager.battleWindowUI.HideWindow();
-
+            uiManager.HideCharaStatus(attackChara);
+            uiManager.HideCharaStatus(defenseChara);
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
@@ -710,7 +762,8 @@ public class ActionCharactor : MonoBehaviour
                 selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
-                ChangePhase(Phase.C_Start);
+                //ChangePhase(Phase.C_Start);
+                ChangePhase(Phase.C_SelectDirection);
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
@@ -729,6 +782,7 @@ public class ActionCharactor : MonoBehaviour
 
                 // キャラ選択フェーズに
                 ChangePhase(Phase.C_Start);
+                //ChangePhase(Phase.C_SelectDirection);
             }
         });
 
@@ -755,8 +809,8 @@ public class ActionCharactor : MonoBehaviour
             Attack(selectingCharacter, targetChara);
             //targetChara.statusUI.SetActive(false);
             //selectingCharacter.statusUI.SetActive(false);
-            uiManager.HideCharaStatus(targetChara);
-            uiManager.HideCharaStatus(selectingCharacter);
+            //uiManager.HideCharaStatus(targetChara);
+            //uiManager.HideCharaStatus(selectingCharacter);
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.selectingObj.SetActive(false);
@@ -793,7 +847,8 @@ public class ActionCharactor : MonoBehaviour
             }
 
             // 進行モードを進める
-            ChangePhase(Phase.C_Start);
+            //ChangePhase(Phase.C_Start);
+            ChangePhase(Phase.C_SelectDirection);
         }
     }
 

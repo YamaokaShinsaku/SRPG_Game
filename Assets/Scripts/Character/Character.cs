@@ -129,7 +129,6 @@ namespace Character
                 case Direction.Left:
                     this.transform.eulerAngles = rotation_L;
                     break;
-
             }
         }
 
