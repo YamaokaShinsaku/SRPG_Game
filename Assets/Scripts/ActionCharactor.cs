@@ -646,7 +646,12 @@ public class ActionCharactor : MonoBehaviour
         // ダメージ　＝　攻撃力　ー　防御力
         damageValue = attackPoint - defencePoint;
         // 属性相性によるダメージ倍率を計算
-        float ratio = GetDamageRatioAttribute(attackChara, defenseChara);       // ダメージ倍率を取得
+        // ダメージ倍率を取得
+        float ratio =
+            GetDamageRatioAttribute(attackChara, defenseChara)
+            + GetDamageRatioDirection(attackChara, defenseChara);    // バックアタック含む
+        //float ratio =
+        //   GetDamageRatioAttribute(attackChara, defenseChara);    // 属性のみ
         damageValue = (int)(damageValue * ratio);       // 倍率を適応(int型に変換)
 
         // ダメージ量が0以下の時
@@ -948,11 +953,11 @@ public class ActionCharactor : MonoBehaviour
     {
         // ダメージ倍率を定義
         const float normal = 1.0f;     // 通常
-        const float good = 1.2f;        // 有利
-        const float bad = 0.8f;          // 不利
+        const float good = 1.2f;       // 有利
+        const float bad = 0.8f;        // 不利
 
         Character.Character.Attribute attacker = attackChara.attribute;        // 攻撃側の属性
-        Character.Character.Attribute defender = defenseChara.attribute;     // 防御側の属性
+        Character.Character.Attribute defender = defenseChara.attribute;       // 防御側の属性
 
         // 相性決定処理
         // 属性ごとに有利→不利の順でチェックし、どちらにも当てはまらなければ通常倍率を返す
@@ -1017,6 +1022,71 @@ public class ActionCharactor : MonoBehaviour
             // デフォルト設定
             default:
                 return normal;
+        }
+    }
+
+    /// <summary>
+    /// キャラクターの向きに応じたダメージを返す
+    /// </summary>
+    /// <param name="attackChara">攻撃するキャラクターデータ</param>
+    /// <param name="defenseChara">攻撃されるキャラクターデータ</param>
+    /// <returns>ダメージ倍率</returns>
+    private float GetDamageRatioDirection(Character.Character attackChara, Character.Character defenseChara)
+    {
+        // ダメージ倍率を定義
+        //const float normal = 1.0f;      // 通常
+        const float good = 0.8f;        // バックアタック
+
+        Character.Character.Direction attacker = attackChara.direction;        // 攻撃側の向き
+        Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き
+
+        // 相性決定処理
+        // 向きごとに有利→不利の順でチェックし、バックアタック出なければnormalを返す
+        switch (attacker)
+        {
+            // 攻撃側 : Forward
+            case Character.Character.Direction.Forward:
+                if (defender == Character.Character.Direction.Forward)
+                {
+                    return good;
+                }
+                else
+                {
+                    return 0.0f;
+                }
+            // 攻撃側 : Backward
+            case Character.Character.Direction.Backward:
+                if (defender == Character.Character.Direction.Backward)
+                {
+                    return good;
+                }
+                else
+                {
+                    return 0.0f;
+                }
+            // 攻撃側 : Right
+            case Character.Character.Direction.Right:
+                if (defender == Character.Character.Direction.Right)
+                {
+                    return good;
+                }
+                else
+                {
+                    return 0.0f;
+                }
+            // 攻撃側 : Left
+            case Character.Character.Direction.Left:
+                if (defender == Character.Character.Direction.Left)
+                {
+                    return good;
+                }
+                else
+                {
+                    return 0.0f;
+                }
+            // デフォルト設定
+            default:
+                return 0.0f;
         }
     }
 }
