@@ -11,6 +11,8 @@ namespace Character
         [SerializeField]
         private Camera mainCamera;  // メインカメラ
 
+        public Animator animation;    // アニメーション
+
         // キャラクター初期設定
         public int initPosition_X;
         public int initPosition_Z;
@@ -148,6 +150,7 @@ namespace Character
             this.transform.DOMove(movePosition, animSpeed)
                 .SetEase(Ease.Linear)   // 変化の度合いを設定
                 .SetRelative();         // パラメーターを相対指定にする
+
 
             // 移動処理
             //this.transform.position += movePosition;

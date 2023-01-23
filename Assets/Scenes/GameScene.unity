@@ -2105,6 +2105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
+  animation: {fileID: 614058247}
   initPosition_X: -2
   initPosition_Z: 3
   isEnemy: 1
@@ -2127,6 +2128,11 @@ MonoBehaviour:
   nowHP: 0
   isSkillLock: 0
   isDefBreak: 0
+--- !u!95 &614058247 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
+  m_PrefabInstance: {fileID: 2012427931}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &666214946
 GameObject:
   m_ObjectHideFlags: 0
@@ -2360,7 +2366,7 @@ RectTransform:
   m_GameObject: {fileID: 703728292}
   m_LocalRotation: {x: -0, y: -0, z: 0.6096471, w: 0.79267293}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5194, y: 2.5194, z: 2.5194}
+  m_LocalScale: {x: 3.4908805, y: 2.5194, z: 2.5194}
   m_Children:
   - {fileID: 68076626}
   - {fileID: 1088594268}
@@ -3268,6 +3274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
+  animation: {fileID: 0}
   initPosition_X: 0
   initPosition_Z: 3
   isEnemy: 1
@@ -3290,6 +3297,25 @@ MonoBehaviour:
   nowHP: 0
   isSkillLock: 0
   isDefBreak: 0
+--- !u!95 &952839380
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952839376}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 9a96a7474eedb644e981724156e7236d, type: 3}
+  m_Controller: {fileID: 9100000, guid: 43ef545bcd31b0240832b5ce91d3d8d6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &960322855
 GameObject:
   m_ObjectHideFlags: 0
@@ -5470,6 +5496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
+  animation: {fileID: 1247229172}
   initPosition_X: 2
   initPosition_Z: 3
   isEnemy: 1
@@ -5492,6 +5519,11 @@ MonoBehaviour:
   nowHP: 0
   isSkillLock: 0
   isDefBreak: 0
+--- !u!95 &1247229172 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: aad05534a7ba0dd49b8c54ce188308ec, type: 3}
+  m_PrefabInstance: {fileID: 1001968010}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1270570851
 GameObject:
   m_ObjectHideFlags: 0
@@ -6310,7 +6342,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
 --- !u!1 &1475581214
 GameObject:
@@ -9167,7 +9200,7 @@ RectTransform:
   m_GameObject: {fileID: 2143276042}
   m_LocalRotation: {x: -0, y: -0, z: -0.72645074, w: 0.6872186}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.60831, y: 1, z: 1}
+  m_LocalScale: {x: 0.60831, y: 0.93671, z: 1}
   m_Children: []
   m_Father: {fileID: 68076626}
   m_RootOrder: 0
@@ -10794,6 +10827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
+  animation: {fileID: 3425972934498746600}
   initPosition_X: -2
   initPosition_Z: -3
   isEnemy: 0
@@ -12516,6 +12550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
+  animation: {fileID: 4035088126598451727}
   initPosition_X: 2
   initPosition_Z: -3
   isEnemy: 0
@@ -15407,6 +15442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
+  animation: {fileID: 9223093885864704899}
   initPosition_X: 0
   initPosition_Z: -3
   isEnemy: 0

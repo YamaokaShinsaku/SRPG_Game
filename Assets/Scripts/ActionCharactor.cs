@@ -393,6 +393,7 @@ public class ActionCharactor : MonoBehaviour
                 {
                     // 選択中のキャラクターを移動させる
                     selectingCharacter.MovePosition(targetObject.xPos, targetObject.zPos);
+                    selectingCharacter.animation.SetBool("WalkFlag", true);
 
                     // 移動可能な場所リストを初期化する
                     reachableBlocks.Clear();
@@ -407,6 +408,7 @@ public class ActionCharactor : MonoBehaviour
                         // 遅延実行する内容
                         // コマンドボタンを表示する
                         uiManager.ShowCommandButtons(selectingCharacter);
+                        selectingCharacter.animation.SetBool("WalkFlag", false);
 
                         // 進行モードを進める
                         ChangePhase(Phase.MyTurn_Command);
@@ -700,11 +702,13 @@ public class ActionCharactor : MonoBehaviour
         {
             uiManager.CutinActive();
             attackChara.AttackAnimation(defenseChara);
+            attackChara.animation.SetBool("AttackFlag", true);
         }
         // 攻撃が当たったタイミングでSEを再生
         DOVirtual.DelayedCall(0.45f, () =>
         {
             GetComponent<AudioSource>().Play();
+            attackChara.animation.SetBool("AttackFlag", false);
         });
 
         // バトル結果表示ウィンドウの表示設定
@@ -883,9 +887,11 @@ public class ActionCharactor : MonoBehaviour
         {
             // 移動処理
             actionPlan.charaData.MovePosition(actionPlan.toMoveBlock.xPos, actionPlan.toMoveBlock.zPos);
+            //actionPlan.charaData.animation.SetBool("WalkFlag", true);
             // 攻撃処理(移動後に攻撃開始)
             DOVirtual.DelayedCall(delayTime, () =>
             {
+                //actionPlan.charaData.animation.SetBool("WalkFlag", false);
                 mapManager.AllSelectionModeClear();
                 Attack(actionPlan.charaData, actionPlan.toAttaackChara);
             });
@@ -909,7 +915,12 @@ public class ActionCharactor : MonoBehaviour
             // 移動先のブロックデータ
             MapBlock targetBlock = reachableBlocks[randID];
             // 移動処理
+            //targetEnemy.animation.SetBool("AttackFlag", true);
             targetEnemy.MovePosition(targetBlock.xPos, targetBlock.zPos);
+            //DOVirtual.DelayedCall(delayTime, () =>
+            //{
+            //    targetEnemy.animation.SetBool("AttackFlag", false);
+            //});
         }
 
         // リストをクリア
