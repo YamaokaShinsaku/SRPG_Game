@@ -1035,7 +1035,7 @@ public class ActionCharactor : MonoBehaviour
     {
         // ダメージ倍率を定義
         //const float normal = 1.0f;      // 通常
-        const float good = 0.8f;        // バックアタック
+        const float good = 5.8f;        // バックアタック(0.8倍)
 
         Character.Character.Direction attacker = attackChara.direction;        // 攻撃側の向き
         Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き
@@ -1048,7 +1048,15 @@ public class ActionCharactor : MonoBehaviour
             case Character.Character.Direction.Forward:
                 if (defender == Character.Character.Direction.Forward)
                 {
-                    return good;
+                    if(attackChara.zPos + 1 == defenseChara.zPos
+                        && attackChara.xPos == defenseChara.xPos)
+                    {
+                        return good;
+                    }
+                    else
+                    {
+                        return 0.0f;
+                    }
                 }
                 else
                 {
@@ -1058,7 +1066,15 @@ public class ActionCharactor : MonoBehaviour
             case Character.Character.Direction.Backward:
                 if (defender == Character.Character.Direction.Backward)
                 {
-                    return good;
+                    if (attackChara.zPos - 1 == defenseChara.zPos
+                        && attackChara.xPos == defenseChara.xPos)
+                    {
+                        return good;
+                    }
+                    else
+                    {
+                        return 0.0f;
+                    }
                 }
                 else
                 {
@@ -1068,7 +1084,15 @@ public class ActionCharactor : MonoBehaviour
             case Character.Character.Direction.Right:
                 if (defender == Character.Character.Direction.Right)
                 {
-                    return good;
+                    if (attackChara.xPos + 1 == defenseChara.xPos
+                        && attackChara.zPos == defenseChara.zPos)
+                    {
+                        return good;
+                    }
+                    else
+                    {
+                        return 0.0f;
+                    }
                 }
                 else
                 {
@@ -1078,7 +1102,15 @@ public class ActionCharactor : MonoBehaviour
             case Character.Character.Direction.Left:
                 if (defender == Character.Character.Direction.Left)
                 {
-                    return good;
+                    if (attackChara.xPos - 1 == defenseChara.xPos
+                        && attackChara.zPos == defenseChara.zPos)
+                    {
+                        return good;
+                    }
+                    else
+                    {
+                        return 0.0f;
+                    }
                 }
                 else
                 {
