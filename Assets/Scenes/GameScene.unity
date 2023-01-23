@@ -1461,7 +1461,7 @@ MonoBehaviour:
   fadeImg: {fileID: 1100079409}
   decideButtons: {fileID: 850560695}
   cutinPanel: {fileID: 703728292}
-  rawImg: {fileID: 757436695}
+  rawImg: {fileID: 2143276044}
 --- !u!82 &329424024
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2350,7 +2350,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &703728293
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5680,7 +5680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1342006144
 Transform:
   m_ObjectHideFlags: 0
@@ -5957,7 +5957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1378733759
 Transform:
   m_ObjectHideFlags: 0
@@ -9174,7 +9174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -93.179}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000027044366, y: -3.7000003}
+  m_AnchoredPosition: {x: -0.2, y: -3.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2143276044
@@ -9197,7 +9197,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 59a5e2e1c668a27408e57fe6f9bcb3e0, type: 2}
+  m_Texture: {fileID: 8400000, guid: 0fb13484304c5f1489b9a0251cea71f8, type: 2}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -11618,7 +11618,7 @@ Animator:
   m_GameObject: {fileID: 3425972934491501350}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d9a1483b77bf10e4e851678ab6c2e54e, type: 3}
-  m_Controller: {fileID: 9100000, guid: b60dc9aa529b314489f628aa3b57c470, type: 2}
+  m_Controller: {fileID: 9100000, guid: 40764e05b05c597409ca19247270d0aa, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -14163,7 +14163,7 @@ Animator:
   m_GameObject: {fileID: 3939855280016293889}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: bed7a092d53e7c748bd65db98cebf9d6, type: 3}
-  m_Controller: {fileID: 9100000, guid: 2890c9060ce4f6b45b4082d87f47b27e, type: 2}
+  m_Controller: {fileID: 9100000, guid: cfcac34d54514454d8ed730fc88a8189, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -15408,7 +15408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
   initPosition_X: 0
-  initPosition_Z: 4
+  initPosition_Z: -3
   isEnemy: 0
   characterName: "\u52C7\u8005"
   maxHP: 25
@@ -15416,7 +15416,7 @@ MonoBehaviour:
   def: 5
   attribute: 0
   moveType: 2
-  direction: 1
+  direction: 0
   skill: 1
   activePoint: 0
   isActive: 0
@@ -16694,7 +16694,7 @@ Animator:
   m_GameObject: {fileID: 9128318153901168283}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9ce6002518e821e43b4f97c76700fbac, type: 3}
-  m_Controller: {fileID: 9100000, guid: 081111fd1834f42469e07a9a2ce295c6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1eb97f45b9f5e0a4c96ed2ea3d6ba391, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
