@@ -2356,7 +2356,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &703728293
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3286,7 +3286,7 @@ MonoBehaviour:
   moveType: 2
   direction: 1
   skill: 0
-  activePoint: 3
+  activePoint: 1
   isActive: 0
   statusUI: {fileID: 1688637667}
   image: {fileID: 1850146520}
@@ -3297,27 +3297,6 @@ MonoBehaviour:
   nowHP: 0
   isSkillLock: 0
   isDefBreak: 0
---- !u!111 &952839379
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 952839376}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: db834b4988164f04bb3dd45f145ffb03, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: db834b4988164f04bb3dd45f145ffb03, type: 2}
-  - {fileID: 7400000, guid: 632fadb8876dd6442ba5564eba992765, type: 2}
-  - {fileID: 7400000, guid: ad353623c0c90424ea56cef1a4afcc53, type: 2}
-  - {fileID: 7400000, guid: 200a1f3ddb78cec42b20bd33ec781777, type: 2}
-  - {fileID: 7400000, guid: 793b276440fa9d34f98fb58b4867eb6d, type: 2}
-  - {fileID: 7400000, guid: 4f40c3038f784c54fb31f0dee2a84bf9, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!95 &952839380
 Animator:
   serializedVersion: 3
@@ -15482,7 +15461,7 @@ MonoBehaviour:
   moveType: 2
   direction: 0
   skill: 1
-  activePoint: 0
+  activePoint: 2
   isActive: 0
   statusUI: {fileID: 1873620280}
   image: {fileID: 150125666}

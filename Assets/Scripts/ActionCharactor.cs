@@ -700,23 +700,17 @@ public class ActionCharactor : MonoBehaviour
         if (selectingSkill != Character.SkillDefine.Skill.Heal
             && selectingSkill != Character.SkillDefine.Skill.FireBall)
         {
-            uiManager.CutinActive();
+            //uiManager.CutinActive();
             attackChara.AttackAnimation(defenseChara);
-            //if(!attackChara.isEnemy)
-            //{
-            //    attackChara.animation.SetBool("AttackFlag", true);
-            //}
             attackChara.animation.SetBool("AttackFlag", true);
+            defenseChara.animation.SetBool("DamageFlag", true);
         }
         // 攻撃が当たったタイミングでSEを再生
         DOVirtual.DelayedCall(0.45f, () =>
         {
             GetComponent<AudioSource>().Play();
-            //if (!attackChara.isEnemy)
-            //{
-            //    attackChara.animation.SetBool("AttackFlag", false);
-            //}
             attackChara.animation.SetBool("AttackFlag", false);
+            defenseChara.animation.SetBool("DamageFlag", false);
         });
 
         // バトル結果表示ウィンドウの表示設定
