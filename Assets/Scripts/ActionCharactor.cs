@@ -605,6 +605,73 @@ public class ActionCharactor : MonoBehaviour
     }
 
     /// <summary>
+    /// 攻撃時のキャラクターの向きを修正
+    /// </summary>
+    /// <param name="attackChara">攻撃するキャラクター</param>
+    /// <param name="defenseChara">攻撃されるキャラクター</param>
+    private void ChangeAttackDirection(Character.Character attackChara, Character.Character defenseChara)
+    {
+        Character.Character.Direction attacker = attackChara.direction;        // 攻撃側の向き
+        Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き
+
+        if(attacker!= Character.Character.Direction.Forward)
+        {
+            if (attackChara.zPos < defenseChara.zPos
+    && attackChara.xPos + 1 == defenseChara.xPos
+    || attackChara.xPos == defenseChara.xPos
+    || attackChara.xPos - 1 == defenseChara.xPos)
+            {
+
+                attackChara.direction = Character.Character.Direction.Forward;
+            }
+        }
+
+        // 相性決定処理
+        //switch (attacker)
+        //{
+        //    // 攻撃側 : Forward
+        //    case Character.Character.Direction.Backward:
+        //        if(attackChara.zPos < defenseChara.zPos
+        //            && attackChara.xPos + 1 == defenseChara.xPos
+        //            || attackChara.xPos == defenseChara.xPos
+        //            || attackChara.xPos - 1 == defenseChara.xPos)
+        //        {
+                    
+        //            attackChara.direction = Character.Character.Direction.Forward;
+        //        }
+        //        break;
+        //    //// 攻撃側 : Backward
+        //    //case Character.Character.Direction.Backward:
+        //    //    if (attackChara.xPos == defenseChara.xPos
+        //    //          && attacker != defender)
+        //    //    {
+        //    //        attacker = Character.Character.Direction.Backward;
+        //    //    }
+        //    //    break;
+        //    //// 攻撃側 : Right
+        //    //case Character.Character.Direction.Right:
+        //    //    if (attackChara.zPos == defenseChara.zPos
+        //    //          && attacker != defender)
+        //    //    {
+        //    //        attacker = Character.Character.Direction.Right;
+        //    //    }
+        //    //    break;
+        //    //// 攻撃側 : Left
+        //    //case Character.Character.Direction.Left:
+        //    //    if (attackChara.zPos == defenseChara.zPos
+        //    //          && attacker != defender)
+        //    //    {
+        //    //        attacker = Character.Character.Direction.Left;
+        //    //    }
+        //    //    break;
+        //    //// デフォルト設定
+        //    //default:
+        //    //     attacker = attackChara.direction;
+        //    //    break;
+        //}
+    }
+
+    /// <summary>
     /// 攻撃処理
     /// </summary>
     /// <param name="attackChara">攻撃するキャラクター</param>
@@ -807,6 +874,7 @@ public class ActionCharactor : MonoBehaviour
         {
             // キャラクター攻撃処理
             Attack(selectingCharacter, targetChara);
+            ChangeAttackDirection(selectingCharacter, targetChara);
             //targetChara.statusUI.SetActive(false);
             //selectingCharacter.statusUI.SetActive(false);
             //uiManager.HideCharaStatus(targetChara);
