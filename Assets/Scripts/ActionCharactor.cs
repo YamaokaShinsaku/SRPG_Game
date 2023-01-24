@@ -702,12 +702,20 @@ public class ActionCharactor : MonoBehaviour
         {
             uiManager.CutinActive();
             attackChara.AttackAnimation(defenseChara);
+            //if(!attackChara.isEnemy)
+            //{
+            //    attackChara.animation.SetBool("AttackFlag", true);
+            //}
             attackChara.animation.SetBool("AttackFlag", true);
         }
         // 攻撃が当たったタイミングでSEを再生
         DOVirtual.DelayedCall(0.45f, () =>
         {
             GetComponent<AudioSource>().Play();
+            //if (!attackChara.isEnemy)
+            //{
+            //    attackChara.animation.SetBool("AttackFlag", false);
+            //}
             attackChara.animation.SetBool("AttackFlag", false);
         });
 

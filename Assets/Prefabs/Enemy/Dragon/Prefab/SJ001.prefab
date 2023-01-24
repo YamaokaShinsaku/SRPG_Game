@@ -1676,7 +1676,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400102}
-  - component: {fileID: 11100000}
   m_Layer: 0
   m_Name: SJ001
   m_TagString: Untagged
@@ -1700,24 +1699,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!111 &11100000
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100102}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: db834b4988164f04bb3dd45f145ffb03, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 200a1f3ddb78cec42b20bd33ec781777, type: 2}
-  - {fileID: 7400000, guid: 4f40c3038f784c54fb31f0dee2a84bf9, type: 2}
-  - {fileID: 7400000, guid: 632fadb8876dd6442ba5564eba992765, type: 2}
-  - {fileID: 7400000, guid: 793b276440fa9d34f98fb58b4867eb6d, type: 2}
-  - {fileID: 7400000, guid: ad353623c0c90424ea56cef1a4afcc53, type: 2}
-  - {fileID: 7400000, guid: db834b4988164f04bb3dd45f145ffb03, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 1

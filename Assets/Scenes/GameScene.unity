@@ -3274,7 +3274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 1226038965}
-  animation: {fileID: 0}
+  animation: {fileID: 952839380}
   initPosition_X: 0
   initPosition_Z: 3
   isEnemy: 1
@@ -3286,7 +3286,7 @@ MonoBehaviour:
   moveType: 2
   direction: 1
   skill: 0
-  activePoint: 0
+  activePoint: 3
   isActive: 0
   statusUI: {fileID: 1688637667}
   image: {fileID: 1850146520}
@@ -3297,6 +3297,27 @@ MonoBehaviour:
   nowHP: 0
   isSkillLock: 0
   isDefBreak: 0
+--- !u!111 &952839379
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 952839376}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: db834b4988164f04bb3dd45f145ffb03, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: db834b4988164f04bb3dd45f145ffb03, type: 2}
+  - {fileID: 7400000, guid: 632fadb8876dd6442ba5564eba992765, type: 2}
+  - {fileID: 7400000, guid: ad353623c0c90424ea56cef1a4afcc53, type: 2}
+  - {fileID: 7400000, guid: 200a1f3ddb78cec42b20bd33ec781777, type: 2}
+  - {fileID: 7400000, guid: 793b276440fa9d34f98fb58b4867eb6d, type: 2}
+  - {fileID: 7400000, guid: 4f40c3038f784c54fb31f0dee2a84bf9, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!95 &952839380
 Animator:
   serializedVersion: 3
@@ -3306,9 +3327,9 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 952839376}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9a96a7474eedb644e981724156e7236d, type: 3}
+  m_Avatar: {fileID: 9000000, guid: a82cf663ab4af584e95dee25f22fd625, type: 3}
   m_Controller: {fileID: 9100000, guid: 43ef545bcd31b0240832b5ce91d3d8d6, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -4222,6 +4243,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: aad05534a7ba0dd49b8c54ce188308ec, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d8e9bdda15ad9bf47b8680ad95daf1e4, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aad05534a7ba0dd49b8c54ce188308ec, type: 3}
 --- !u!1 &1006343993
@@ -6342,8 +6367,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 11100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff3dd417bb566b849b752ce57810bbf5, type: 3}
 --- !u!1 &1475581214
 GameObject:
@@ -8641,6 +8665,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 07e5a76bc1c58e24f9f69b0269056057, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ed3e345f07e89940ae0c1e00eeb7d1d, type: 3}
 --- !u!1 &2036383795
