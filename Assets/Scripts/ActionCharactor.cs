@@ -949,6 +949,7 @@ public class ActionCharactor : MonoBehaviour
                 //actionPlan.charaData.animation.SetBool("WalkFlag", false);
                 mapManager.AllSelectionModeClear();
                 Attack(actionPlan.charaData, actionPlan.toAttaackChara);
+                ChangeAttackDirection(actionPlan.charaData, actionPlan.toAttaackChara);
             });
 
             // 進行モードを進める
