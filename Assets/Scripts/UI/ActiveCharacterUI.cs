@@ -7,14 +7,14 @@ namespace UIManager
 {
     public class ActiveCharacterUI : MonoBehaviour
     {
+        // キャラクターの名前を表示するテキスト
         public Text[] text;
-
+        // activeCharacterのListを取得するため
         public ActionCharactor actionCharactor;
         // Start is called before the first frame update
         void Start()
         {
-            // コンポーネントを取得
-            //actionCharactor = GetComponent<ActionCharactor>();
+
         }
 
         // Update is called once per frame
