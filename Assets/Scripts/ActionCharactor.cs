@@ -614,61 +614,43 @@ public class ActionCharactor : MonoBehaviour
         Character.Character.Direction attacker = attackChara.direction;        // 攻撃側の向き
         Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き
 
-        if(attacker!= Character.Character.Direction.Forward)
+        // 上側のキャラクターを攻撃するとき
+        if (attackChara.zPos < defenseChara.zPos
+            &&( attackChara.xPos + 1 == defenseChara.xPos
+            || attackChara.xPos == defenseChara.xPos
+            || attackChara.xPos - 1 == defenseChara.xPos))
         {
-            if (attackChara.zPos < defenseChara.zPos
-    && attackChara.xPos + 1 == defenseChara.xPos
-    || attackChara.xPos == defenseChara.xPos
-    || attackChara.xPos - 1 == defenseChara.xPos)
-            {
-
-                attackChara.direction = Character.Character.Direction.Forward;
-            }
+            Debug.Log("Forw :" + attackChara.zPos + " : " + defenseChara.zPos);
+            attackChara.direction = Character.Character.Direction.Forward;
+        }
+        // 下側のキャラクターを攻撃するとき
+        if (attackChara.zPos > defenseChara.zPos
+            &&( attackChara.xPos + 1 == defenseChara.xPos
+            || attackChara.xPos == defenseChara.xPos
+            || attackChara.xPos - 1 == defenseChara.xPos))
+        {
+            Debug.Log("Back :" + attackChara.zPos + " : " + defenseChara.zPos);
+            attackChara.direction = Character.Character.Direction.Backward;
         }
 
-        // 相性決定処理
-        //switch (attacker)
-        //{
-        //    // 攻撃側 : Forward
-        //    case Character.Character.Direction.Backward:
-        //        if(attackChara.zPos < defenseChara.zPos
-        //            && attackChara.xPos + 1 == defenseChara.xPos
-        //            || attackChara.xPos == defenseChara.xPos
-        //            || attackChara.xPos - 1 == defenseChara.xPos)
-        //        {
-                    
-        //            attackChara.direction = Character.Character.Direction.Forward;
-        //        }
-        //        break;
-        //    //// 攻撃側 : Backward
-        //    //case Character.Character.Direction.Backward:
-        //    //    if (attackChara.xPos == defenseChara.xPos
-        //    //          && attacker != defender)
-        //    //    {
-        //    //        attacker = Character.Character.Direction.Backward;
-        //    //    }
-        //    //    break;
-        //    //// 攻撃側 : Right
-        //    //case Character.Character.Direction.Right:
-        //    //    if (attackChara.zPos == defenseChara.zPos
-        //    //          && attacker != defender)
-        //    //    {
-        //    //        attacker = Character.Character.Direction.Right;
-        //    //    }
-        //    //    break;
-        //    //// 攻撃側 : Left
-        //    //case Character.Character.Direction.Left:
-        //    //    if (attackChara.zPos == defenseChara.zPos
-        //    //          && attacker != defender)
-        //    //    {
-        //    //        attacker = Character.Character.Direction.Left;
-        //    //    }
-        //    //    break;
-        //    //// デフォルト設定
-        //    //default:
-        //    //     attacker = attackChara.direction;
-        //    //    break;
-        //}
+        if (attacker != Character.Character.Direction.Right)
+        {
+            // 右側のキャラクターを攻撃するとき
+            if (attackChara.xPos + 1 == defenseChara.xPos
+                && attackChara.zPos == defenseChara.zPos)
+            {
+                attackChara.direction = Character.Character.Direction.Right;
+            }
+        }
+        if (attacker != Character.Character.Direction.Left)
+        {
+            // 左側のキャラクターを攻撃するとき
+            if (attackChara.xPos - 1 == defenseChara.xPos
+                && attackChara.zPos == defenseChara.zPos)
+            {
+                attackChara.direction = Character.Character.Direction.Left;
+            }
+        }
     }
 
     /// <summary>
@@ -844,7 +826,10 @@ public class ActionCharactor : MonoBehaviour
                 // 選択中のキャラクターをリストから削除
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
-                enemyList.RemoveAt(0);
+                if(selectingCharacter.isEnemy)
+                {
+                    enemyList.RemoveAt(0);
+                }
                 selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
@@ -1122,7 +1107,7 @@ public class ActionCharactor : MonoBehaviour
         Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き
 
         // 相性決定処理
-        // 向きごとに有利→不利の順でチェックし、バックアタック出なければnormalを返す
+        // 向きごとに有利→不利の順でチェックし、バックアタックでなければnormalを返す
         switch (attacker)
         {
             // 攻撃側 : Forward
