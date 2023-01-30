@@ -15,17 +15,17 @@ public class ActionCharactor : MonoBehaviour
 
     // 進行管理用変数
     private Character.Character selectingCharacter;       // 選択中のキャラクター
+    private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
-    private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
 
     public List<Character.Character> activeCharacters;     // isActiveがtrueになっているキャラクターのリスト
     public List<Character.Character> enemyList;            // isEnemyがtrueになっているキャラクターのリスト
 
     // 行動キャンセル処理用変数
+    private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
     private int charaStartPositionX;          // 選択キャラクターのX座標
     private int charaStartPositionZ;          // 選択キャラクターのZ座標
-    private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
 
     [SerializeField]
     private bool isFinish;      // ゲーム終了フラグ
@@ -287,6 +287,11 @@ public class ActionCharactor : MonoBehaviour
                     {
                         activeCharaData.isActive = true;
                         activeCharaData.activePoint = 3;
+                    }
+
+                    if(activeCharaData.activePoint < 3)
+                    {
+                        activeCharaData.activePoint += 3;
                     }
 
                     // 全生存キャラクターから、isActiveフラグがtrueのキャラクターをリストに追加
@@ -1109,75 +1114,47 @@ public class ActionCharactor : MonoBehaviour
 
         // 相性決定処理
         // 向きごとに有利→不利の順でチェックし、バックアタックでなければnormalを返す
-        switch (attacker)
+        switch (defender)
         {
-            // 攻撃側 : Forward
+            // 防御側 : Forward
             case Character.Character.Direction.Forward:
-                if (defender == Character.Character.Direction.Forward)
+                if(attackChara.zPos == defenseChara.zPos - 1
+                    && attackChara.xPos == defenseChara.xPos)
                 {
-                    if(attackChara.zPos + 1 == defenseChara.zPos
-                        && attackChara.xPos == defenseChara.xPos)
-                    {
-                        return good;
-                    }
-                    else
-                    {
-                        return 0.0f;
-                    }
+                    return good;
                 }
                 else
                 {
                     return 0.0f;
                 }
-            // 攻撃側 : Backward
+            // 防御側 : Backward
             case Character.Character.Direction.Backward:
-                if (defender == Character.Character.Direction.Backward)
+                if(attackChara.zPos == defenseChara.zPos + 1
+                    && attackChara.xPos == defenseChara.xPos)
                 {
-                    if (attackChara.zPos - 1 == defenseChara.zPos
-                        && attackChara.xPos == defenseChara.xPos)
-                    {
-                        return good;
-                    }
-                    else
-                    {
-                        return 0.0f;
-                    }
+                    return good;
                 }
                 else
                 {
                     return 0.0f;
                 }
-            // 攻撃側 : Right
+            // 防御側 : Right
             case Character.Character.Direction.Right:
-                if (defender == Character.Character.Direction.Right)
+                if(attackChara.xPos == defenseChara.xPos - 1
+                    && attackChara.zPos == defenseChara.zPos)
                 {
-                    if (attackChara.xPos + 1 == defenseChara.xPos
-                        && attackChara.zPos == defenseChara.zPos)
-                    {
-                        return good;
-                    }
-                    else
-                    {
-                        return 0.0f;
-                    }
+                    return good;
                 }
                 else
                 {
                     return 0.0f;
                 }
-            // 攻撃側 : Left
+            // 防御側 : Left
             case Character.Character.Direction.Left:
-                if (defender == Character.Character.Direction.Left)
+                if (attackChara.xPos == defenseChara.xPos + 1
+                    && attackChara.zPos == defenseChara.zPos)
                 {
-                    if (attackChara.xPos - 1 == defenseChara.xPos
-                        && attackChara.zPos == defenseChara.zPos)
-                    {
-                        return good;
-                    }
-                    else
-                    {
-                        return 0.0f;
-                    }
+                    return good;
                 }
                 else
                 {
