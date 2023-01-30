@@ -61,6 +61,9 @@ namespace UIManager
         public GameObject cutinPanel;
         public RawImage rawImg;
 
+        // •ûŒü‘I‘ð‰æ‘œ
+        public GameObject directionUI;
+
         // Start is called before the first frame update
         void Start()
         {

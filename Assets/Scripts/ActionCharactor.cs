@@ -1165,4 +1165,24 @@ public class ActionCharactor : MonoBehaviour
                 return 0.0f;
         }
     }
+
+    /// <summary>
+    /// 選択中のキャラクターの向きを変更
+    /// </summary>
+    public void DirectionForward()
+    {
+        selectingCharacter.direction = Character.Character.Direction.Forward;
+    }
+    public void DirectionBackward()
+    {
+        selectingCharacter.direction = Character.Character.Direction.Backward;
+    }
+    public void DirectionRight()
+    {
+        selectingCharacter.direction = Character.Character.Direction.Right;
+    }
+    public void DirectionLeft()
+    {
+        selectingCharacter.direction = Character.Character.Direction.Left;
+    }
 }
