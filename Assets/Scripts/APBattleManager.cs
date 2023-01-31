@@ -14,7 +14,7 @@ public class APBattleManager : MonoBehaviour
     private UIManager.UIManager uiManager;
 
     // 進行管理用変数
-    private Character.Character selectingCharacter;       // 選択中のキャラクター
+    public Character.Character selectingCharacter;       // 選択中のキャラクター
     private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト

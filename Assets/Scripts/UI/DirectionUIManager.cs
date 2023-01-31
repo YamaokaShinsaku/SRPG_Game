@@ -11,6 +11,8 @@ namespace UIManager
         private Canvas canvas;        // UIをおいているCanvas
         [SerializeField]
         private Transform targetTransform;    // 追従するオブジェクト
+        [SerializeField]
+        private APBattleManager apbattleManager;    // 現在選択されているキャラクターを取得
 
         // RectTransformを取得するための変数
         private RectTransform canvasRectTransform;
@@ -25,6 +27,7 @@ namespace UIManager
             // コンポーネントを取得
             canvasRectTransform = canvas.GetComponent<RectTransform>();
             myRectTransform = GetComponent<RectTransform>();
+            //apbattleManager = GetComponent<APBattleManager>();
         }
 
         // Update is called once per frame
@@ -32,6 +35,7 @@ namespace UIManager
         {
             // UI画像の座標設定用変数
             Vector2 pos;
+            targetTransform = apbattleManager.selectingCharacter.transform;
 
             // CanvasのRenderModeに応じてUIの座標の調整を行う
             switch (canvas.renderMode)
