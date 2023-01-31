@@ -14,8 +14,8 @@ namespace Character
         public Animator animation;    // アニメーション
 
         // キャラクター初期設定
-        public int initPosition_X;
-        public int initPosition_Z;
+        public int initPosition_X;    // 初期X座標
+        public int initPosition_Z;    // 初期Z座標
         private const float initPosition_Y = 1.0f;  // Y座標は固定
 
         public bool isEnemy;               // 敵かどうか
@@ -25,7 +25,7 @@ namespace Character
         public int def;                    // 防御力
         public Attribute attribute;        // 属性
         public MoveType moveType;          // 移動方法
-        public Direction direction;      // キャラクターの向いている方向
+        public Direction direction;        // キャラクターの向いている方向
         public SkillDefine.Skill skill;    // スキル
 
         public int activePoint;      // 行動するための数値（3以上で行動）
@@ -35,7 +35,7 @@ namespace Character
         public RawImage image;
         public RenderTexture texture;     // 表示するテクスチャ
 
-        public GameObject selectingObj;    // 選択されている時に表示されるオブジェクト
+        public GameObject selectingObj;   // 選択されている時に表示されるオブジェクト
 
         // ゲーム中に変化するキャラクターデータ
         [HideInInspector]
@@ -51,6 +51,8 @@ namespace Character
 
         // アニメーション速度
         const float animSpeed = 0.5f;
+
+        public GameObject[] directionButtons;
 
         // 属性を定義
         public enum Attribute
@@ -73,11 +75,12 @@ namespace Character
         public enum Direction
         {
             Forward,        // 前
-            Backward,      // 後ろ
-            Right,            // 右
-            Left,              // 左
+            Backward,       // 後ろ
+            Right,          // 右
+            Left,           // 左
         }
 
+        // キャラクターの向きを設定するための変数
         private Vector3 rotation_F = new Vector3(0.0f, 0.0f, 0.0f);
         private Vector3 rotation_B = new Vector3(0.0f, 180.0f, 0.0f);
         private Vector3 rotation_R = new Vector3(0.0f, 90.0f, 0.0f);
@@ -94,15 +97,16 @@ namespace Character
 
             this.transform.position = position;
 
-            // オブジェクトを反転（ビルボード処理で一度反転するため）
+            // スケールの調整
             Vector3 scale = this.transform.localScale;
-            //scale.x *= -1.0f;
             this.transform.localScale = scale;
 
+            // 座標、HPの初期化
             xPos = initPosition_X;
             zPos = initPosition_Z;
             nowHP = maxHP;
 
+            // UIの初期化
             statusUI.SetActive(false);
             selectingObj.SetActive(false);
         }
@@ -117,6 +121,7 @@ namespace Character
             // カメラの方を向く
             //this.transform.LookAt(cameraPosition);
 
+            // 選択された向きを向くように
             switch(direction)
             {
                 case Direction.Forward:

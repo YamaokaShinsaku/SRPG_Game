@@ -10,7 +10,7 @@ namespace UIManager
         // キャラクターの名前を表示するテキスト
         public Text[] text;
         // activeCharacterのListを取得するため
-        public ActionCharactor actionCharactor;
+        public APBattleManager actionCharactor;
         // Start is called before the first frame update
         void Start()
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
-public class ActionCharactor : MonoBehaviour
+public class APBattleManager : MonoBehaviour
 {
     [SerializeField]
     private MapManager.MapManager mapManager;
@@ -51,6 +51,7 @@ public class ActionCharactor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // コンポーネントを取得
         mapManager = GetComponent<MapManager.MapManager>();
         characterManager = GetComponent<Character.CharacterManager>();
         uiManager = GetComponent<UIManager.UIManager>();
