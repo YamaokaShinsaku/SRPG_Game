@@ -166,7 +166,7 @@ public class APBattleManager : MonoBehaviour
     /// <summary>
     /// isActiveがtrueになっているキャラクターを取得
     /// </summary>
-    public void SetFirstActionCharacter(/*MapBlock targetObject*/)
+    public void SetFirstActionCharacter()
     {
         // isActiveがtrueなキャラクターのリストを作成
         if (activeCharacters.Count == 0)

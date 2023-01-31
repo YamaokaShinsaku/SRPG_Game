@@ -27,7 +27,6 @@ namespace UIManager
             // コンポーネントを取得
             canvasRectTransform = canvas.GetComponent<RectTransform>();
             myRectTransform = GetComponent<RectTransform>();
-            //apbattleManager = GetComponent<APBattleManager>();
         }
 
         // Update is called once per frame
@@ -35,7 +34,14 @@ namespace UIManager
         {
             // UI画像の座標設定用変数
             Vector2 pos;
-            targetTransform = apbattleManager.selectingCharacter.transform;
+            if(apbattleManager.selectingCharacter)
+            {
+                targetTransform = apbattleManager.selectingCharacter.transform;
+            }
+            else
+            {
+                return;
+            }
 
             // CanvasのRenderModeに応じてUIの座標の調整を行う
             switch (canvas.renderMode)
