@@ -4,72 +4,85 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class BattleWindowUI : MonoBehaviour
+namespace UIManager
 {
-    /// バトル結果表示ウィンドウ ///
-    public Text nameText;
-    public Image hpGageImg;     // HPゲージ画像
-    public Text hpText;         // HPテキスト
-    public Text damageText;     // ダメージテキスト
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class BattleWindowUI : MonoBehaviour
     {
-        this.gameObject.SetActive(false);
-    }
+        /// バトル結果表示ウィンドウ ///
+        public Text nameText;
+        public Image[] hpGageImg;     // HPゲージ画像
+        public Text hpText;               // HPテキスト
+        public Text damageText;       // ダメージテキスト
 
-    /// <summary>
-    /// バトル結果ウィンドウを表示する
-    /// </summary>
-    /// <param name="charaData">攻撃されたキャラクターのデータ</param>
-    /// <param name="damegeValue">ダメージ量</param>
-    public void ShowWindow(Character.Character charaData, int damegeValue)
-    {
-        // オブジェクトのアクティブ化
-        this.gameObject.SetActive(true);
+        private UIManager uiManager;
 
-        // 名前テキストの表示
-        nameText.text = charaData.characterName;
+        // Start is called before the first frame update
+        void Start()
+        {
+            this.gameObject.SetActive(false);
+        }
 
-        // ダメージを計算して、残りHPを取得
-        int nowHP = charaData.nowHP - damegeValue;
-        // HPが0～最大値の範囲に収まるように補正
-        nowHP = Mathf.Clamp(nowHP, 0, charaData.maxHP);
+        /// <summary>
+        /// バトル結果ウィンドウを表示する
+        /// </summary>
+        /// <param name="charaData">攻撃されたキャラクターのデータ</param>
+        /// <param name="damegeValue">ダメージ量</param>
+        public void ShowWindow(Character.Character charaData, int damegeValue)
+        {
+            // オブジェクトのアクティブ化
+            this.gameObject.SetActive(true);
 
-        // HPゲージ表示
-        float amount = (float)charaData.nowHP / charaData.maxHP;       // 表示中の FillAmount
-        float endAmount = (float)nowHP / charaData.maxHP;    // アニメーション後の FillAmount
+            // 名前テキストの表示
+            nameText.text = charaData.characterName;
 
-        // HPゲージを徐々に減少させるアニメーション
-        DOTween.To(
-            () => amount, (n) => amount = n,        // 変化させる変数を指定
-            endAmount,          // 変化先の数値
-            1.0f)               // アニメーション時間(秒)
-            .OnUpdate(() =>     // アニメーション中毎フレーム実行される処理
+            // ダメージを計算して、残りHPを取得
+            int nowHP = charaData.nowHP - damegeValue;
+            // HPが0～最大値の範囲に収まるように補正
+            nowHP = Mathf.Clamp(nowHP, 0, charaData.maxHP);
+
+            // HPゲージ表示
+            float amount = (float)charaData.nowHP / charaData.maxHP;       // 表示中の FillAmount
+            float endAmount = (float)nowHP / charaData.maxHP;    // アニメーション後の FillAmount
+
+            // HPゲージを徐々に減少させるアニメーション
+            DOTween.To(
+                () => amount, (n) => amount = n,        // 変化させる変数を指定
+                endAmount,          // 変化先の数値
+                1.0f)               // アニメーション時間(秒)
+                .OnUpdate(() =>     // アニメーション中毎フレーム実行される処理
             {
-               // 最大値に対する現在のHPの割合を画像の FillAmount にセットする
-               hpGageImg.fillAmount = amount;
-           });
+                // 最大値に対する現在のHPの割合を画像の FillAmount にセットする
+                hpGageImg[0].fillAmount = amount;
+                if(!charaData.isEnemy)
+                {
+                    hpGageImg[1].fillAmount = amount;
+                }
+                else
+                {
+                    hpGageImg[2].fillAmount = amount;
+                }
+              });
 
-        // テキスト表示
-        hpText.text = nowHP + "/" + charaData.maxHP;
-        if(damegeValue >= 0)
-        {
-            damageText.text = damegeValue + "ダメージ！";
+            // テキスト表示
+            hpText.text = nowHP + "/" + charaData.maxHP;
+            if (damegeValue >= 0)
+            {
+                damageText.text = damegeValue + "ダメージ！";
+            }
+            // HP回復時
+            else
+            {
+                damageText.text = -damegeValue + "回復！";
+            }
         }
-        // HP回復時
-        else
+
+        /// <summary>
+        /// バトル結果ウィンドウを隠す
+        /// </summary>
+        public void HideWindow()
         {
-            damageText.text = -damegeValue + "回復！";
+            this.gameObject.SetActive(false);
         }
     }
 
-    /// <summary>
-    /// バトル結果ウィンドウを隠す
-    /// </summary>
-    public void HideWindow()
-    {
-        this.gameObject.SetActive(false);
-    }
 }

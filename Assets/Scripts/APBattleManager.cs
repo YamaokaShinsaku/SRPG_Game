@@ -15,17 +15,17 @@ public class APBattleManager : MonoBehaviour
 
     // 進行管理用変数
     public Character.Character selectingCharacter;       // 選択中のキャラクター
-    private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
+    private Character.SkillDefine.Skill selectingSkill;      // 選択中のスキル（通常攻撃はNONE固定）
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
 
     public List<Character.Character> activeCharacters;     // isActiveがtrueになっているキャラクターのリスト
-    public List<Character.Character> enemyList;            // isEnemyがtrueになっているキャラクターのリスト
+    public List<Character.Character> enemyList;              // isEnemyがtrueになっているキャラクターのリスト
 
     // 行動キャンセル処理用変数
     private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
-    private int charaStartPositionX;          // 選択キャラクターのX座標
-    private int charaStartPositionZ;          // 選択キャラクターのZ座標
+    private int charaStartPositionX;              // 選択キャラクターのX座標
+    private int charaStartPositionZ;              // 選択キャラクターのZ座標
 
     [SerializeField]
     private bool isFinish;      // ゲーム終了フラグ
@@ -36,15 +36,15 @@ public class APBattleManager : MonoBehaviour
     // ターン進行モード
     private enum Phase
     {
-        C_Start,             // アクティブキャラクター選択フェーズ
-        C_SelectDirection,   // キャラクターの向きを選択
-        MyTurn_Start,        // 自分のターン：開始
-        MyTurn_Moving,       // 自分のターン：移動先選択
-        MyTurn_Command,      // 自分のターン：コマンド選択
+        C_Start,                    // アクティブキャラクター選択フェーズ
+        C_SelectDirection,     // キャラクターの向きを選択
+        MyTurn_Start,           // 自分のターン：開始
+        MyTurn_Moving,        // 自分のターン：移動先選択
+        MyTurn_Command,   // 自分のターン：コマンド選択
         MyTurn_Targeting,    // 自分のターン：攻撃対象選択
-        MyTurn_Result,       // 自分のターン：結果表示
+        MyTurn_Result,         // 自分のターン：結果表示
         Enemyturn_Start,     // 敵のターン  ：開始
-        EnemyTurn_Result     // 敵のターン  ：結果表示
+        EnemyTurn_Result    // 敵のターン  ：結果表示
     }
     private Phase nowPhase;     // 現在の進行モード
 
@@ -279,7 +279,7 @@ public class APBattleManager : MonoBehaviour
             case Phase.C_Start:
                 mapManager.AllSelectionModeClear();
                 uiManager.CutinDelete();
-                uiManager.HideDirectionText();
+                uiManager.HidedirectionText();
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
                 {
@@ -499,7 +499,7 @@ public class APBattleManager : MonoBehaviour
                 });
                 break;
             case Phase.C_SelectDirection:
-                uiManager.ShowDirectionText();
+                uiManager.ShowdirectionText();
                 Debug.Log("SelectDirectionPhase");
                 break;
         }
