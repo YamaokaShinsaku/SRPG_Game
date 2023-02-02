@@ -3015,7 +3015,7 @@ GameObject:
   - component: {fileID: 336244635}
   m_Layer: 0
   m_Name: RightCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3971,7 +3971,7 @@ GameObject:
   - component: {fileID: 439788043}
   m_Layer: 0
   m_Name: FrontCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7970,7 +7970,7 @@ GameObject:
   - component: {fileID: 992237595}
   m_Layer: 0
   m_Name: BackCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12490,7 +12490,7 @@ GameObject:
   - component: {fileID: 1383955781}
   m_Layer: 0
   m_Name: LeftCamera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
