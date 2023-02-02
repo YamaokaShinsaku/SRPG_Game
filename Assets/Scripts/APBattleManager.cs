@@ -283,7 +283,7 @@ public class APBattleManager : MonoBehaviour
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
                 {
-                    activeCharaData.activePoint++;
+                    //activeCharaData.activePoint++;
                     if (activeCharaData.activePoint >= 3)
                     {
                         activeCharaData.isActive = true;
