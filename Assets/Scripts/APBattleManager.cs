@@ -312,7 +312,6 @@ public class APBattleManager : MonoBehaviour
                 charaStartPositionZ = selectingCharacter.zPos;
 
                 // キャラクターのステータスUIを表示する
-                //selectingCharacter.statusUI.SetActive(true);
                 selectingCharacter.image.texture = selectingCharacter.texture;
                 uiManager.SetTexture(selectingCharacter.texture);
                 uiManager.ShowCharaStatus(selectingCharacter);
@@ -325,14 +324,14 @@ public class APBattleManager : MonoBehaviour
                 {
                     uiManager.ShowPlayerStatusWindow(selectingCharacter);
                 }
-                // 移動可能な場所リストを取得する
-                reachableBlocks =
-                    mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
-                // 移動可能な場所リストを表示する
-                foreach (MapBlock mapBlock in reachableBlocks)
-                {
-                    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
-                }
+                //// 移動可能な場所リストを取得する
+                //reachableBlocks =
+                //    mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+                //// 移動可能な場所リストを表示する
+                //foreach (MapBlock mapBlock in reachableBlocks)
+                //{
+                //    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
+                //}
 
                 // 選択したキャラクターがエネミーの時
                 if (selectingCharacter.isEnemy)

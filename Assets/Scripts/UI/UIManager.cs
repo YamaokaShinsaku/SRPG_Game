@@ -11,8 +11,8 @@ namespace UIManager
         /// ステータスウィンドウ ///
         public GameObject playerStatusWindow;
         public GameObject enemyStatusWindow;
-        public Image playerHpGageImg;              // HPゲージ画像
-        public Image enemyHpGageImg;    // HPゲージ画像
+        public Image playerHpGageImg;    // HPゲージ画像
+        public Image enemyHpGageImg;     // HPゲージ画像
         // テキスト
         public Text nameText;
         public Text hpText;
