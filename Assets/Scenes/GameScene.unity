@@ -1631,7 +1631,7 @@ RectTransform:
   - {fileID: 1361784093}
   - {fileID: 819304078}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 14
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5554,7 +5554,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 17
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5671,7 +5671,7 @@ RectTransform:
   - {fileID: 1800798003}
   - {fileID: 1923710837}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 19
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -6749,7 +6749,7 @@ RectTransform:
   - {fileID: 68076626}
   - {fileID: 1088594268}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 15
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 75.128}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10676,7 +10676,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 16
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -19147,7 +19147,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 20
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19397,7 +19397,7 @@ RectTransform:
   - {fileID: 1053953432}
   - {fileID: 835916265}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 18
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -20850,13 +20850,13 @@ RectTransform:
   - {fileID: 986687509}
   - {fileID: 850560696}
   - {fileID: 754321903}
-  - {fileID: 163549629}
-  - {fileID: 703728293}
   - {fileID: 1100079408}
   - {fileID: 562253229}
   - {fileID: 1938822244}
   - {fileID: 574031766}
   - {fileID: 1915449622}
+  - {fileID: 163549629}
+  - {fileID: 703728293}
   - {fileID: 327335732}
   m_Father: {fileID: 0}
   m_RootOrder: 6
