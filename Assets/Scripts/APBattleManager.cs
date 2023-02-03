@@ -14,18 +14,18 @@ public class APBattleManager : MonoBehaviour
     private UIManager.UIManager uiManager;
 
     // 進行管理用変数
-    public Character.Character selectingCharacter;       // 選択中のキャラクター
-    private Character.SkillDefine.Skill selectingSkill;      // 選択中のスキル（通常攻撃はNONE固定）
+    public Character.Character selectingCharacter;        // 選択中のキャラクター
+    private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
 
     public List<Character.Character> activeCharacters;     // isActiveがtrueになっているキャラクターのリスト
-    public List<Character.Character> enemyList;              // isEnemyがtrueになっているキャラクターのリスト
+    public List<Character.Character> enemyList;            // isEnemyがtrueになっているキャラクターのリスト
 
     // 行動キャンセル処理用変数
     private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
-    private int charaStartPositionX;              // 選択キャラクターのX座標
-    private int charaStartPositionZ;              // 選択キャラクターのZ座標
+    private int charaStartPositionX;          // 選択キャラクターのX座標
+    private int charaStartPositionZ;          // 選択キャラクターのZ座標
 
     [SerializeField]
     private bool isFinish;      // ゲーム終了フラグ
