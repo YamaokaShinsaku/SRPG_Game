@@ -86,10 +86,12 @@ namespace UIManager
         public void HidedirectionText()
         {
             directionText.enabled = false;
+            directionUI.SetActive(false);
         }
         public void ShowdirectionText()
         {
             directionText.enabled = true;
+            directionUI.SetActive(true);
         }
 
         /// <summary>
