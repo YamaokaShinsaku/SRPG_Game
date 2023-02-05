@@ -16219,10 +16219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e097a638e303f464faba6f2a05f9072d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _iteration: 10
-  _threshold: 0.367
-  _softThreshold: 0.382
-  _intensity: 0.89
+  _iteration: 20
+  _threshold: 0.75
+  _softThreshold: 0.4
+  _intensity: 3.8
   _debug: 0
   _material: {fileID: 2100000, guid: 5133b49ed7137ad439a303b536496a2e, type: 2}
 --- !u!20 &1657876347
@@ -18675,8 +18675,8 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 0, g: 0.46206903, b: 1, a: 1}
-  m_Intensity: 8
+  m_Color: {r: 0, g: 0.29411766, b: 1, a: 1}
+  m_Intensity: 14.5
   m_Range: 50
   m_SpotAngle: 100
   m_InnerSpotAngle: 1
