@@ -565,6 +565,16 @@ public class APBattleManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 方向選択処理
+    /// </summary>
+    public void SelectDirectionCommand()
+    {
+        uiManager.HidedirectionText();
+
+        ChangePhase(Phase.C_Start);
+    }
+
+    /// <summary>
     /// 待機処理
     /// </summary>
     public void StandCommand()
@@ -722,6 +732,7 @@ public class APBattleManager : MonoBehaviour
         {
             //クリティカル（会心の一撃）
             case Character.SkillDefine.Skill.Critical:
+                uiManager.CutinActive();
                 // ダメージ2倍
                 damageValue *= 2;
                 // スキル使用不可能状態に
@@ -729,6 +740,7 @@ public class APBattleManager : MonoBehaviour
                 break;
             // シールド破壊
             case Character.SkillDefine.Skill.DefBreak:
+                uiManager.CutinActive();
                 // ダメージ0固定
                 damageValue = 0;
                 // 防御力０（デバフ）をセット
@@ -736,11 +748,13 @@ public class APBattleManager : MonoBehaviour
                 break;
             // ヒール
             case Character.SkillDefine.Skill.Heal:
+                uiManager.CutinActive();
                 // 回復（回復量は攻撃力の半分）
                 damageValue = (int)(attackPoint * -0.5f);
                 break;
             // ファイアボール
             case Character.SkillDefine.Skill.FireBall:
+                uiManager.CutinActive();
                 // 与えるダメージ半減
                 damageValue /= 2;
                 break;
@@ -800,7 +814,7 @@ public class APBattleManager : MonoBehaviour
                 {
                     //attackChara.statusUI.SetActive(false);
                     //defenseChara.statusUI.SetActive(false);
-                    //uiManager.CutinDelete();
+                    uiManager.CutinDelete();
                     attackChara.texture.Release();
                     defenseChara.texture.Release();
                     uiManager.HidePlayerStatusWindow();
