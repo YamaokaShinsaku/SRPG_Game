@@ -32,11 +32,12 @@ namespace UIManager
         // Update is called once per frame
         void Update()
         {
+            targetTransform = apbattleManager.selectingCharacter.transform;
             // UI画像の座標設定用変数
             Vector2 pos;
             if(apbattleManager.selectingCharacter)
             {
-                targetTransform = apbattleManager.selectingCharacter.transform;
+                targetTransform.position = apbattleManager.selectingCharacter.transform.position;
             }
             else
             {
@@ -46,13 +47,10 @@ namespace UIManager
             // CanvasのRenderModeに応じてUIの座標の調整を行う
             switch (canvas.renderMode)
             {
-
                 case RenderMode.ScreenSpaceOverlay:
                     myRectTransform.position =
                         RectTransformUtility.WorldToScreenPoint(Camera.main, targetTransform.position + offset);
-
                     break;
-
                 case RenderMode.ScreenSpaceCamera:
                     Vector2 screenPos =
                         RectTransformUtility.WorldToScreenPoint(Camera.main, targetTransform.position + offset);
@@ -60,10 +58,8 @@ namespace UIManager
                         canvasRectTransform, screenPos, Camera.main, out pos);
                     myRectTransform.localPosition = pos;
                     break;
-
                 case RenderMode.WorldSpace:
                     myRectTransform.LookAt(Camera.main.transform);
-
                     break;
             }
         }

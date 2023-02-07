@@ -354,7 +354,7 @@ public class APBattleManager : MonoBehaviour
                 // 全ブロックの選択状態を解除する
                 mapManager.AllSelectionModeClear();
                 // ブロックを選択状態にする
-                targetObject.SetSelectionMode(MapBlock.Highlight.Select);
+                //targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
                 Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                     + targetObject.transform.position);
