@@ -10,8 +10,11 @@ namespace EffectManager
         private GameObject backAttackEffect;    // バックアタックエフェクト
         [SerializeField]
         private GameObject dethEffect;          // 死亡エフェクト
+        [SerializeField]
+        private GameObject damageEffect;        // ダメージエフェクト
 
         public GameObject Target;
+        public TextMesh damageText;
         private Vector3 offset;
 
         // Start is called before the first frame update
@@ -19,12 +22,7 @@ namespace EffectManager
         {
             backAttackEffect.SetActive(false);
             dethEffect.SetActive(false);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
+            damageEffect.SetActive(false);
         }
 
         /// <summary>
@@ -43,18 +41,9 @@ namespace EffectManager
                 // オフセットを設定
                 offset = new Vector3(-0.5f, 3.0f, 0.0f);
             }
-            Vector3 xoffset = new Vector3(0.0f, 0.0f, 0.0f);
-            if (selectingCharacter.xPos == -4)
-            {
-                xoffset = new Vector3(0.5f, 0.0f, 0.0f);
-            }
-            else if (selectingCharacter.xPos == 4)
-            {
-                xoffset = new Vector3(-0.5f, 0.0f, 0.0f);
-            }
 
-            // オフセットを設定
-            //offset = new Vector3(-0.5f, 3.0f, -3.0f);
+
+
 
             // 角度を調整（Targetのほうを向くように）
             Vector3 dir = Target.transform.position - transform.position;
@@ -62,7 +51,7 @@ namespace EffectManager
 
             // エフェクトの表示座標を設定
             backAttackEffect.transform.rotation = Rotation;
-            backAttackEffect.transform.position = selectingCharacter.transform.position + offset/* + xoffset*/;
+            backAttackEffect.transform.position = selectingCharacter.transform.position + offset;
 
             // エフェクトを再生
             backAttackEffect.SetActive(true);
@@ -84,6 +73,33 @@ namespace EffectManager
 
             // エフェクトを再生
             clone.SetActive(true);
+        }
+
+        public void PlayDamageEffect(Character.Character damageCharacter, float damage)
+        {
+            if (damageCharacter.zPos >= 0.0f)
+            {
+                // オフセットを設定
+                offset = new Vector3(0.0f, 1.0f, 0.0f);
+            }
+            else if (damageCharacter.zPos < 0.0f)
+            {
+                // オフセットを設定
+                offset = new Vector3(0.0f, 1.0f, 0.0f);
+            }
+
+            // 角度を調整（Targetのほうを向くように）
+            Vector3 dir = Target.transform.position - transform.position;
+            Quaternion Rotation = Quaternion.LookRotation(dir);
+
+            // エフェクトの表示座標を設定
+            damageEffect.transform.rotation = Rotation;
+            damageEffect.transform.position = damageCharacter.transform.position + offset;
+
+            damageText.text = damage.ToString();
+
+            // エフェクトを再生
+            damageEffect.SetActive(true);
         }
     }
 }

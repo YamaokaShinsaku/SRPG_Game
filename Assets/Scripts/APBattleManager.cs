@@ -428,7 +428,6 @@ public class APBattleManager : MonoBehaviour
                     {
                         //targetChara.statusUI.SetActive(true);
                         uiManager.ShowCharaStatus(targetChara);
-
                     }
 
                     // 進行モードを進める
@@ -765,6 +764,8 @@ public class APBattleManager : MonoBehaviour
 
         // バトル結果表示ウィンドウの表示設定
         uiManager.battleWindowUI.ShowWindow(defenseChara, damageValue);
+
+        effectManager.PlayDamageEffect(defenseChara, damageValue);
 
         // ダメージ量分攻撃された側のHPを減少させる
         defenseChara.nowHP -= damageValue;

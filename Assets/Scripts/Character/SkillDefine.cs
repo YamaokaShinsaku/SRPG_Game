@@ -35,10 +35,10 @@ namespace Character
         public static Dictionary<Skill, string> dicSkillInfo = new Dictionary<Skill, string>()
         {
             {Skill.None, "----" },
-            {Skill.Critical, "ダメージ2倍の攻撃（1回限り）" },
-            {Skill.DefBreak, "敵の防御力を0にする（与えるダメージは0）" },
-            {Skill.Heal, "味方のHPを回復する" },
-            {Skill.FireBall, "どの位置にいる敵にも攻撃できる" },
+            {Skill.Critical, "                         ダメージ2倍の攻撃（1回限り）" },
+            {Skill.DefBreak, "               敵の防御力を0にする\n               （与えるダメージは0）" },
+            {Skill.Heal, "                    味方のHPを回復する" },
+            {Skill.FireBall, "                    どの位置にいる敵にも攻撃できる" },
         };
     }
 }
