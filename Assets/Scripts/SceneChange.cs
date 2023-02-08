@@ -6,15 +6,15 @@ using DG.Tweening;
 
 public class SceneChange : MonoBehaviour
 {
-    private UIManager.UIManager uiManager;
     // 次のシーンの名前
     public string nextScene;
+
+    public float delayTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        // コンポーネント取得
-        uiManager = GetComponent<UIManager.UIManager>();
+        delayTime = 0.0f;
     }
 
     /// <summary>
@@ -24,8 +24,8 @@ public class SceneChange : MonoBehaviour
     public void ChangeScene(string sceneName)
     {
         // フェードスタート
-        uiManager.StartFadeIn();
-        DOVirtual.DelayedCall(7.0f, () =>
+        //uiManager.StartFadeIn();
+        DOVirtual.DelayedCall(delayTime, () =>
         {
             // シーン遷移
             SceneManager.LoadScene(sceneName);

@@ -40,6 +40,7 @@ namespace UIManager
 
         // スキル説明用テキスト
         public Text skillText;
+        public GameObject skillTextPanel;
 
         // バトル結果表示ウィンドウ
         public BattleWindowUI battleWindowUI;
@@ -86,11 +87,17 @@ namespace UIManager
             fadeImg.color = startAlphaNum;
         }
 
+        /// <summary>
+        /// メニューパネルを非表示にする
+        /// </summary>
         public void HideMenuPanel()
         {
             menuPanel.SetActive(false);
         }
 
+        /// <summary>
+        /// メニューパネルを表示する
+        /// </summary>
         public void OpenMenuPanel()
         {
             menuPanel.SetActive(true);
@@ -195,6 +202,7 @@ namespace UIManager
             skillCommandButton.gameObject.SetActive(false);
 
             skillText.enabled = false;
+            skillTextPanel.SetActive(false);
         }
 
         /// <summary>
@@ -267,6 +275,10 @@ namespace UIManager
             }
         }
 
+        /// <summary>
+        /// 敵キャラクターのステータスウィンドウを表示
+        /// </summary>
+        /// <param name="charaData">敵キャラクターデータ</param>
         public void ShowEnemyStatusWindow(Character.Character charaData)
         {
             // オブジェクトをアクティブに
@@ -327,6 +339,7 @@ namespace UIManager
             skillCommandButton.gameObject.SetActive(true);
 
             skillText.enabled = true;
+            skillTextPanel.SetActive(true);
 
             // 選択中のキャラクターのスキルをTextに表示する
             // 選択中のキャラクターのスキル
