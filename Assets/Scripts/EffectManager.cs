@@ -31,19 +31,15 @@ namespace EffectManager
         /// <param name="selectintCharacter">選択中のキャラクター</param>
         public void PlayBackAttackEffect(Character.Character selectingCharacter)
         {
-            if(selectingCharacter.zPos >= 0.0f)
+            // オフセットを設定
+            if (selectingCharacter.zPos >= 0.0f)
             {
-                // オフセットを設定
                 offset = new Vector3(-0.5f, 3.0f, -3.0f);
             }
             else if(selectingCharacter.zPos < 0.0f)
             {
-                // オフセットを設定
                 offset = new Vector3(-0.5f, 3.0f, 0.0f);
             }
-
-
-
 
             // 角度を調整（Targetのほうを向くように）
             Vector3 dir = Target.transform.position - transform.position;
@@ -65,26 +61,30 @@ namespace EffectManager
         /// <param name="selectingCharacter">選択中のキャラクター</param>
         public void PlayDethEffect(Character.Character selectingCharacter)
         {
-            GameObject clone = Instantiate(dethEffect);
+            GameObject clone = Instantiate(dethEffect,selectingCharacter.transform.parent);
             // オフセットを設定
             offset = new Vector3(0.0f, 0.5f, 0.0f);
             // エフェクトの表示座標を設定
-            clone.transform.position = selectingCharacter.transform.position + offset;
+            clone.transform.localPosition = selectingCharacter.transform.position + offset;
 
             // エフェクトを再生
             clone.SetActive(true);
         }
 
+        /// <summary>
+        /// ダメージ数値エフェクトの再生
+        /// </summary>
+        /// <param name="damageCharacter">ダメージを受けたキャラクター</param>
+        /// <param name="damage">ダメージ量</param>
         public void PlayDamageEffect(Character.Character damageCharacter, float damage)
         {
+            // オフセットを設定
             if (damageCharacter.zPos >= 0.0f)
             {
-                // オフセットを設定
                 offset = new Vector3(0.0f, 1.0f, 0.0f);
             }
             else if (damageCharacter.zPos < 0.0f)
             {
-                // オフセットを設定
                 offset = new Vector3(0.0f, 1.0f, 0.0f);
             }
 
@@ -96,6 +96,7 @@ namespace EffectManager
             damageEffect.transform.rotation = Rotation;
             damageEffect.transform.position = damageCharacter.transform.position + offset;
 
+            // damageTextにダメージの数値を代入
             damageText.text = damage.ToString();
 
             // エフェクトを再生
