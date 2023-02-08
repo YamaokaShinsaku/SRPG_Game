@@ -83,38 +83,12 @@ public class APBattleManager : MonoBehaviour
             return;
         }
 
-        // 向き選択フェーズのとき
-        if(nowPhase == Phase.C_SelectDirection)
+        if(nowPhase == Phase.C_Start)
         {
-            // 矢印キーの方向を向く
-            if (Input.GetKeyDown(KeyCode.UpArrow))
+            DOVirtual.DelayedCall(0.5f, () =>
             {
-                selectingCharacter.direction = Character.Character.Direction.Forward;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
                 GetMapObjects();
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Backward;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Left;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Right;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
+            });
         }
 
         // タップ先を検出
@@ -336,7 +310,6 @@ public class APBattleManager : MonoBehaviour
                 //    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
                 //}
 
-                effectManager.PlayBackAttackEffect(selectingCharacter);
 
                 // 選択したキャラクターがエネミーの時
                 if (selectingCharacter.isEnemy)
@@ -797,6 +770,7 @@ public class APBattleManager : MonoBehaviour
         // HPが0になったキャラクターを削除する
         if (defenseChara.nowHP == 0)
         {
+            effectManager.PlayDethEffect(defenseChara);
             characterManager.DeleteCharaData(defenseChara);
             activeCharacters.Remove(defenseChara);
         }
@@ -1140,6 +1114,7 @@ public class APBattleManager : MonoBehaviour
                 if(attackChara.zPos == defenseChara.zPos - 1
                     && attackChara.xPos == defenseChara.xPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
@@ -1151,6 +1126,7 @@ public class APBattleManager : MonoBehaviour
                 if(attackChara.zPos == defenseChara.zPos + 1
                     && attackChara.xPos == defenseChara.xPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
@@ -1162,6 +1138,7 @@ public class APBattleManager : MonoBehaviour
                 if(attackChara.xPos == defenseChara.xPos - 1
                     && attackChara.zPos == defenseChara.zPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
@@ -1173,6 +1150,7 @@ public class APBattleManager : MonoBehaviour
                 if (attackChara.xPos == defenseChara.xPos + 1
                     && attackChara.zPos == defenseChara.zPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
