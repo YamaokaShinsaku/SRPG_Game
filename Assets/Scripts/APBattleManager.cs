@@ -72,6 +72,7 @@ public class APBattleManager : MonoBehaviour
 
         // 最初のキャラクターをセット
         SetFirstActionCharacter();
+
     }
 
     // Update is called once per frame
@@ -83,12 +84,15 @@ public class APBattleManager : MonoBehaviour
             return;
         }
 
-        if(nowPhase == Phase.C_Start)
+        if (nowPhase == Phase.C_Start)
         {
-            DOVirtual.DelayedCall(0.5f, () =>
-            {
-                GetMapObjects();
-            });
+            // オブジェクトを取得
+            GetMapObjects();
+            //DOVirtual.DelayedCall(0.5f, () =>
+            //{
+            //    // オブジェクトを取得
+            //    GetMapObjects();
+            //});
         }
 
         // タップ先を検出
@@ -213,7 +217,7 @@ public class APBattleManager : MonoBehaviour
             // EnhanceSceneの読み込み
             DOVirtual.DelayedCall(7.0f, () =>
             {
-                SceneManager.LoadScene("Enhance");
+                SceneManager.LoadScene("TitleScene");
             });
         }
     }
@@ -477,7 +481,7 @@ public class APBattleManager : MonoBehaviour
                 break;
             case Phase.C_SelectDirection:
                 uiManager.ShowdirectionText();
-                Debug.Log("SelectDirectionPhase");
+                //Debug.Log("SelectDirectionPhase");
                 break;
         }
     }
@@ -767,6 +771,8 @@ public class APBattleManager : MonoBehaviour
         // HPが0～最大値の範囲に収まるように補正
         defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
 
+        //activeCharacters.Remove(defenseChara);
+
         // HPが0になったキャラクターを削除する
         if (defenseChara.nowHP == 0)
         {
@@ -932,6 +938,15 @@ public class APBattleManager : MonoBehaviour
 
         //selectingCharacter.statusUI.SetActive(true);
         uiManager.ShowCharaStatus(selectingCharacter);
+
+        // 移動可能な場所リストを取得する
+        reachableBlocks =
+            mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+        // 移動可能な場所リストを表示する
+        foreach (MapBlock mapBlock in reachableBlocks)
+        {
+            mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
+        }
 
         // 攻撃可能なキャラクター・位置の組み合わせを1つランダムに取得
         var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyList);

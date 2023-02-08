@@ -33,8 +33,28 @@ namespace EffectManager
         /// <param name="selectintCharacter">選択中のキャラクター</param>
         public void PlayBackAttackEffect(Character.Character selectingCharacter)
         {
+            if(selectingCharacter.zPos >= 0.0f)
+            {
+                // オフセットを設定
+                offset = new Vector3(-0.5f, 3.0f, -3.0f);
+            }
+            else if(selectingCharacter.zPos < 0.0f)
+            {
+                // オフセットを設定
+                offset = new Vector3(-0.5f, 3.0f, 0.0f);
+            }
+            Vector3 xoffset = new Vector3(0.0f, 0.0f, 0.0f);
+            if (selectingCharacter.xPos == -4)
+            {
+                xoffset = new Vector3(0.5f, 0.0f, 0.0f);
+            }
+            else if (selectingCharacter.xPos == 4)
+            {
+                xoffset = new Vector3(-0.5f, 0.0f, 0.0f);
+            }
+
             // オフセットを設定
-            offset = new Vector3(-0.5f, 3.0f, -3.0f);
+            //offset = new Vector3(-0.5f, 3.0f, -3.0f);
 
             // 角度を調整（Targetのほうを向くように）
             Vector3 dir = Target.transform.position - transform.position;
@@ -42,7 +62,7 @@ namespace EffectManager
 
             // エフェクトの表示座標を設定
             backAttackEffect.transform.rotation = Rotation;
-            backAttackEffect.transform.position = selectingCharacter.transform.position + offset;
+            backAttackEffect.transform.position = selectingCharacter.transform.position + offset/* + xoffset*/;
 
             // エフェクトを再生
             backAttackEffect.SetActive(true);

@@ -148,7 +148,7 @@ namespace GameManager
                 // EnhanceScene‚Ì“Ç‚Ýž‚Ý
                 DOVirtual.DelayedCall(7.0f, () =>
                 {
-                    SceneManager.LoadScene("Enhance");
+                    SceneManager.LoadScene("TitleScene");
                 });
             }
         }

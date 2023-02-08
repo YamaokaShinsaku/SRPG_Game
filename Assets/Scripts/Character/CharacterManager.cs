@@ -20,8 +20,8 @@ namespace Character
             charactersParent.GetComponentsInChildren(characters);
 
             // DataManagerからデータ管理クラスを取得する
-            DataManager.Data data =
-                GameObject.Find("DataManager").GetComponent<DataManager.Data>();
+            //DataManager.Data data =
+            //    GameObject.Find("DataManager").GetComponent<DataManager.Data>();
 
             // ステータス上昇データを適応する
             foreach(Character charaData in characters)
@@ -33,10 +33,10 @@ namespace Character
                 }
 
                 // キャラクターの能力を上昇させる
-                charaData.maxHP += data.addHP;    // 最大HP
-                charaData.nowHP += data.addHP;    // 現在のHP
-                charaData.atk += data.addAtk;     // 攻撃力
-                charaData.def += data.addDef;     // 防御力
+                //charaData.maxHP += data.addHP;    // 最大HP
+                //charaData.nowHP += data.addHP;    // 現在のHP
+                //charaData.atk += data.addAtk;     // 攻撃力
+                //charaData.def += data.addDef;     // 防御力
             }
         }
 
@@ -80,7 +80,7 @@ namespace Character
             });
 
             // ゲーム終了判定を行う
-            GetComponent<GameManager.GameManager>().CheckFinish();
+            GetComponent<APBattleManager>().CheckFinish();
         }
     }
 }

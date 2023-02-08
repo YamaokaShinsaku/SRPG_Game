@@ -35,14 +35,14 @@ public class DirectionObject : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            //マウスクリックした場所からRayを飛ばし、オブジェクトがあればtrue 
-            if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
-            {
-                if (hit.collider.gameObject.tag == "DirectionObj")
-                {
-                    Debug.Log("Direction Hit");
-                }
-            }
+            ////マウスクリックした場所からRayを飛ばし、オブジェクトがあればtrue 
+            //if (Physics.Raycast(ray.origin, ray.direction, out hit, Mathf.Infinity))
+            //{
+            //    if (hit.collider.gameObject.tag == "DirectionObj")
+            //    {
+            //        Debug.Log("Direction Hit");
+            //    }
+            //}
         }
     }
 
