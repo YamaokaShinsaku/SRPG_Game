@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - DirectionObj
+  - Effect
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Naga
   - PostEffects
   - DirectionObject
-  - 
+  - Effect
   - 
   - 
   - 
