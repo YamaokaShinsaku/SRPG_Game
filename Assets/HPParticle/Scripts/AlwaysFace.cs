@@ -5,9 +5,8 @@ this script is attached to ammo, and stores data to be used by the PickUpItemScr
 using UnityEngine;
 using System.Collections;
 
-public class AlwaysFace : MonoBehaviour {
-
-
+public class AlwaysFace : MonoBehaviour
+{
 	public GameObject Target;
 	public float Speed;
 

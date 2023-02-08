@@ -10,10 +10,14 @@ public class HPParticleScript : MonoBehaviour {
 
 	private GameObject HPLabel;
 
+	private float firstAlpha = 0.0f;
+
 	// Set a Variable
 	void Start () 
 	{
 		HPLabel = gameObject.transform.Find("HPLabel").gameObject;
+
+		firstAlpha = Alpha;
 	}
 
 	void FixedUpdate () 
@@ -25,7 +29,10 @@ public class HPParticleScript : MonoBehaviour {
 
 		if (Alpha < 0.005f)
 		{
-			Destroy(gameObject);
+			//Destroy(gameObject);
+			this.gameObject.SetActive(false);
+
+			Alpha = firstAlpha;
 		}
 	}
 }

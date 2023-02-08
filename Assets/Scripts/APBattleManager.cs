@@ -12,6 +12,8 @@ public class APBattleManager : MonoBehaviour
     private Character.CharacterManager characterManager;
     [SerializeField]
     private UIManager.UIManager uiManager;
+    [SerializeField]
+    private EffectManager.EffectManager effectManager;
 
     // 進行管理用変数
     public Character.Character selectingCharacter;        // 選択中のキャラクター
@@ -55,6 +57,7 @@ public class APBattleManager : MonoBehaviour
         mapManager = GetComponent<MapManager.MapManager>();
         characterManager = GetComponent<Character.CharacterManager>();
         uiManager = GetComponent<UIManager.UIManager>();
+        effectManager = GetComponent<EffectManager.EffectManager>();
 
         // リストを初期化
         reachableBlocks = new List<MapBlock>();
@@ -332,6 +335,8 @@ public class APBattleManager : MonoBehaviour
                 //{
                 //    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
                 //}
+
+                effectManager.PlayBackAttackEffect(selectingCharacter);
 
                 // 選択したキャラクターがエネミーの時
                 if (selectingCharacter.isEnemy)
