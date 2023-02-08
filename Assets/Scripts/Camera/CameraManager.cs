@@ -40,6 +40,40 @@ public class CameraManager : MonoBehaviour
         ChangeCamera(count);
     }
 
+    public void AddCount()
+    {
+        count++;
+
+        if (count >= 5)
+        {
+            count = 0;
+        }
+    }
+
+    public void DecreaseCount()
+    {
+        count--;
+
+        switch(count)
+        {
+            case 0:
+                count = 0;
+                break;
+            case -1:
+                count = 4;
+                break;
+            case -2:
+                count = 3;
+                break;
+            case -3:
+                count = 2;
+                break;
+            case -4:
+                count = 1;
+                break;
+        }
+    }
+
     /// <summary>
     /// ƒJƒƒ‰‚ğ”ñ•\¦‚É‚·‚é
     /// </summary>
