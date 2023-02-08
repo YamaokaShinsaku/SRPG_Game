@@ -64,6 +64,9 @@ namespace UIManager
         // 方向選択画像
         public GameObject directionUI;
 
+        // メニューパネル
+        public GameObject menuPanel;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -74,6 +77,7 @@ namespace UIManager
             HideMoveCancelButton();
             HideDecideButtons();
             HidedirectionText();
+            HideMenuPanel();
 
             // fadeImgのアルファ値の初期設定
             // フェードアウトから開始するため
@@ -82,12 +86,27 @@ namespace UIManager
             fadeImg.color = startAlphaNum;
         }
 
+        public void HideMenuPanel()
+        {
+            menuPanel.SetActive(false);
+        }
 
+        public void OpenMenuPanel()
+        {
+            menuPanel.SetActive(true);
+        }
+
+        /// <summary>
+        /// 方向選択オブジェクトを非表示にする
+        /// </summary>
         public void HidedirectionText()
         {
             directionText.enabled = false;
             directionUI.SetActive(false);
         }
+        /// <summary>
+        /// 方向選択オブジェクトを表示する
+        /// </summary>
         public void ShowdirectionText()
         {
             directionText.enabled = true;
@@ -152,6 +171,9 @@ namespace UIManager
             defText.enabled = false;
         }
 
+        /// <summary>
+        /// エネミーのステータスを非表示に
+        /// </summary>
         public void HideEnemyStatusWindow()
         {
             // オブジェクトを非アクティブ化

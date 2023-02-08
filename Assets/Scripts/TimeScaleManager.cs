@@ -18,23 +18,23 @@ public class TimeScaleManager : MonoBehaviour
     void Update()
     {
         // デバッグ処理
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            isPause = true;
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            isPause = false;
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    isPause = true;
+        //}
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    isPause = false;
+        //}
 
-        if (isPause)
-        {
-            Pause();
-        }
-        else
-        {
-            Resume();
-        }
+        //if (isPause)
+        //{
+        //    Pause();
+        //}
+        //else
+        //{
+        //    Resume();
+        //}
 
     }
 
