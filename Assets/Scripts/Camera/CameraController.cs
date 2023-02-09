@@ -12,6 +12,11 @@ namespace CameraMove
 
         const float rotationSpeed = 30.0f;      // 回転速度
 
+        [SerializeField]
+        private Transform targetTransform;
+
+        private Vector3 velocity = Vector3.zero;
+
         // Update is called once per frame
         void Update()
         {
@@ -50,6 +55,20 @@ namespace CameraMove
         {
             // カメラ回転フラグをfalseに
             isCameraRotate = false;
+        }
+
+
+        public void OverheadCamera()
+        {
+            //this.transform.position =
+            //    Vector3.SmoothDamp(this.transform.position, targetTransform.position, ref velocity, 0.3f);
+
+            //Vector3 dir = targetTransform.position - this.transform.position;
+            //Quaternion quaternion = Quaternion.LookRotation(dir);
+
+            this.transform.position = targetTransform.position;
+
+            this.transform.rotation = targetTransform.rotation;
         }
     }
 }

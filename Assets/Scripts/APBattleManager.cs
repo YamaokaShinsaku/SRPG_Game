@@ -335,11 +335,19 @@ public class APBattleManager : MonoBehaviour
             case Phase.MyTurn_Start:
                 // 全ブロックの選択状態を解除する
                 mapManager.AllSelectionModeClear();
-                // ブロックを選択状態にする
+                if(Input.GetMouseButtonDown(0))
+                {
+                    // ブロックを選択状態にする
+                    targetObject.SetSelectionMode(MapBlock.Highlight.Select);
+
+                    Debug.Log("オブジェクトがタップされました \nブロック座標 : "
+                        + targetObject.transform.position);
+                }
+                //// ブロックを選択状態にする
                 //targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
-                Debug.Log("オブジェクトがタップされました \nブロック座標 : "
-                    + targetObject.transform.position);
+                //Debug.Log("オブジェクトがタップされました \nブロック座標 : "
+                //    + targetObject.transform.position);
 
                 // キャラクターのステータスUIを表示する
                 if (selectingCharacter.isEnemy)
