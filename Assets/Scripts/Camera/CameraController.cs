@@ -59,13 +59,17 @@ namespace CameraMove
             isCameraRotate = false;
         }
 
-
+        /// <summary>
+        /// ˜ëáÕƒJƒƒ‰‚Ö‚ÌØ‘Ö
+        /// </summary>
         public void OverheadCamera()
         {
             this.transform.position = targetTransform.position;
             this.transform.rotation = targetTransform.rotation;
         }
-
+        /// <summary>
+        /// ‰ŠúƒJƒƒ‰ˆÊ’u‚Ö‚ÌØ‘Ö
+        /// </summary>
         public void ReturnCameraTransform()
         {
             this.transform.position = prevCameraTransform.position;
