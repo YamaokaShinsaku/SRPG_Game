@@ -17299,10 +17299,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e097a638e303f464faba6f2a05f9072d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _iteration: 20
-  _threshold: 0.75
-  _softThreshold: 0.4
-  _intensity: 3.8
+  _iteration: 5
+  _threshold: 1
+  _softThreshold: 0.5
+  _intensity: 5
   _debug: 0
   _material: {fileID: 2100000, guid: 5133b49ed7137ad439a303b536496a2e, type: 2}
 --- !u!20 &1657876347
