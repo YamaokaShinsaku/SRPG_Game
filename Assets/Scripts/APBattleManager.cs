@@ -17,7 +17,6 @@ public class APBattleManager : MonoBehaviour
     [SerializeField]
     private CameraMove.CameraController cameraController;
 
-
     // 進行管理用変数
     public Character.Character selectingCharacter;        // 選択中のキャラクター
     private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
@@ -41,15 +40,15 @@ public class APBattleManager : MonoBehaviour
     // ターン進行モード
     private enum Phase
     {
-        C_Start,                    // アクティブキャラクター選択フェーズ
+        C_Start,               // アクティブキャラクター選択フェーズ
         C_SelectDirection,     // キャラクターの向きを選択
-        MyTurn_Start,           // 自分のターン：開始
-        MyTurn_Moving,        // 自分のターン：移動先選択
-        MyTurn_Command,   // 自分のターン：コマンド選択
-        MyTurn_Targeting,    // 自分のターン：攻撃対象選択
+        MyTurn_Start,          // 自分のターン：開始
+        MyTurn_Moving,         // 自分のターン：移動先選択
+        MyTurn_Command,        // 自分のターン：コマンド選択
+        MyTurn_Targeting,      // 自分のターン：攻撃対象選択
         MyTurn_Result,         // 自分のターン：結果表示
-        Enemyturn_Start,     // 敵のターン  ：開始
-        EnemyTurn_Result    // 敵のターン  ：結果表示
+        Enemyturn_Start,       // 敵のターン  ：開始
+        EnemyTurn_Result       // 敵のターン  ：結果表示
     }
     private Phase nowPhase;     // 現在の進行モード
 
@@ -213,7 +212,7 @@ public class APBattleManager : MonoBehaviour
                 uiManager.StartFadeIn();
             });
 
-            // EnhanceSceneの読み込み
+            // TitleSceneの読み込み
             DOVirtual.DelayedCall(7.0f, () =>
             {
                 SceneManager.LoadScene("TitleScene");

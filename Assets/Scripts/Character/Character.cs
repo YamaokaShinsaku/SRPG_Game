@@ -156,10 +156,6 @@ namespace Character
                 .SetEase(Ease.Linear)   // 変化の度合いを設定
                 .SetRelative();         // パラメーターを相対指定にする
 
-
-            // 移動処理
-            //this.transform.position += movePosition;
-
             // キャラクターデータに位置を保存
             xPos = targetPositionX;
             zPos = targetPositionZ;

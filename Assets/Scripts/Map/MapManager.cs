@@ -288,7 +288,7 @@ namespace MapManager
                 }
             }
 
-            // 4方向に1マス進んだ一のブロックをセット
+            // 4方向に1マス進んだ位置のブロックをセット
             // 縦横
             // X+方向
             AddAttackableList(results, baseX + 1, baseZ);
