@@ -754,15 +754,13 @@ public class APBattleManager : MonoBehaviour
 
         // バトル結果表示ウィンドウの表示設定
         uiManager.battleWindowUI.ShowWindow(defenseChara, damageValue);
-
+        // ダメージエフェクトの再生
         effectManager.PlayDamageEffect(defenseChara, damageValue);
 
         // ダメージ量分攻撃された側のHPを減少させる
         defenseChara.nowHP -= damageValue;
         // HPが0～最大値の範囲に収まるように補正
         defenseChara.nowHP = Mathf.Clamp(defenseChara.nowHP, 0, defenseChara.maxHP);
-
-        //activeCharacters.Remove(defenseChara);
 
         // HPが0になったキャラクターを削除する
         if (defenseChara.nowHP == 0)
@@ -786,25 +784,22 @@ public class APBattleManager : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
-                DOVirtual.DelayedCall(1.0f, () =>
-                {
-                    uiManager.CutinDelete();
-                    attackChara.texture.Release();
-                    defenseChara.texture.Release();
-                    uiManager.HidePlayerStatusWindow();
-                    uiManager.HideEnemyStatusWindow();
-                });
+                // UIを非表示に
+                uiManager.CutinDelete();
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
-                selectingCharacter.selectingObj.SetActive(false);
-                // 選択中のキャラクターをリストから削除
-                selectingCharacter.isActive = false;
-                activeCharacters.RemoveAt(0);
+                uiManager.HidePlayerStatusWindow();
+                uiManager.HideEnemyStatusWindow();
 
+                // 選択中のキャラクターをリストから削除
+                selectingCharacter.selectingObj.SetActive(false);
+                selectingCharacter.isActive = false;
+                //activeCharacters.RemoveAt(0);
+
+                // activePointの計算
                 selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
-                //ChangePhase(Phase.C_Start);
                 ChangePhase(Phase.C_SelectDirection);
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
@@ -816,8 +811,8 @@ public class APBattleManager : MonoBehaviour
                 uiManager.HideEnemyStatusWindow();
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
-                selectingCharacter.selectingObj.SetActive(false);
                 // 選択中のキャラクターをリストから削除
+                selectingCharacter.selectingObj.SetActive(false);
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
                 if(selectingCharacter.isEnemy)
@@ -832,7 +827,6 @@ public class APBattleManager : MonoBehaviour
                 ChangePhase(Phase.C_Start);
             }
         });
-
     }
 
     /// <summary>

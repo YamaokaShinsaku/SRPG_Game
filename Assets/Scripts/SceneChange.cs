@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 
 public class SceneChange : MonoBehaviour
 {
@@ -25,11 +24,8 @@ public class SceneChange : MonoBehaviour
     {
         // フェードスタート
         //uiManager.StartFadeIn();
-        DOVirtual.DelayedCall(delayTime, () =>
-        {
-            // シーン遷移
-            SceneManager.LoadScene(sceneName);
-        });
+        // シーン遷移
+        SceneManager.LoadScene(sceneName);
     }
 
 }

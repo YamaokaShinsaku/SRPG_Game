@@ -62,33 +62,14 @@ namespace CameraMove
 
         public void OverheadCamera()
         {
-            //Debug.Log("OverheadCamera");
-
-            //this.transform.position = targetTransform.position;
-            //this.transform.rotation = targetTransform.rotation;
-
-            var t = 1 - Mathf.Pow(0.1f, Time.deltaTime / 0.5f);
-
-            this.transform.position =
-                Vector3.Lerp(transform.position, targetTransform.position,t);
-            this.transform.rotation =
-                Quaternion.Lerp(transform.rotation, targetTransform.rotation, t);
+            this.transform.position = targetTransform.position;
+            this.transform.rotation = targetTransform.rotation;
         }
 
         public void ReturnCameraTransform()
         {
-            //Debug.Log("ReturnCameraTransform");
-
-            //this.transform.position = prevCameraTransform.position;
-            //this.transform.rotation = prevCameraTransform.rotation;
-
-            var t = 1 - Mathf.Pow(0.1f, Time.deltaTime / 0.5f);
-
-
-            this.transform.position =
-                Vector3.Lerp(transform.position, prevCameraTransform.position,t);
-            this.transform.rotation =
-                Quaternion.Lerp(transform.rotation, prevCameraTransform.rotation, t);
+            this.transform.position = prevCameraTransform.position;
+            this.transform.rotation = prevCameraTransform.rotation;
         }
     }
 }
