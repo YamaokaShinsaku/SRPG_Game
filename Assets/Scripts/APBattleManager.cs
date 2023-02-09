@@ -264,13 +264,13 @@ public class APBattleManager : MonoBehaviour
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
                 {
-                    //activeCharaData.activePoint++;
+                    // activePointが３以上のとき
                     if (activeCharaData.activePoint >= 3)
                     {
                         activeCharaData.isActive = true;
                         activeCharaData.activePoint = 3;
                     }
-
+                    // activePointが３以上のキャラクターがいないとき
                     if(activeCharaData.activePoint < 3)
                     {
                         activeCharaData.activePoint += 3;
@@ -335,19 +335,12 @@ public class APBattleManager : MonoBehaviour
             case Phase.MyTurn_Start:
                 // 全ブロックの選択状態を解除する
                 mapManager.AllSelectionModeClear();
-                if(Input.GetMouseButtonDown(0))
-                {
-                    // ブロックを選択状態にする
-                    targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
-                    Debug.Log("オブジェクトがタップされました \nブロック座標 : "
-                        + targetObject.transform.position);
-                }
                 //// ブロックを選択状態にする
                 //targetObject.SetSelectionMode(MapBlock.Highlight.Select);
 
-                //Debug.Log("オブジェクトがタップされました \nブロック座標 : "
-                //    + targetObject.transform.position);
+                Debug.Log("オブジェクトがタップされました \nブロック座標 : "
+                    + targetObject.transform.position);
 
                 // キャラクターのステータスUIを表示する
                 if (selectingCharacter.isEnemy)
@@ -434,7 +427,6 @@ public class APBattleManager : MonoBehaviour
 
                     if(targetChara != null)
                     {
-                        //targetChara.statusUI.SetActive(true);
                         uiManager.ShowCharaStatus(targetChara);
                     }
 
@@ -466,19 +458,19 @@ public class APBattleManager : MonoBehaviour
         {
             // 自分のターン : 開始
             case Phase.MyTurn_Start:
-                if (!noLogos)
-                {
-                    // ロゴ画像を表示
-                    uiManager.ShowPlayerTurnLogo();
-                }
+                //if (!noLogos)
+                //{
+                //    // ロゴ画像を表示
+                //    uiManager.ShowPlayerTurnLogo();
+                //}
                 break;
             // 敵のターン : 開始
             case Phase.Enemyturn_Start:
-                if (!noLogos)
-                {
-                    // ロゴ画像を表示
-                    uiManager.ShowEnemyTurnLogo();
-                }
+                //if (!noLogos)
+                //{
+                //    // ロゴ画像を表示
+                //    uiManager.ShowEnemyTurnLogo();
+                //}
 
                 // 敵の行動処理を開始する(遅延実行)
                 DOVirtual.DelayedCall(delayTime, () =>
@@ -488,7 +480,6 @@ public class APBattleManager : MonoBehaviour
                 break;
             case Phase.C_SelectDirection:
                 uiManager.ShowdirectionText();
-                //Debug.Log("SelectDirectionPhase");
                 break;
         }
     }
@@ -559,7 +550,6 @@ public class APBattleManager : MonoBehaviour
     public void SelectDirectionCommand()
     {
         uiManager.HidedirectionText();
-
         ChangePhase(Phase.C_Start);
     }
 
@@ -571,6 +561,7 @@ public class APBattleManager : MonoBehaviour
         // コマンドボタンを非表示に
         uiManager.HideCommandButtons();
 
+        // UIを非表示に
         //selectingCharacter.statusUI.SetActive(false);
         uiManager.HideCharaStatus(selectingCharacter);
         selectingCharacter.texture.Release();
@@ -581,6 +572,7 @@ public class APBattleManager : MonoBehaviour
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
 
+        // activePointの計算
         selectingCharacter.activePoint--;
         foreach (Character.Character charaData in characterManager.characters)
         {
@@ -589,7 +581,6 @@ public class APBattleManager : MonoBehaviour
         }
 
         // 進行モードを進める
-        //ChangePhase(Phase.C_Start);
         ChangePhase(Phase.C_SelectDirection);
     }
 
@@ -624,7 +615,7 @@ public class APBattleManager : MonoBehaviour
             || attackChara.xPos == defenseChara.xPos
             || attackChara.xPos - 1 == defenseChara.xPos))
         {
-            Debug.Log("Forw :" + attackChara.zPos + " : " + defenseChara.zPos);
+            //Debug.Log("Forw :" + attackChara.zPos + " : " + defenseChara.zPos);
             attackChara.direction = Character.Character.Direction.Forward;
         }
         // 下側のキャラクターを攻撃するとき
@@ -633,7 +624,7 @@ public class APBattleManager : MonoBehaviour
             || attackChara.xPos == defenseChara.xPos
             || attackChara.xPos - 1 == defenseChara.xPos))
         {
-            Debug.Log("Back :" + attackChara.zPos + " : " + defenseChara.zPos);
+            //Debug.Log("Back :" + attackChara.zPos + " : " + defenseChara.zPos);
             attackChara.direction = Character.Character.Direction.Backward;
         }
 
@@ -667,14 +658,19 @@ public class APBattleManager : MonoBehaviour
         Debug.Log("攻撃側 : " + attackChara.characterName
             + "  防御側 : " + defenseChara.characterName);
 
-        //attackChara.statusUI.SetActive(true);
-        //defenseChara.statusUI.SetActive(true);
+        if(!defenseChara)
+        {
+            ChangePhase(Phase.C_SelectDirection);
+        }
+
+        // UIを表示
         attackChara.image.texture = attackChara.texture;
         defenseChara.image.texture = defenseChara.texture;
         uiManager.rawImg.texture = attackChara.texture;
         uiManager.ShowCharaStatus(attackChara);
         uiManager.ShowCharaStatus(defenseChara);
 
+        // 対戦するキャラクターのUIを表示
         if (attackChara.isEnemy)
         {
             uiManager.ShowPlayerStatusWindow(defenseChara);
@@ -685,7 +681,6 @@ public class APBattleManager : MonoBehaviour
             uiManager.ShowPlayerStatusWindow(attackChara);
             uiManager.ShowEnemyStatusWindow(defenseChara);
         }
-
 
         // ダメージ計算
         int damageValue;    // ダメージ量
@@ -705,8 +700,7 @@ public class APBattleManager : MonoBehaviour
         float ratio =
             GetDamageRatioAttribute(attackChara, defenseChara)
             + GetDamageRatioDirection(attackChara, defenseChara);    // バックアタック含む
-        //float ratio =
-        //   GetDamageRatioAttribute(attackChara, defenseChara);    // 属性のみ
+
         damageValue = (int)(damageValue * ratio);       // 倍率を適応(int型に変換)
 
         // ダメージ量が0以下の時
@@ -806,8 +800,6 @@ public class APBattleManager : MonoBehaviour
             {
                 DOVirtual.DelayedCall(1.0f, () =>
                 {
-                    //attackChara.statusUI.SetActive(false);
-                    //defenseChara.statusUI.SetActive(false);
                     uiManager.CutinDelete();
                     attackChara.texture.Release();
                     defenseChara.texture.Release();
@@ -829,6 +821,7 @@ public class APBattleManager : MonoBehaviour
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
+                // UIを非表示に
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
                 uiManager.HidePlayerStatusWindow();
@@ -873,10 +866,8 @@ public class APBattleManager : MonoBehaviour
             // キャラクター攻撃処理
             Attack(selectingCharacter, targetChara);
             ChangeAttackDirection(selectingCharacter, targetChara);
-            //targetChara.statusUI.SetActive(false);
-            //selectingCharacter.statusUI.SetActive(false);
-            //uiManager.HideCharaStatus(targetChara);
-            //uiManager.HideCharaStatus(selectingCharacter);
+
+            // UIを非表示に
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.selectingObj.SetActive(false);
@@ -886,6 +877,7 @@ public class APBattleManager : MonoBehaviour
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
 
+            // activePointの計算
             foreach (Character.Character charaData in characterManager.characters)
             {
                 // 全生存キャラクターのactivePointを加算
@@ -899,12 +891,15 @@ public class APBattleManager : MonoBehaviour
         {
             // 選択中のキャラクターをリストから削除
             selectingCharacter.selectingObj.SetActive(false);
+            activeCharacters.RemoveAt(0);
+            // UIを非表示に
             uiManager.HidePlayerStatusWindow();
             uiManager.HideEnemyStatusWindow();
-            targetChara.texture.Release();
+            //targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.isActive = false;
-            activeCharacters.RemoveAt(0);
+
+            // activePointの計算
             selectingCharacter.activePoint--;
             foreach (Character.Character charaData in characterManager.characters)
             {
@@ -913,7 +908,6 @@ public class APBattleManager : MonoBehaviour
             }
 
             // 進行モードを進める
-            //ChangePhase(Phase.C_Start);
             ChangePhase(Phase.C_SelectDirection);
         }
     }
@@ -993,7 +987,6 @@ public class APBattleManager : MonoBehaviour
             // 移動先のブロックデータ
             MapBlock targetBlock = reachableBlocks[randID];
             // 移動処理
-            //targetEnemy.animation.SetBool("AttackFlag", true);
             targetEnemy.MovePosition(targetBlock.xPos, targetBlock.zPos);
             //DOVirtual.DelayedCall(delayTime, () =>
             //{
@@ -1009,15 +1002,15 @@ public class APBattleManager : MonoBehaviour
 
         // 選択中のキャラクターをリストから削除
         selectingCharacter.selectingObj.SetActive(false);
-        //selectingCharacter.statusUI.SetActive(false);
-        //targetEnemy.statusUI.SetActive(false);
-        //uiManager.HideCharaStatus(selectingCharacter);
-        //uiManager.HideCharaStatus(targetEnemy);
-        uiManager.HidePlayerStatusWindow();
-        uiManager.HideEnemyStatusWindow();
-        selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
         enemyList.RemoveAt(0);
+        selectingCharacter.isActive = false;
+
+        // UIを非表示に
+        uiManager.HidePlayerStatusWindow();
+        uiManager.HideEnemyStatusWindow();
+
+        // activePointの計算
         selectingCharacter.activePoint--;
         foreach (Character.Character charaData in characterManager.characters)
         {

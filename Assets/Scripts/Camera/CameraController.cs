@@ -67,7 +67,6 @@ namespace CameraMove
             //Quaternion quaternion = Quaternion.LookRotation(dir);
 
             this.transform.position = targetTransform.position;
-
             this.transform.rotation = targetTransform.rotation;
         }
     }
