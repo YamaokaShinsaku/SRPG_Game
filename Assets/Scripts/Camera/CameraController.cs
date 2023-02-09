@@ -15,6 +15,8 @@ namespace CameraMove
         [SerializeField]
         private Transform targetTransform;
 
+        public Transform prevCameraTransform;
+
         private Vector3 velocity = Vector3.zero;
 
         // Update is called once per frame
@@ -60,14 +62,23 @@ namespace CameraMove
 
         public void OverheadCamera()
         {
+            Debug.Log("OverheadCamera");
             //this.transform.position =
             //    Vector3.SmoothDamp(this.transform.position, targetTransform.position, ref velocity, 0.3f);
 
             //Vector3 dir = targetTransform.position - this.transform.position;
             //Quaternion quaternion = Quaternion.LookRotation(dir);
+            //prevCameraTransform = this.transform;
 
             this.transform.position = targetTransform.position;
             this.transform.rotation = targetTransform.rotation;
+        }
+
+        public void ReturnCameraTransform()
+        {
+            Debug.Log("ReturnCameraTransform");
+            this.transform.position = prevCameraTransform.position;
+            this.transform.rotation = prevCameraTransform.rotation;
         }
     }
 }

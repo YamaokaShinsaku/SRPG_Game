@@ -14,6 +14,9 @@ public class APBattleManager : MonoBehaviour
     private UIManager.UIManager uiManager;
     [SerializeField]
     private EffectManager.EffectManager effectManager;
+    [SerializeField]
+    private CameraMove.CameraController cameraController;
+
 
     // 進行管理用変数
     public Character.Character selectingCharacter;        // 選択中のキャラクター
@@ -58,6 +61,7 @@ public class APBattleManager : MonoBehaviour
         characterManager = GetComponent<Character.CharacterManager>();
         uiManager = GetComponent<UIManager.UIManager>();
         effectManager = GetComponent<EffectManager.EffectManager>();
+        cameraController = cameraController.GetComponent<CameraMove.CameraController>();
 
         // リストを初期化
         reachableBlocks = new List<MapBlock>();
@@ -88,11 +92,6 @@ public class APBattleManager : MonoBehaviour
         {
             // オブジェクトを取得
             GetMapObjects();
-            //DOVirtual.DelayedCall(0.5f, () =>
-            //{
-            //    // オブジェクトを取得
-            //    GetMapObjects();
-            //});
         }
 
         // タップ先を検出
@@ -305,15 +304,6 @@ public class APBattleManager : MonoBehaviour
                 {
                     uiManager.ShowPlayerStatusWindow(selectingCharacter);
                 }
-                //// 移動可能な場所リストを取得する
-                //reachableBlocks =
-                //    mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
-                //// 移動可能な場所リストを表示する
-                //foreach (MapBlock mapBlock in reachableBlocks)
-                //{
-                //    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
-                //}
-
 
                 // 選択したキャラクターがエネミーの時
                 if (selectingCharacter.isEnemy)
@@ -338,6 +328,8 @@ public class APBattleManager : MonoBehaviour
 
                 //// ブロックを選択状態にする
                 //targetObject.SetSelectionMode(MapBlock.Highlight.Select);
+
+                cameraController.OverheadCamera();
 
                 Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                     + targetObject.transform.position);
@@ -393,6 +385,7 @@ public class APBattleManager : MonoBehaviour
                     // 指定時間後に処理を実行する
                     DOVirtual.DelayedCall(delayTime, () =>
                     {
+                        cameraController.ReturnCameraTransform();
                         // 遅延実行する内容
                         // コマンドボタンを表示する
                         uiManager.ShowCommandButtons(selectingCharacter);
@@ -658,11 +651,6 @@ public class APBattleManager : MonoBehaviour
         Debug.Log("攻撃側 : " + attackChara.characterName
             + "  防御側 : " + defenseChara.characterName);
 
-        if(!defenseChara)
-        {
-            ChangePhase(Phase.C_SelectDirection);
-        }
-
         // UIを表示
         attackChara.image.texture = attackChara.texture;
         defenseChara.image.texture = defenseChara.texture;
@@ -836,11 +824,12 @@ public class APBattleManager : MonoBehaviour
                 {
                     enemyList.RemoveAt(0);
                 }
+
+                // activePointの計算
                 selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
                 ChangePhase(Phase.C_Start);
-                //ChangePhase(Phase.C_SelectDirection);
             }
         });
 
@@ -895,7 +884,6 @@ public class APBattleManager : MonoBehaviour
             // UIを非表示に
             uiManager.HidePlayerStatusWindow();
             uiManager.HideEnemyStatusWindow();
-            //targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.isActive = false;
 
@@ -988,16 +976,13 @@ public class APBattleManager : MonoBehaviour
             MapBlock targetBlock = reachableBlocks[randID];
             // 移動処理
             targetEnemy.MovePosition(targetBlock.xPos, targetBlock.zPos);
-            //DOVirtual.DelayedCall(delayTime, () =>
-            //{
-            //    targetEnemy.animation.SetBool("AttackFlag", false);
-            //});
         }
 
         // リストをクリア
         reachableBlocks.Clear();
         attackableBlocks.Clear();
 
+        // マップの選択状態を解除
         mapManager.AllSelectionModeClear();
 
         // 選択中のキャラクターをリストから削除
