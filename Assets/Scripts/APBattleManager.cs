@@ -1095,7 +1095,7 @@ public class APBattleManager : MonoBehaviour
     {
         // ダメージ倍率を定義
         //const float normal = 1.0f;      // 通常
-        const float good = 5.8f;        // バックアタック(0.8倍)
+        const float good = 0.8f;        // バックアタック(0.8倍)
 
         Character.Character.Direction attacker = attackChara.direction;        // 攻撃側の向き
         Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き

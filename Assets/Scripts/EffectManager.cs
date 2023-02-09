@@ -51,8 +51,6 @@ namespace EffectManager
 
             // エフェクトを再生
             backAttackEffect.SetActive(true);
-
-            //Debug.Log("Effects");
         }
 
         /// <summary>
