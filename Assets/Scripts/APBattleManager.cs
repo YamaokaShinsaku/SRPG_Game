@@ -80,7 +80,7 @@ public class APBattleManager : MonoBehaviour
         SetFirstActionCharacter();
 
         // BGM çƒê∂
-        audioManager.GameBGM();
+        //audioManager.GameBGM();
     }
 
     // Update is called once per frame
