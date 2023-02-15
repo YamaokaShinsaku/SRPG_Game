@@ -8,33 +8,16 @@ using UnityEngine;
 public class TimeScaleManager : MonoBehaviour
 {
     public bool isPause;    // 停止
-    //public bool isResume;   // 再開
+    public GameObject monoTone;    // モノトーンシェーダー
 
     private void Start()
     {
-
+        monoTone.SetActive(false);
     }
 
     void Update()
     {
-        // デバッグ処理
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    isPause = true;
-        //}
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    isPause = false;
-        //}
 
-        //if (isPause)
-        //{
-        //    Pause();
-        //}
-        //else
-        //{
-        //    Resume();
-        //}
 
     }
 
@@ -44,6 +27,7 @@ public class TimeScaleManager : MonoBehaviour
     public void Pause()
     {
         Time.timeScale = 0.0f;
+        monoTone.SetActive(true);
     }
 
     /// <summary>
@@ -52,5 +36,6 @@ public class TimeScaleManager : MonoBehaviour
     public void Resume()
     {
         Time.timeScale = 1.0f;
+        monoTone.SetActive(false);
     }
 }
