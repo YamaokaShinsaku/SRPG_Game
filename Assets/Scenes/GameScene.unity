@@ -3440,7 +3440,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3639,6 +3639,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextScene: 
   delayTime: 7
+  audioManager: {fileID: 319661633}
 --- !u!114 &329424022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7628,9 +7629,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a8c3bc375c56bac4f874ba93d6592799, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1ab9f815f6259f34e88a357a6c3c7aff, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -9440,7 +9441,7 @@ RectTransform:
   - {fileID: 1106593933}
   - {fileID: 1620518864}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11148,7 +11149,7 @@ RectTransform:
   m_Children:
   - {fileID: 1675469626}
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -11926,7 +11927,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036383799}
-  m_RootOrder: 17
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -23159,6 +23160,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 329424023}
+        m_TargetAssemblyTypeName: UIManager.UIManager, Assembly-CSharp
+        m_MethodName: StartFadeIn
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2033612702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23305,9 +23318,9 @@ RectTransform:
   - {fileID: 801049014}
   - {fileID: 1016912374}
   - {fileID: 161845150}
-  - {fileID: 1100079408}
   - {fileID: 1035192058}
   - {fileID: 942492432}
+  - {fileID: 1100079408}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using UnityEngine.UI;
 
 public class SceneChange : MonoBehaviour
 {
@@ -9,11 +11,13 @@ public class SceneChange : MonoBehaviour
     public string nextScene;
 
     public float delayTime;
+    public AudioManager audioManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        delayTime = 0.0f;
+        audioManager = audioManager.GetComponent<AudioManager>();
     }
 
     /// <summary>
@@ -22,10 +26,12 @@ public class SceneChange : MonoBehaviour
     /// <param name="sceneName">次のシーンの名前</param>
     public void ChangeScene(string sceneName)
     {
-        // フェードスタート
-        //uiManager.StartFadeIn();
-        // シーン遷移
-        SceneManager.LoadScene(sceneName);
+        audioManager.Diceid();
+        DOVirtual.DelayedCall(delayTime, () =>
+        {
+            // シーン遷移
+            SceneManager.LoadScene(sceneName);
+        });
     }
 
 }
