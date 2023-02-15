@@ -16,6 +16,8 @@ public class APBattleManager : MonoBehaviour
     private EffectManager.EffectManager effectManager;
     [SerializeField]
     private CameraMove.CameraController cameraController;
+    [SerializeField]
+    private AudioManager audioManager;
 
     // 進行管理用変数
     public Character.Character selectingCharacter;        // 選択中のキャラクター
@@ -61,6 +63,7 @@ public class APBattleManager : MonoBehaviour
         uiManager = GetComponent<UIManager.UIManager>();
         effectManager = GetComponent<EffectManager.EffectManager>();
         cameraController = cameraController.GetComponent<CameraMove.CameraController>();
+        audioManager = audioManager.GetComponent<AudioManager>();
 
         // リストを初期化
         reachableBlocks = new List<MapBlock>();
@@ -76,6 +79,8 @@ public class APBattleManager : MonoBehaviour
         // 最初のキャラクターをセット
         SetFirstActionCharacter();
 
+        // BGM 再生
+        audioManager.GameBGM();
     }
 
     // Update is called once per frame

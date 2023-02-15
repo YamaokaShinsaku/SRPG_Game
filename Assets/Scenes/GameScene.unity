@@ -3193,6 +3193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 319661632}
+  - component: {fileID: 319661633}
   - component: {fileID: 319661631}
   m_Layer: 0
   m_Name: AudioManager
@@ -3211,7 +3212,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a8c3bc375c56bac4f874ba93d6592799, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
@@ -3311,6 +3312,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &319661633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 319661630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84b1280db8a8f24087289c175705bd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 319661631}
+  gameBGM: {fileID: 8300000, guid: a8c3bc375c56bac4f874ba93d6592799, type: 3}
+  cancel: {fileID: 8300000, guid: 40b8d4f0acbc96c49b08482c60a4403f, type: 3}
+  buttonMove: {fileID: 8300000, guid: eacfc91fc8d3d684f98708394014a44e, type: 3}
+  damage: {fileID: 8300000, guid: 2acc80404462c8540b601e1525c336ea, type: 3}
+  diceid: {fileID: 8300000, guid: 7cb4aef73d270e540b74d0587e69a774, type: 3}
+  attack: {fileID: 8300000, guid: ee79fa1d4efeb864f9b9611de73bc707, type: 3}
 --- !u!102 &320356406 stripped
 TextMesh:
   m_CorrespondingSourceObject: {fileID: 8208611648611020771, guid: f4cec25a08d398f4096bfc515f3197a8, type: 3}
@@ -3567,6 +3587,7 @@ MonoBehaviour:
   uiManager: {fileID: 329424023}
   effectManager: {fileID: 329424027}
   cameraController: {fileID: 1989175496}
+  audioManager: {fileID: 319661633}
   selectingCharacter: {fileID: 0}
   activeCharacters: []
   enemyList: []
