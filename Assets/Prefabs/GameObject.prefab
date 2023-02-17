@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4729621485129588424}
   - component: {fileID: 4729621485129588425}
+  - component: {fileID: -4044075218698126740}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4729621485129588430}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 969.2782, y: 566.5844, z: -64.875534}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -43,4 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 341df9a604bfc3544beddfc4254dc012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: GameScene
+  nextSceneName: 
+  nextSceneNum: 0
+--- !u!114 &-4044075218698126740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4729621485129588430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91457621d0af748059f9b09bf41768f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionKitCamera: {fileID: 0}
+  material: {fileID: 2100000, guid: 15fb383ffc181fa4bade47e99b0b51f6, type: 2}
+  useUnscaledDeltaTime: 0

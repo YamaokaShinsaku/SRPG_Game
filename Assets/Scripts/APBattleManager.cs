@@ -30,6 +30,9 @@ public class APBattleManager : MonoBehaviour
     private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
     private int charaStartPositionX;          // 選択キャラクターのX座標
     private int charaStartPositionZ;          // 選択キャラクターのZ座標
+    private int prevCharaStartPositionX;          // 選択キャラクターのX座標
+    private int prevCharaStartPositionZ;          // 選択キャラクターのZ座標
+
 
     [SerializeField]
     private bool isFinish;      // ゲーム終了フラグ
@@ -289,6 +292,9 @@ public class APBattleManager : MonoBehaviour
                 charaStartPositionX = selectingCharacter.xPos;
                 charaStartPositionZ = selectingCharacter.zPos;
 
+                prevCharaStartPositionX = charaStartPositionX;
+                prevCharaStartPositionZ = charaStartPositionZ;
+
                 // キャラクターのステータスUIを表示する
                 selectingCharacter.image.texture = selectingCharacter.texture;
                 uiManager.SetTexture(selectingCharacter.texture);
@@ -345,6 +351,7 @@ public class APBattleManager : MonoBehaviour
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
                     mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+
                 // 移動可能な場所リストを表示する
                 foreach (MapBlock mapBlock in reachableBlocks)
                 {
@@ -573,6 +580,25 @@ public class APBattleManager : MonoBehaviour
 
         // 進行モードを進める
         ChangePhase(Phase.C_SelectDirection);
+    }
+
+    public void CancelStandCommand()
+    {
+        // コマンドボタンを非表示に
+        uiManager.HideCommandButtons();
+
+        // 全ブロックの選択状態を解除
+        mapManager.AllSelectionModeClear();
+        // 移動可能な場所リストを初期化
+        reachableBlocks.Clear();
+        // 移動キャンセルボタンを非表示に
+        uiManager.HideMoveCancelButton();
+
+        // キャラクターを移動前の位置に戻す
+        selectingCharacter.MovePosition(charaStartPositionX, charaStartPositionZ);
+
+        // 進行モードを元に戻す
+        ChangePhase(Phase.MyTurn_Start, true);
     }
 
     /// <summary>
