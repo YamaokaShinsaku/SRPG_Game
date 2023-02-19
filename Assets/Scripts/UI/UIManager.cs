@@ -18,15 +18,11 @@ namespace UIManager
         public Text hpText;
         public Text atkText;
         public Text defText;
-        public Text activePointText;
-        public Text activePointNumText;
 
         public Text enemyNameText;
         public Text enemyHpText;
         public Text enemyAtkText;
         public Text enemyDefText;
-        public Text enemyActivePointText;
-        public Text enemyActivePointNumText;
 
         public Text directionText;
         // 属性アイコン
@@ -180,8 +176,6 @@ namespace UIManager
             hpText.enabled = false;
             atkText.enabled = false;
             defText.enabled = false;
-            activePointText.enabled = false;
-            activePointNumText.enabled = false;
         }
 
         /// <summary>
@@ -197,8 +191,6 @@ namespace UIManager
             enemyHpText.enabled = false;
             enemyAtkText.enabled = false;
             enemyDefText.enabled = false;
-            enemyActivePointText.enabled = false;
-            enemyActivePointNumText.enabled = false;
         }
 
         /// <summary>
@@ -243,14 +235,10 @@ namespace UIManager
             hpText.enabled = true;
             atkText.enabled = true;
             defText.enabled = true;
-            activePointText.enabled = true;
-            activePointNumText.enabled = true;
 
             // 名前テキスト表示
             nameText.text = charaData.characterName;
 
-            // ActivePointを表示
-            activePointNumText.text = charaData.activePoint.ToString();
 
             // 属性画像表示
             switch(charaData.attribute)
@@ -302,14 +290,9 @@ namespace UIManager
             enemyHpText.enabled = true;
             enemyAtkText.enabled = true;
             enemyDefText.enabled = true;
-            enemyActivePointText.enabled = true;
-            enemyActivePointNumText.enabled = true;
 
             // 名前テキスト表示
             enemyNameText.text = charaData.characterName;
-
-            // ActivePointを表示
-            enemyActivePointNumText.text = charaData.activePoint.ToString();
 
             // 属性画像表示
             switch (charaData.attribute)
