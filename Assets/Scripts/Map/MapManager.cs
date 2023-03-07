@@ -12,6 +12,8 @@ namespace MapManager
         public GameObject blockPrefab_Grass;    // 草ブロック
         public GameObject blockPrefab_Water;    // 水場ブロック
 
+        public List<MapBlock> notPassableList;
+
         // マップの横幅、立幅
         public const int MAP_WIDTH = 9;
         public const int MAP_HEIGHT = 9;
@@ -23,6 +25,8 @@ namespace MapManager
         // Start is called before the first frame update
         void Start()
         {
+
+            notPassableList = new List<MapBlock>();
             // マップデータの初期化
             mapData = new MapBlock[MAP_WIDTH, MAP_HEIGHT];
 
@@ -352,6 +356,52 @@ namespace MapManager
             return results;
         }
 
-    }
+        /// <summary>
+        /// キャラクターが存在するマップブロックを通行不可能状態にする(MapBlock:isPassable = false)
+        /// </summary>
+        /// <param name="characters">すべてのキャラクターデータ</param>
+        public void NotPassableBlock(List<Character.Character> characters)
+        {
+            // 基点となるブロックの配列内番号を設定
+            int baseX = -1, baseZ = -1;
+            // キャラクターデータを検索
+            foreach (Character.Character charaData in characters)
+            {
+                for (int i = 0; i < MAP_WIDTH; i++)
+                {
+                    for (int j = 0; j < MAP_HEIGHT; j++)
+                    {
+                        // キャラクターの座標とマップブロックの座標が一致するとき
+                        if (charaData.xPos == mapData[i, j].xPos
+                            && charaData.zPos == mapData[i, j].zPos)
+                        {
+                            baseX = i;
+                            baseZ = j;
+                            // マップブロックを通行不可にする
+                            mapData[baseX, baseZ].isPassable = false;
+                        }
+                    }
+                }
+            }
+        }
 
+        /// <summary>
+        /// 全マップブロックの通行不可能状態を解除する(MapBlock:isPassable = true)
+        /// </summary>
+        public void PassableBlock()
+        {
+            // 基点となるブロックの配列内番号を設定
+            int baseX = -1, baseZ = -1;
+            for (int i = 0; i < MAP_WIDTH; i++)
+            {
+                for (int j = 0; j < MAP_HEIGHT; j++)
+                {
+                    baseX = i;
+                    baseZ = j;
+                    // マップブロックを通行可能にする
+                    mapData[baseX, baseZ].isPassable = true;
+                }
+            }
+        }
+    }
 }

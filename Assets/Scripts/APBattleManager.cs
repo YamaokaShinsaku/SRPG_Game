@@ -25,6 +25,7 @@ public class APBattleManager : MonoBehaviour
 
     public List<Character.Character> activeCharacters;     // isActiveがtrueになっているキャラクターのリスト
     public List<Character.Character> enemyList;            // isEnemyがtrueになっているキャラクターのリスト
+    public List<Character.Character> allCharacters;
 
     // 行動キャンセル処理用変数
     private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
@@ -69,6 +70,9 @@ public class APBattleManager : MonoBehaviour
         reachableBlocks = new List<MapBlock>();
         attackableBlocks = new List<MapBlock>();
         activeCharacters = new List<Character.Character>();
+        allCharacters = new List<Character.Character>();
+
+        allCharacters = characterManager.characters;
 
         // 開始時の進行モード
         nowPhase = Phase.C_Start;
@@ -285,6 +289,11 @@ public class APBattleManager : MonoBehaviour
                         }
                     }
                 }
+
+                // すべてのマップブロックの通行不可能状態を解除
+                mapManager.PassableBlock();
+                // キャラクターが存在するマップブロックを通行不可能に
+                mapManager.NotPassableBlock(allCharacters);
 
                 // activeCharactersの先頭のキャラクターを選択中のキャラクター情報に記憶
                 selectingCharacter = activeCharacters[0];
