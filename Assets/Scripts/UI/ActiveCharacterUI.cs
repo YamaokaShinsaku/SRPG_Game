@@ -11,18 +11,34 @@ namespace UIManager
         public Text[] text;
         // activeCharacterのListを取得するため
         public APBattleManager actionCharactor;
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
 
         // Update is called once per frame
         void Update()
         {
-            for(int i = 0; i < actionCharactor.activeCharacters.Count; i++)
+            // 現在の行動可能キャラクターリストのサイズを取得
+            int nowCharaCount = 0;
+            nowCharaCount = actionCharactor.activeCharacters.Count;
+
+            // リストのサイズが3以上の時
+            if (3 <= nowCharaCount )
             {
-                text[i].text = actionCharactor.activeCharacters[i].name;
+                text[2].text = actionCharactor.activeCharacters[2].characterName;
+                text[1].text = actionCharactor.activeCharacters[1].characterName;
+                text[0].text = actionCharactor.activeCharacters[0].characterName;
+            }
+            // リストのサイズが２の時
+            else if (2 == nowCharaCount)
+            {
+                text[2].text = "None";
+                text[1].text = actionCharactor.activeCharacters[1].characterName;
+                text[0].text = actionCharactor.activeCharacters[0].characterName;
+            }
+            // リストのサイズが１の時
+            else if (1 == nowCharaCount)
+            {
+                text[2].text = "None";
+                text[1].text = "None";
+                text[0].text = actionCharactor.activeCharacters[0].characterName;
             }
         }
     }

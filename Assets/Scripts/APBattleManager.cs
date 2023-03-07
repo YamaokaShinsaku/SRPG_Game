@@ -12,9 +12,13 @@ public class APBattleManager : MonoBehaviour
     private Character.CharacterManager characterManager;
     [SerializeField]
     private UIManager.UIManager uiManager;
+    [SerializeField]
+    private EffectManager.EffectManager effectManager;
+    [SerializeField]
+    private CameraMove.CameraController cameraController;
 
     // 進行管理用変数
-    public Character.Character selectingCharacter;       // 選択中のキャラクター
+    public Character.Character selectingCharacter;        // 選択中のキャラクター
     private Character.SkillDefine.Skill selectingSkill;   // 選択中のスキル（通常攻撃はNONE固定）
     private List<MapBlock> reachableBlocks;               // 選択中のキャラクターの移動可能ブロックリスト
     private List<MapBlock> attackableBlocks;              // 選択中のキャラクターの攻撃可能ブロックリスト
@@ -26,6 +30,9 @@ public class APBattleManager : MonoBehaviour
     private MapBlock charaAttackBlock;        // 選択キャラクターの攻撃先のブロック
     private int charaStartPositionX;          // 選択キャラクターのX座標
     private int charaStartPositionZ;          // 選択キャラクターのZ座標
+    private int prevCharaStartPositionX;          // 選択キャラクターのX座標
+    private int prevCharaStartPositionZ;          // 選択キャラクターのZ座標
+
 
     [SerializeField]
     private bool isFinish;      // ゲーム終了フラグ
@@ -36,15 +43,15 @@ public class APBattleManager : MonoBehaviour
     // ターン進行モード
     private enum Phase
     {
-        C_Start,             // アクティブキャラクター選択フェーズ
-        C_SelectDirection,   // キャラクターの向きを選択
-        MyTurn_Start,        // 自分のターン：開始
-        MyTurn_Moving,       // 自分のターン：移動先選択
-        MyTurn_Command,      // 自分のターン：コマンド選択
-        MyTurn_Targeting,    // 自分のターン：攻撃対象選択
-        MyTurn_Result,       // 自分のターン：結果表示
-        Enemyturn_Start,     // 敵のターン  ：開始
-        EnemyTurn_Result     // 敵のターン  ：結果表示
+        C_Start,               // アクティブキャラクター選択フェーズ
+        C_SelectDirection,     // キャラクターの向きを選択
+        MyTurn_Start,          // 自分のターン：開始
+        MyTurn_Moving,         // 自分のターン：移動先選択
+        MyTurn_Command,        // 自分のターン：コマンド選択
+        MyTurn_Targeting,      // 自分のターン：攻撃対象選択
+        MyTurn_Result,         // 自分のターン：結果表示
+        Enemyturn_Start,       // 敵のターン  ：開始
+        EnemyTurn_Result       // 敵のターン  ：結果表示
     }
     private Phase nowPhase;     // 現在の進行モード
 
@@ -55,6 +62,8 @@ public class APBattleManager : MonoBehaviour
         mapManager = GetComponent<MapManager.MapManager>();
         characterManager = GetComponent<Character.CharacterManager>();
         uiManager = GetComponent<UIManager.UIManager>();
+        effectManager = GetComponent<EffectManager.EffectManager>();
+        cameraController = cameraController.GetComponent<CameraMove.CameraController>();
 
         // リストを初期化
         reachableBlocks = new List<MapBlock>();
@@ -80,38 +89,10 @@ public class APBattleManager : MonoBehaviour
             return;
         }
 
-        // 向き選択フェーズのとき
-        if(nowPhase == Phase.C_SelectDirection)
+        if (nowPhase == Phase.C_Start)
         {
-            // 矢印キーの方向を向く
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Forward;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Backward;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Left;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                selectingCharacter.direction = Character.Character.Direction.Right;
-                ChangePhase(Phase.C_Start);
-                // オブジェクトを取得
-                GetMapObjects();
-            }
+            // オブジェクトを取得
+            GetMapObjects();
         }
 
         // タップ先を検出
@@ -233,10 +214,10 @@ public class APBattleManager : MonoBehaviour
                 uiManager.StartFadeIn();
             });
 
-            // EnhanceSceneの読み込み
+            // TitleSceneの読み込み
             DOVirtual.DelayedCall(7.0f, () =>
             {
-                SceneManager.LoadScene("Enhance");
+                SceneManager.LoadScene("TitleScene");
             });
         }
     }
@@ -279,17 +260,17 @@ public class APBattleManager : MonoBehaviour
             case Phase.C_Start:
                 mapManager.AllSelectionModeClear();
                 uiManager.CutinDelete();
-                uiManager.HideDirectionText();
+                uiManager.HidedirectionText();
                 // isActiveがtrueなキャラクターのリストを作成
                 foreach (Character.Character activeCharaData in characterManager.characters)
                 {
-                    activeCharaData.activePoint++;
+                    // activePointが３以上のとき
                     if (activeCharaData.activePoint >= 3)
                     {
                         activeCharaData.isActive = true;
                         activeCharaData.activePoint = 3;
                     }
-
+                    // activePointが３以上のキャラクターがいないとき
                     if(activeCharaData.activePoint < 3)
                     {
                         activeCharaData.activePoint += 3;
@@ -311,8 +292,10 @@ public class APBattleManager : MonoBehaviour
                 charaStartPositionX = selectingCharacter.xPos;
                 charaStartPositionZ = selectingCharacter.zPos;
 
+                prevCharaStartPositionX = charaStartPositionX;
+                prevCharaStartPositionZ = charaStartPositionZ;
+
                 // キャラクターのステータスUIを表示する
-                //selectingCharacter.statusUI.SetActive(true);
                 selectingCharacter.image.texture = selectingCharacter.texture;
                 uiManager.SetTexture(selectingCharacter.texture);
                 uiManager.ShowCharaStatus(selectingCharacter);
@@ -324,14 +307,6 @@ public class APBattleManager : MonoBehaviour
                 else
                 {
                     uiManager.ShowPlayerStatusWindow(selectingCharacter);
-                }
-                // 移動可能な場所リストを取得する
-                reachableBlocks =
-                    mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
-                // 移動可能な場所リストを表示する
-                foreach (MapBlock mapBlock in reachableBlocks)
-                {
-                    mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
                 }
 
                 // 選択したキャラクターがエネミーの時
@@ -354,8 +329,11 @@ public class APBattleManager : MonoBehaviour
             case Phase.MyTurn_Start:
                 // 全ブロックの選択状態を解除する
                 mapManager.AllSelectionModeClear();
-                // ブロックを選択状態にする
-                targetObject.SetSelectionMode(MapBlock.Highlight.Select);
+
+                //// ブロックを選択状態にする
+                //targetObject.SetSelectionMode(MapBlock.Highlight.Select);
+
+                cameraController.OverheadCamera();
 
                 Debug.Log("オブジェクトがタップされました \nブロック座標 : "
                     + targetObject.transform.position);
@@ -373,6 +351,7 @@ public class APBattleManager : MonoBehaviour
                 // 移動可能な場所リストを取得する
                 reachableBlocks =
                     mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+
                 // 移動可能な場所リストを表示する
                 foreach (MapBlock mapBlock in reachableBlocks)
                 {
@@ -411,6 +390,7 @@ public class APBattleManager : MonoBehaviour
                     // 指定時間後に処理を実行する
                     DOVirtual.DelayedCall(delayTime, () =>
                     {
+                        cameraController.ReturnCameraTransform();
                         // 遅延実行する内容
                         // コマンドボタンを表示する
                         uiManager.ShowCommandButtons(selectingCharacter);
@@ -445,9 +425,7 @@ public class APBattleManager : MonoBehaviour
 
                     if(targetChara != null)
                     {
-                        //targetChara.statusUI.SetActive(true);
                         uiManager.ShowCharaStatus(targetChara);
-
                     }
 
                     // 進行モードを進める
@@ -478,19 +456,19 @@ public class APBattleManager : MonoBehaviour
         {
             // 自分のターン : 開始
             case Phase.MyTurn_Start:
-                if (!noLogos)
-                {
-                    // ロゴ画像を表示
-                    uiManager.ShowPlayerTurnLogo();
-                }
+                //if (!noLogos)
+                //{
+                //    // ロゴ画像を表示
+                //    uiManager.ShowPlayerTurnLogo();
+                //}
                 break;
             // 敵のターン : 開始
             case Phase.Enemyturn_Start:
-                if (!noLogos)
-                {
-                    // ロゴ画像を表示
-                    uiManager.ShowEnemyTurnLogo();
-                }
+                //if (!noLogos)
+                //{
+                //    // ロゴ画像を表示
+                //    uiManager.ShowEnemyTurnLogo();
+                //}
 
                 // 敵の行動処理を開始する(遅延実行)
                 DOVirtual.DelayedCall(delayTime, () =>
@@ -499,8 +477,7 @@ public class APBattleManager : MonoBehaviour
                 });
                 break;
             case Phase.C_SelectDirection:
-                uiManager.ShowDirectionText();
-                Debug.Log("SelectDirectionPhase");
+                uiManager.ShowdirectionText();
                 break;
         }
     }
@@ -566,6 +543,15 @@ public class APBattleManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 方向選択処理
+    /// </summary>
+    public void SelectDirectionCommand()
+    {
+        uiManager.HidedirectionText();
+        ChangePhase(Phase.C_Start);
+    }
+
+    /// <summary>
     /// 待機処理
     /// </summary>
     public void StandCommand()
@@ -573,6 +559,7 @@ public class APBattleManager : MonoBehaviour
         // コマンドボタンを非表示に
         uiManager.HideCommandButtons();
 
+        // UIを非表示に
         //selectingCharacter.statusUI.SetActive(false);
         uiManager.HideCharaStatus(selectingCharacter);
         selectingCharacter.texture.Release();
@@ -583,6 +570,7 @@ public class APBattleManager : MonoBehaviour
         selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
 
+        // activePointの計算
         selectingCharacter.activePoint--;
         foreach (Character.Character charaData in characterManager.characters)
         {
@@ -591,8 +579,26 @@ public class APBattleManager : MonoBehaviour
         }
 
         // 進行モードを進める
-        //ChangePhase(Phase.C_Start);
         ChangePhase(Phase.C_SelectDirection);
+    }
+
+    public void CancelStandCommand()
+    {
+        // コマンドボタンを非表示に
+        uiManager.HideCommandButtons();
+
+        // 全ブロックの選択状態を解除
+        mapManager.AllSelectionModeClear();
+        // 移動可能な場所リストを初期化
+        reachableBlocks.Clear();
+        // 移動キャンセルボタンを非表示に
+        uiManager.HideMoveCancelButton();
+
+        // キャラクターを移動前の位置に戻す
+        selectingCharacter.MovePosition(charaStartPositionX, charaStartPositionZ);
+
+        // 進行モードを元に戻す
+        ChangePhase(Phase.MyTurn_Start, true);
     }
 
     /// <summary>
@@ -626,7 +632,7 @@ public class APBattleManager : MonoBehaviour
             || attackChara.xPos == defenseChara.xPos
             || attackChara.xPos - 1 == defenseChara.xPos))
         {
-            Debug.Log("Forw :" + attackChara.zPos + " : " + defenseChara.zPos);
+            //Debug.Log("Forw :" + attackChara.zPos + " : " + defenseChara.zPos);
             attackChara.direction = Character.Character.Direction.Forward;
         }
         // 下側のキャラクターを攻撃するとき
@@ -635,7 +641,7 @@ public class APBattleManager : MonoBehaviour
             || attackChara.xPos == defenseChara.xPos
             || attackChara.xPos - 1 == defenseChara.xPos))
         {
-            Debug.Log("Back :" + attackChara.zPos + " : " + defenseChara.zPos);
+            //Debug.Log("Back :" + attackChara.zPos + " : " + defenseChara.zPos);
             attackChara.direction = Character.Character.Direction.Backward;
         }
 
@@ -669,14 +675,14 @@ public class APBattleManager : MonoBehaviour
         Debug.Log("攻撃側 : " + attackChara.characterName
             + "  防御側 : " + defenseChara.characterName);
 
-        //attackChara.statusUI.SetActive(true);
-        //defenseChara.statusUI.SetActive(true);
+        // UIを表示
         attackChara.image.texture = attackChara.texture;
         defenseChara.image.texture = defenseChara.texture;
         uiManager.rawImg.texture = attackChara.texture;
         uiManager.ShowCharaStatus(attackChara);
         uiManager.ShowCharaStatus(defenseChara);
 
+        // 対戦するキャラクターのUIを表示
         if (attackChara.isEnemy)
         {
             uiManager.ShowPlayerStatusWindow(defenseChara);
@@ -687,7 +693,6 @@ public class APBattleManager : MonoBehaviour
             uiManager.ShowPlayerStatusWindow(attackChara);
             uiManager.ShowEnemyStatusWindow(defenseChara);
         }
-
 
         // ダメージ計算
         int damageValue;    // ダメージ量
@@ -707,8 +712,7 @@ public class APBattleManager : MonoBehaviour
         float ratio =
             GetDamageRatioAttribute(attackChara, defenseChara)
             + GetDamageRatioDirection(attackChara, defenseChara);    // バックアタック含む
-        //float ratio =
-        //   GetDamageRatioAttribute(attackChara, defenseChara);    // 属性のみ
+
         damageValue = (int)(damageValue * ratio);       // 倍率を適応(int型に変換)
 
         // ダメージ量が0以下の時
@@ -723,6 +727,7 @@ public class APBattleManager : MonoBehaviour
         {
             //クリティカル（会心の一撃）
             case Character.SkillDefine.Skill.Critical:
+                uiManager.CutinActive();
                 // ダメージ2倍
                 damageValue *= 2;
                 // スキル使用不可能状態に
@@ -730,6 +735,7 @@ public class APBattleManager : MonoBehaviour
                 break;
             // シールド破壊
             case Character.SkillDefine.Skill.DefBreak:
+                uiManager.CutinActive();
                 // ダメージ0固定
                 damageValue = 0;
                 // 防御力０（デバフ）をセット
@@ -737,11 +743,13 @@ public class APBattleManager : MonoBehaviour
                 break;
             // ヒール
             case Character.SkillDefine.Skill.Heal:
+                uiManager.CutinActive();
                 // 回復（回復量は攻撃力の半分）
                 damageValue = (int)(attackPoint * -0.5f);
                 break;
             // ファイアボール
             case Character.SkillDefine.Skill.FireBall:
+                uiManager.CutinActive();
                 // 与えるダメージ半減
                 damageValue /= 2;
                 break;
@@ -770,6 +778,8 @@ public class APBattleManager : MonoBehaviour
 
         // バトル結果表示ウィンドウの表示設定
         uiManager.battleWindowUI.ShowWindow(defenseChara, damageValue);
+        // ダメージエフェクトの再生
+        effectManager.PlayDamageEffect(defenseChara, damageValue);
 
         // ダメージ量分攻撃された側のHPを減少させる
         defenseChara.nowHP -= damageValue;
@@ -779,6 +789,7 @@ public class APBattleManager : MonoBehaviour
         // HPが0になったキャラクターを削除する
         if (defenseChara.nowHP == 0)
         {
+            effectManager.PlayDethEffect(defenseChara);
             characterManager.DeleteCharaData(defenseChara);
             activeCharacters.Remove(defenseChara);
         }
@@ -797,53 +808,49 @@ public class APBattleManager : MonoBehaviour
             // ターンを切り替える
             if (nowPhase == Phase.MyTurn_Result)
             {
-                DOVirtual.DelayedCall(1.0f, () =>
-                {
-                    //attackChara.statusUI.SetActive(false);
-                    //defenseChara.statusUI.SetActive(false);
-                    //uiManager.CutinDelete();
-                    attackChara.texture.Release();
-                    defenseChara.texture.Release();
-                    uiManager.HidePlayerStatusWindow();
-                    uiManager.HideEnemyStatusWindow();
-                });
+                // UIを非表示に
+                uiManager.CutinDelete();
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
-                selectingCharacter.selectingObj.SetActive(false);
-                // 選択中のキャラクターをリストから削除
-                selectingCharacter.isActive = false;
-                activeCharacters.RemoveAt(0);
+                uiManager.HidePlayerStatusWindow();
+                uiManager.HideEnemyStatusWindow();
 
+                // 選択中のキャラクターをリストから削除
+                selectingCharacter.selectingObj.SetActive(false);
+                selectingCharacter.isActive = false;
+                //activeCharacters.RemoveAt(0);
+
+                // activePointの計算
                 selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
-                //ChangePhase(Phase.C_Start);
                 ChangePhase(Phase.C_SelectDirection);
             }
             else if (nowPhase == Phase.EnemyTurn_Result)
             {
+                // UIを非表示に
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
                 uiManager.HidePlayerStatusWindow();
                 uiManager.HideEnemyStatusWindow();
                 attackChara.texture.Release();
                 defenseChara.texture.Release();
-                selectingCharacter.selectingObj.SetActive(false);
                 // 選択中のキャラクターをリストから削除
+                selectingCharacter.selectingObj.SetActive(false);
                 selectingCharacter.isActive = false;
                 activeCharacters.RemoveAt(0);
                 if(selectingCharacter.isEnemy)
                 {
                     enemyList.RemoveAt(0);
                 }
+
+                // activePointの計算
                 selectingCharacter.activePoint -= 2;
 
                 // キャラ選択フェーズに
                 ChangePhase(Phase.C_Start);
-                //ChangePhase(Phase.C_SelectDirection);
             }
         });
-
     }
 
     /// <summary>
@@ -866,10 +873,8 @@ public class APBattleManager : MonoBehaviour
             // キャラクター攻撃処理
             Attack(selectingCharacter, targetChara);
             ChangeAttackDirection(selectingCharacter, targetChara);
-            //targetChara.statusUI.SetActive(false);
-            //selectingCharacter.statusUI.SetActive(false);
-            //uiManager.HideCharaStatus(targetChara);
-            //uiManager.HideCharaStatus(selectingCharacter);
+
+            // UIを非表示に
             targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.selectingObj.SetActive(false);
@@ -879,6 +884,7 @@ public class APBattleManager : MonoBehaviour
             selectingCharacter.isActive = false;
             activeCharacters.RemoveAt(0);
 
+            // activePointの計算
             foreach (Character.Character charaData in characterManager.characters)
             {
                 // 全生存キャラクターのactivePointを加算
@@ -892,12 +898,14 @@ public class APBattleManager : MonoBehaviour
         {
             // 選択中のキャラクターをリストから削除
             selectingCharacter.selectingObj.SetActive(false);
+            activeCharacters.RemoveAt(0);
+            // UIを非表示に
             uiManager.HidePlayerStatusWindow();
             uiManager.HideEnemyStatusWindow();
-            targetChara.texture.Release();
             selectingCharacter.texture.Release();
             selectingCharacter.isActive = false;
-            activeCharacters.RemoveAt(0);
+
+            // activePointの計算
             selectingCharacter.activePoint--;
             foreach (Character.Character charaData in characterManager.characters)
             {
@@ -906,7 +914,6 @@ public class APBattleManager : MonoBehaviour
             }
 
             // 進行モードを進める
-            //ChangePhase(Phase.C_Start);
             ChangePhase(Phase.C_SelectDirection);
         }
     }
@@ -940,6 +947,15 @@ public class APBattleManager : MonoBehaviour
 
         //selectingCharacter.statusUI.SetActive(true);
         uiManager.ShowCharaStatus(selectingCharacter);
+
+        // 移動可能な場所リストを取得する
+        reachableBlocks =
+            mapManager.SearchReachableBlocks(selectingCharacter.xPos, selectingCharacter.zPos);
+        // 移動可能な場所リストを表示する
+        foreach (MapBlock mapBlock in reachableBlocks)
+        {
+            mapBlock.SetSelectionMode(MapBlock.Highlight.Reachable);
+        }
 
         // 攻撃可能なキャラクター・位置の組み合わせを1つランダムに取得
         var actionPlan = TargetFinder.GetRandomactionPlans(mapManager, characterManager, enemyList);
@@ -977,31 +993,28 @@ public class APBattleManager : MonoBehaviour
             // 移動先のブロックデータ
             MapBlock targetBlock = reachableBlocks[randID];
             // 移動処理
-            //targetEnemy.animation.SetBool("AttackFlag", true);
             targetEnemy.MovePosition(targetBlock.xPos, targetBlock.zPos);
-            //DOVirtual.DelayedCall(delayTime, () =>
-            //{
-            //    targetEnemy.animation.SetBool("AttackFlag", false);
-            //});
         }
 
         // リストをクリア
         reachableBlocks.Clear();
         attackableBlocks.Clear();
 
+        // マップの選択状態を解除
         mapManager.AllSelectionModeClear();
 
         // 選択中のキャラクターをリストから削除
         selectingCharacter.selectingObj.SetActive(false);
-        //selectingCharacter.statusUI.SetActive(false);
-        //targetEnemy.statusUI.SetActive(false);
-        //uiManager.HideCharaStatus(selectingCharacter);
-        //uiManager.HideCharaStatus(targetEnemy);
-        uiManager.HidePlayerStatusWindow();
-        uiManager.HideEnemyStatusWindow();
-        selectingCharacter.isActive = false;
         activeCharacters.RemoveAt(0);
         enemyList.RemoveAt(0);
+        selectingCharacter.isActive = false;
+
+        // UIを非表示に
+        uiManager.HidePlayerStatusWindow();
+        uiManager.HideEnemyStatusWindow();
+        selectingCharacter.texture.Release();
+
+        // activePointの計算
         selectingCharacter.activePoint--;
         foreach (Character.Character charaData in characterManager.characters)
         {
@@ -1108,7 +1121,7 @@ public class APBattleManager : MonoBehaviour
     {
         // ダメージ倍率を定義
         //const float normal = 1.0f;      // 通常
-        const float good = 5.8f;        // バックアタック(0.8倍)
+        const float good = 0.8f;        // バックアタック(0.8倍)
 
         Character.Character.Direction attacker = attackChara.direction;        // 攻撃側の向き
         Character.Character.Direction defender = defenseChara.direction;       // 防御側の向き
@@ -1122,6 +1135,7 @@ public class APBattleManager : MonoBehaviour
                 if(attackChara.zPos == defenseChara.zPos - 1
                     && attackChara.xPos == defenseChara.xPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
@@ -1133,6 +1147,7 @@ public class APBattleManager : MonoBehaviour
                 if(attackChara.zPos == defenseChara.zPos + 1
                     && attackChara.xPos == defenseChara.xPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
@@ -1144,6 +1159,7 @@ public class APBattleManager : MonoBehaviour
                 if(attackChara.xPos == defenseChara.xPos - 1
                     && attackChara.zPos == defenseChara.zPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else
@@ -1155,6 +1171,7 @@ public class APBattleManager : MonoBehaviour
                 if (attackChara.xPos == defenseChara.xPos + 1
                     && attackChara.zPos == defenseChara.zPos)
                 {
+                    effectManager.PlayBackAttackEffect(attackChara);
                     return good;
                 }
                 else

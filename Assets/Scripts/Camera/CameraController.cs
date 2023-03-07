@@ -12,6 +12,13 @@ namespace CameraMove
 
         const float rotationSpeed = 30.0f;      // 回転速度
 
+        [SerializeField]
+        private Transform targetTransform;
+
+        public Transform prevCameraTransform;
+
+        private Vector3 velocity = Vector3.zero;
+
         // Update is called once per frame
         void Update()
         {
@@ -50,6 +57,23 @@ namespace CameraMove
         {
             // カメラ回転フラグをfalseに
             isCameraRotate = false;
+        }
+
+        /// <summary>
+        /// 俯瞰カメラへの切替
+        /// </summary>
+        public void OverheadCamera()
+        {
+            this.transform.position = targetTransform.position;
+            this.transform.rotation = targetTransform.rotation;
+        }
+        /// <summary>
+        /// 初期カメラ位置への切替
+        /// </summary>
+        public void ReturnCameraTransform()
+        {
+            this.transform.position = prevCameraTransform.position;
+            this.transform.rotation = prevCameraTransform.rotation;
         }
     }
 }
